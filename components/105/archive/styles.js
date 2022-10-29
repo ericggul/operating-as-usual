@@ -5,7 +5,7 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   ${WholeContainer};
   flex-direction: column;
-  font-family: Courier New;
+  font-family: Roboto;
   background: black;
   color: white;
 `;

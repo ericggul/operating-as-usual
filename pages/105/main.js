@@ -1,5 +1,6 @@
 import prisma from "lib/prisma";
 import axios from "axios";
+import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 
@@ -42,6 +43,9 @@ export default function OneOFive(props) {
 
   return (
     <>
+      <Head>
+        <title>105 by Jeanyoon Choi</title>
+      </Head>
       <MainComponent order={props.nextIdx} id={id} handleFinish={handleFinish} />
     </>
   );

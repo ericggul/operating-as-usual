@@ -1,8 +1,11 @@
-import ArchiveComponent from "components/105/archive";
-import { useState } from "react";
+import dynamic from "next/dynamic";
 
+import { useState } from "react";
+import Head from "next/head";
 import prisma from "lib/prisma";
 import { useRouter } from "next/router";
+
+const ArchiveComponent = dynamic(() => import("components/105/archive"), { ssr: false });
 
 export default function Archive(props) {
   const router = useRouter();
@@ -10,6 +13,9 @@ export default function Archive(props) {
 
   return (
     <>
+      <Head>
+        <title>105 by Jeanyoon Choi</title>
+      </Head>
       <ArchiveComponent completedIdxs={props.completedIdxs} order={order ? parseInt(order) : null} isAdmin={order == null} />
     </>
   );

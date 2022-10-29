@@ -53,13 +53,13 @@ function SingleBall({ pos, completedIdxs, completedFinishedIdxs, order, idx }) {
         ref.current.scale.z = 10;
         ref.current.color = new THREE.Color("#ff0000");
       } else if (completedIdxs.includes(idx) || completedFinishedIdxs.includes(idx)) {
-        ref.current.scale.x = 1.5;
-        ref.current.scale.y = 1.5;
-        ref.current.scale.z = 1.5;
+        ref.current.scale.x = 3;
+        ref.current.scale.y = 3;
+        ref.current.scale.z = 3;
       } else {
-        ref.current.scale.x = 0.1;
-        ref.current.scale.y = 0.1;
-        ref.current.scale.z = 0.1;
+        ref.current.scale.x = 0.5;
+        ref.current.scale.y = 0.5;
+        ref.current.scale.z = 0.5;
       }
     }
   });

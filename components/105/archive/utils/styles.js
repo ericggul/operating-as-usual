@@ -6,6 +6,7 @@ export const Container = styled.div`
   ${WholeContainer};
   z-index: 1;
   pointer-events: none;
+  position: relative;
 `;
 
 export const InfoIconContainer = styled.div`
@@ -29,8 +30,8 @@ export const QRContainer = styled.div`
 `;
 
 export const InfoIcon = styled.img`
-  width: 3rem;
-  height: 3rem;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
   filter: drop-shadow(0 0 0.5rem #fff);
 
@@ -39,5 +40,5 @@ export const InfoIcon = styled.img`
     `
   width: 6vw;
   height: 6vw;
-  `})}
+  `}
 `;

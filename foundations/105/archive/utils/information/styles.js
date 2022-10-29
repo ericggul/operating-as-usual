@@ -46,10 +46,18 @@ export const CancelButton = styled.div`
 
 export const Tip = styled.div`
   margin: 0.15rem 0;
+
+  a {
+    text-decoration: underline;
+  }
 `;
 
 export const ImgContainer = styled.div`
-  width: 70%;
+  max-width: 70%;
   margin: 2rem 0;
   ${FlexCenterStyle};
+
+  img {
+    max-width: 100%;
+  }
 `;

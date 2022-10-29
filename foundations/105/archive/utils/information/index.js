@@ -1,5 +1,8 @@
 import * as S from "./styles";
+import useResize from "utils/hooks/useResize";
 import { useEffect, useState } from "react";
+
+import Link from "next/link";
 
 export default function Information({ order, closeModal, isAdmin }) {
   return (
@@ -13,7 +16,13 @@ export default function Information({ order, closeModal, isAdmin }) {
               <img src="/assets/images/105/qr.png" />
             </S.ImgContainer>
             <S.Tip>105 is a web-based interactive artwork.</S.Tip>
-            <S.Tip>Scan the QR Code to Participate the artwork.</S.Tip>
+            <S.Tip>
+              Scan the QR Code or{" "}
+              <a onClick={(e) => e.stopPropagation()}>
+                <Link href="/105">Click on The Link</Link>
+              </a>
+            </S.Tip>
+            <S.Tip>to Participate the artwork.</S.Tip>
           </>
         ) : (
           <>

@@ -26,7 +26,7 @@ export default function Test() {
               const MID_RELATIVE_SIZE = 0.6;
               const SLOPE = 4;
               const scale = Math.min(Math.abs(MID_RELATIVE_SIZE - Math.abs(y) / ((VERTICAL_NUMBERS + 1) / SLOPE)) + 0.05, 1);
-              console.log(scale);
+
               return (
                 <mesh position={[x, 0, normalDistribution(x / 10) * 2.5 * y]} scale={[scale, scale, scale]} key={i}>
                   <sphereGeometry attach="geometry" args={[UNIT_SIZE, 32, 32]} />

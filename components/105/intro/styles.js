@@ -15,6 +15,7 @@ export const Text = styled.div`
   font-size: 1.2rem;
 
   margin: 1.4rem 0;
+  text-align: center;
 `;
 
 export const Buttons = styled.div`

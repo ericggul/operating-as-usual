@@ -39,6 +39,7 @@ export const Container = styled.div`
     margin-bottom: 0.1rem;
   }
   p {
+    font-weight: 100;
     max-width: 80%;
     text-align: center;
     font-size: 1.4rem;
