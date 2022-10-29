@@ -15,7 +15,6 @@ export default function CaptchaModal({ closeModal }) {
   }
   return (
     <S.Container onClick={(e) => e.stopPropagation()}>
-      <h1>wet</h1>
       <ReCAPTCHA ref={recaptchaRef} sitekey="6Lckj8AiAAAAADaIHyNAJY68yEriqKqdCgN1MpQy" onChange={onChange} />
     </S.Container>
   );

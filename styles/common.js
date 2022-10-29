@@ -57,4 +57,39 @@ body {
     -moz-appearance: textfield;
   }
 
+
+  /* fonts */
+
+  /* Roboto */
+
+  @font-face{
+    font-family: "Roboto";
+    src: url('/assets/fonts/Roboto/Roboto-Regular.ttf');
+  }
+
+  @font-face{
+    font-family: "Roboto";
+    font-weight: 700;
+    src: url('/assets/fonts/Roboto/Roboto-Bold.ttf');
+  }
+
+  @font-face{
+    font-family: "Roboto";
+    font-weight: 500;
+    src: url('/assets/fonts/Roboto/Roboto-Medium.ttf');
+  }
+
+  @font-face{
+    font-family: "Roboto";
+    font-weight: 300;
+    src: url('/assets/fonts/Roboto/Roboto-Light.ttf');
+  }
+
+  @font-face{
+    font-family: "Roboto";
+    font-weight: 100;
+    src: url('/assets/fonts/Roboto/Roboto-Thin.ttf');
+  }
+
+
 `;
