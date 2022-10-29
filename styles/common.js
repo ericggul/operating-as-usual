@@ -91,5 +91,9 @@ body {
     src: url('/assets/fonts/Roboto/Roboto-Thin.ttf');
   }
 
+  @font-face{
+    font-family: "BebasNeue";
+    src: url('/assets/fonts/BebasNeue-Regular.ttf');
+  }
 
 `;
