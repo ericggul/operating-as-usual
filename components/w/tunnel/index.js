@@ -31,7 +31,7 @@ export default function TunnelComponent() {
 
         <Physics gravity={[0, -10, 0]}>
           {new Array(100).fill(0).map((_, i) => (
-            <TubeSet curve={curve} position={[10 * (i - 50), 0, 0]} />
+            <TubeSet curve={curve} position={[10 * (i - 50), 0, 0]} key={i} />
           ))}
           <BaseCharacter controls rotation={[-Math.PI * 0.5, 0, 0]} position={[0, -4, 0]} args={[0.5]} color="yellow" />
         </Physics>
