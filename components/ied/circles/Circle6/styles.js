@@ -24,16 +24,14 @@ export const Item = styled.div`
 
 export const Circle = styled.div.attrs((props) => ({
   style: {
-    width: `${props.val * 200}%`,
-    height: `${props.val * 200}%`,
-    marginLeft: `${50 - props.val * 100}%`,
-    marginTop: `${50 - props.val * 100}%`,
+    width: `${props.val * 10 + 50}%`,
+    height: `${props.val * 10 + 50}%`,
+    marginLeft: `${50 - props.val * 5 - 25}%`,
+    marginTop: `${50 - props.val * 5 - 25}%`,
   },
 }))`
   text-align: center;
   border-radius: 50%;
 
-  background: rgba(0, 0, 0, 0.04);
-  // mix-blend-mode: difference;
-  // backdrop-filter: invert(100%);
+  background: black;
 `;

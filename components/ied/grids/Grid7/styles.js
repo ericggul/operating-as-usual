@@ -24,14 +24,14 @@ export const Item = styled.div`
 
 export const Square = styled.div.attrs((props) => ({
   style: {
-    // transform: `rotate(${props.val * 90}deg)`,
-    width: `${props.val * 4 + 30}%`,
-    height: `${props.val * 4 + 30}%`,
-    marginTop: `${50 - props.val * 2 - 15}%`,
-    marginLeft: `${50 - props.val * 2 - 15}%`,
+    transform: `rotate(${props.val * 90}deg)`,
   },
 }))`
   text-align: center;
+
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 10px black, 0 0 20px black, 0 0 40px black;
 
   background: black;
   mix-blend-mode: difference;

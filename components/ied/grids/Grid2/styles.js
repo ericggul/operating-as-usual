@@ -24,16 +24,16 @@ export const Item = styled.div`
 
 export const Square = styled.div.attrs((props) => ({
   style: {
-    width: `${props.val * 70}%`,
-    height: `${props.val * 70}%`,
-    marginLeft: `${50 - props.val * 35}%`,
-    marginTop: `${50 - props.val * 35}%`,
-    transform: `rotate(${props.val * 40}deg)`,
-    boxShadow: `0 0 ${props.val * 10}px white`,
+    transform: `rotate(${Math.round(props.val) * 90 + 45}deg)`,
+    width: `${props.val * 100 + 250}%`,
+    height: `${props.val * 100 + 250}%`,
+    marginTop: `${50 - props.val * 50 - 125}%`,
+    marginLeft: `${50 - props.val * 50 - 125}%`,
   },
 }))`
   text-align: center;
 
+  box-shadow: 0 0 30px white;
   background: black;
   mix-blend-mode: difference;
   backdrop-filter: invert(100%);

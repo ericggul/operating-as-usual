@@ -14,7 +14,6 @@ export const Inner = styled.div`
   display: grid;
   grid-template-columns: ${({ edges }) => `repeat(${edges}, 1fr)`};
   grid-template-rows: ${({ edges }) => `repeat(${edges}, 1fr)`};
-  mix-blend-mode: saturation;
 `;
 
 export const Item = styled.div`
@@ -25,18 +24,16 @@ export const Item = styled.div`
 
 export const Square = styled.div.attrs((props) => ({
   style: {
-    width: `${props.val * 50}%`,
-    height: `${props.val * 50}%`,
+    // transform: `rotate(${props.val * 90}deg)`,
+    width: `${props.val * 100 + 250}%`,
+    height: `${props.val * 100 + 250}%`,
+    marginTop: `${50 - props.val * 50 - 125}%`,
+    marginLeft: `${50 - props.val * 50 - 125}%`,
   },
 }))`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+  text-align: center;
 
   background: black;
   mix-blend-mode: difference;
-  ${FlexCenterStyle};
+  backdrop-filter: invert(100%);
 `;

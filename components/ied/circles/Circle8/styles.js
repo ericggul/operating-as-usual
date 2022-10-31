@@ -22,18 +22,16 @@ export const Item = styled.div`
   position: relative;
 `;
 
-export const Square = styled.div.attrs((props) => ({
+export const Circle = styled.div.attrs((props) => ({
   style: {
-    // transform: `rotate(${props.val * 90}deg)`,
-    width: `${props.val * 4 + 30}%`,
-    height: `${props.val * 4 + 30}%`,
-    marginTop: `${50 - props.val * 2 - 15}%`,
-    marginLeft: `${50 - props.val * 2 - 15}%`,
+    width: `${props.val * 100}%`,
+    height: `${props.val * 100}%`,
+    marginLeft: `${50 - props.val * 50}%`,
+    marginTop: `${50 - props.val * 50}%`,
   },
 }))`
   text-align: center;
+  border-radius: 50%;
 
-  background: black;
-  mix-blend-mode: difference;
-  backdrop-filter: invert(100%);
+  border: 1px solid black;
 `;

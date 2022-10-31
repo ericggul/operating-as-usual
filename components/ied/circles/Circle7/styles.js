@@ -24,11 +24,12 @@ export const Item = styled.div`
 
 export const Square = styled.div.attrs((props) => ({
   style: {
-    // transform: `rotate(${props.val * 90}deg)`,
-    width: `${props.val * 4 + 30}%`,
-    height: `${props.val * 4 + 30}%`,
-    marginTop: `${50 - props.val * 2 - 15}%`,
-    marginLeft: `${50 - props.val * 2 - 15}%`,
+    width: `${props.val * 70}%`,
+    height: `${props.val * 70}%`,
+    marginLeft: `${50 - props.val * 35}%`,
+    marginTop: `${50 - props.val * 35}%`,
+    transform: `rotate(${props.val * 40}deg)`,
+    boxShadow: `0 0 ${props.val * 10}px white`,
   },
 }))`
   text-align: center;
@@ -36,4 +37,5 @@ export const Square = styled.div.attrs((props) => ({
   background: black;
   mix-blend-mode: difference;
   backdrop-filter: invert(100%);
+  border-radius: 50%;
 `;

@@ -1,13 +1,18 @@
 import * as S from "./styles";
-
-const EDGES = 10;
+import { useState, useEffect } from "react";
+const REPEAT = 1;
 const getRandom = (a, b) => Math.random() * (b - a) + a;
 
 export default function VisualTest({ data }) {
+  const [bubbledData, setBubbledData] = useState(new Array(REPEAT).fill(0).reduce((prev, curr) => [...prev, ...data], []));
+
+  useEffect(() => {
+    setBubbledData(new Array(REPEAT * REPEAT).fill(0).reduce((prev, curr) => [...prev, ...data], []));
+  }, [data]);
   return (
     <S.Container>
-      <S.Inner edges={EDGES}>
-        {data.map((val, i) => (
+      <S.Inner edges={Math.sqrt(data.length) * REPEAT}>
+        {bubbledData.map((val, i) => (
           <S.Item key={i}>
             <S.Square key={i} val={val} />
           </S.Item>
