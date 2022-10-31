@@ -80,7 +80,7 @@ export default function VoiceModal({ transitionState, closeModal }) {
   useEffect(() => {
     if (uiState === 1) {
       toast.info(`Speak "I'm not a human"`);
-      SpeechRecognition.startListening();
+      SpeechRecognition.startListening({ language: "en-GB" });
     }
   }, [uiState]);
 

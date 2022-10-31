@@ -134,7 +134,7 @@ export default function Test() {
         </group>
 
         <OrbitControls />
-        <DownloadThreeScene />
+        {/* <DownloadThreeScene /> */}
       </Canvas>
     </div>
   );

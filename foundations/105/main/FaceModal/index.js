@@ -144,7 +144,7 @@ export default function FaceModal({ onAppear, activateTounge, closeModal }) {
 
       const timeout2 = setTimeout(() => {
         toast.info(`Now Speak "I'm not really a human"`);
-        SpeechRecognition.startListening({ continuous: true });
+        SpeechRecognition.startListening({ continuous: true, language: "en-GB" });
       }, 3500);
 
       return () => {

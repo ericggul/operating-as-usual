@@ -4,13 +4,14 @@ import dynamic from "next/dynamic";
 import { useRef, useState, useEffect } from "react";
 import DownloadThreeScene from "utils/hoc/downloadThreeScene";
 import { extend, Canvas, useThree, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 
 const normalDistribution = (x) => Math.exp((-x * x) / 2) / Math.sqrt(2 * Math.PI);
 
 export default function Test() {
   const VERTICAL_NUMBERS = 21;
   const HORIZONTAL_NUMBERS = 51;
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <Canvas camera={{ position: [10, 10, 10] }}>

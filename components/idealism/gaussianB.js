@@ -12,7 +12,7 @@ export default function Test() {
   const VERTICAL_NUMBERS = 21;
   const HORIZONTAL_NUMBERS = 51;
 
-  const UNIT_SIZE = 1.1;
+  const UNIT_SIZE = 0.9;
   const SLOPE = 1.4;
   const VERTICAL_INTERVAL = 3.3;
 
@@ -33,7 +33,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -51,7 +51,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -70,7 +70,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -88,7 +88,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -107,7 +107,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -125,7 +125,7 @@ export default function Test() {
                 return (
                   <mesh position={[x, 0, normalDistribution(x / 10) * VERTICAL_INTERVAL * y]} scale={[scale, scale, scale]} rotation={[0, Math.PI / 4, 0]} key={i}>
                     <boxGeometry attach="geometry" args={[UNIT_SIZE, UNIT_SIZE, UNIT_SIZE]} />
-                    <meshStandardMaterial attach="material" color="rgb(0,0,0)" />
+                    <meshStandardMaterial attach="material" color={`hsl(${(x * 7 + y * 5 + 180) % 360}, 100%, 70%)`} />
                   </mesh>
                 );
               })
@@ -134,7 +134,7 @@ export default function Test() {
         </group>
 
         <OrbitControls />
-        <DownloadThreeScene />
+        {/* <DownloadThreeScene /> */}
       </Canvas>
     </div>
   );

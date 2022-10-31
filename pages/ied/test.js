@@ -1,8 +1,18 @@
 //dynamic import VisualTest
-
+import { useMemo } from "react";
 import dynamic from "next/dynamic";
-const VisualTest = dynamic(() => import("components/ied/VisualTest2"), { ssr: false });
+const GridTest = dynamic(() => import("components/ied/grids/Grid2"), { ssr: false });
+const StripeTest = dynamic(() => import("components/ied/stripes/Stripe1"), { ssr: false });
+const CircleTest = dynamic(() => import("components/ied/circles/Circle5"), { ssr: false });
 
+const getRandom = (a, b) => Math.random() * (b - a) + a;
 export default function IED() {
-  return <VisualTest />;
+  const data = useMemo(() => {
+    let array = [];
+    for (let i = 0; i < 100; i++) {
+      array.push(getRandom(0.5, 4));
+    }
+    return array;
+  }, []);
+  return <StripeTest data={data} />;
 }
