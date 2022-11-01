@@ -12,6 +12,8 @@ const BlackScholes = dynamic(() => import("components/idealism/blackScholes"), {
 const HiddenTower = dynamic(() => import("components/idealism/hiddenTower"), { ssr: false });
 const Bricks = dynamic(() => import("components/idealism/irregularBricks2"), { ssr: false });
 
+const Text = dynamic(() => import("components/idealism/text"), { ssr: false });
+
 export default function Idealism() {
-  return <HiddenTower />;
+  return <Bricks />;
 }

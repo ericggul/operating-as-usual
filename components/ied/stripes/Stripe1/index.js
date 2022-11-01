@@ -77,7 +77,7 @@ class Canvas {
 
   drawSingleSquare(datum, x, y) {
     let w = 2;
-    let h = datum * this.singleWidth * 1.7;
+    let h = datum * this.singleWidth * 1;
     this.ctx.save();
 
     let xCenter = this.xStart + this.singleWidth * x + this.singleWidth / 2;

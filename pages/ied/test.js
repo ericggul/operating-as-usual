@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 const GridTest = dynamic(() => import("components/ied/grids/Grid2"), { ssr: false });
 const StripeTest = dynamic(() => import("components/ied/stripes/Stripe1"), { ssr: false });
 const CircleTest = dynamic(() => import("components/ied/circles/Circle6"), { ssr: false });
+const ThreeTest = dynamic(() => import("components/ied/3d/3d1"), { ssr: false });
 
 const getRandom = (a, b) => Math.random() * (b - a) + a;
 export default function IED() {
@@ -14,5 +15,5 @@ export default function IED() {
     }
     return array;
   }, []);
-  return <CircleTest data={data} />;
+  return <StripeTest data={data} />;
 }
