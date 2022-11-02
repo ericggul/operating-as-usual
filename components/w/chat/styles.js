@@ -6,7 +6,7 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
-  background: #ddd;
+  background: linear-gradient(180deg, hsl(100, 100%, 90%) 0%, hsl(200, 100%, 90%) 100%);
   font-family: Helvetica;
 `;
 
@@ -25,22 +25,37 @@ export const Row = styled.div`
 `;
 
 export const SingleChatContainer = styled.div`
-  width: ${({ theme }) => (theme.windowHeight * 0.7) / 2}px;
-  height: ${({ theme }) => theme.windowHeight * 0.7}px;
+  width: ${({ theme }) => (theme.windowHeight * 0.75) / 2}px;
+  height: ${({ theme }) => theme.windowHeight * 0.75}px;
   ${({ theme }) => `margin: ${theme.windowHeight * 0.04}px ${theme.windowHeight * 0.032}px`};
   border-radius: ${({ theme }) => theme.windowHeight * 0.035}px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
   position: relative;
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.3);
-  ${FlexCenterStyle};
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
 `;
 
 export const ChatInner = styled.div`
-    width: 90%:
-    height: 90%;
-    position: relative;
+  width: 90%;
+  min-height: 90%;
+  position: relative;
 `;
 
 export const Chat = styled.div`
-  max-width: 70%;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 90%;
+  font-size: 14px;
+  background: ${({ left }) => (left ? "white" : "hsl(200, 100%, 94%)")};
+
+  padding: 8px 16px;
+
+  border-radius: ${({ left }) => (left ? "15px 15px 15px 0" : "15px 15px 0 15px")};
+
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 13px 0;
+  ${({ left }) => !left && "margin-left: auto;"}
 `;

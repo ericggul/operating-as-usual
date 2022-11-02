@@ -9,8 +9,8 @@ export default function Chat() {
   const [chatContainerNumber, setChatContainerNumber] = useState(0);
 
   useEffect(() => {
-    let width = (windowHeight * 0.7) / 2;
-    let height = windowHeight * 0.7;
+    let width = (windowHeight * 0.75) / 2;
+    let height = windowHeight * 0.75;
     let horizontalNumber = Math.ceil(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
     setChatContainerNumber(horizontalNumber);
@@ -39,11 +39,23 @@ export default function Chat() {
   );
 }
 
-function SingleChat() {
+function SingleChat({ color }) {
   return (
     <S.SingleChatContainer>
       <S.ChatInner>
-        <S.Chat>Hey! How are you?</S.Chat>
+        <S.Chat>Hey! What are you doing? I mean what the fuck are you doing?</S.Chat>
+        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true}>Because it's how i do things everyday!</S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat>HEY</S.Chat>
       </S.ChatInner>
     </S.SingleChatContainer>
   );
