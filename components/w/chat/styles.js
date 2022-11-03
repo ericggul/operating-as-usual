@@ -11,29 +11,20 @@ export const Container = styled.div`
 `;
 
 export const Inner = styled.div`
-  min-width: 120%;
-  height: 120%;
+  min-width: 100%;
+  min-height: 100%;
   ${FlexCenterStyle};
   position: relative;
-`;
-
-export const Column = styled.div`
-  min-height: 130%;
-  ${FlexCenterStyle};
-  flex-direction: column;
 `;
 
 export const SingleChatContainer = styled.div`
   position: absolute;
 
-  transform: translate(-50%, -50%);
-
-  width: ${({ theme }) => (theme.windowHeight * 0.75) / 2}px;
-  height: ${({ theme }) => theme.windowHeight * 0.75}px;
-  ${({ theme }) => `margin: ${theme.windowHeight * 0.01}px ${theme.windowHeight * 0.008}px`};
+  transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   border-radius: ${({ theme }) => theme.windowHeight * 0.035}px;
   background: rgba(255, 255, 255, 0.8);
-  position: relative;
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: flex-end;

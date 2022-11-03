@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Chat() {
   const [windowWidth, windowHeight] = useResize();
@@ -19,21 +19,28 @@ export default function Chat() {
   return (
     <S.Container>
       <S.Inner>
-        {Array.from({ length: chatContainerNumber }).map((_, i) => (
-          <S.Column key={i}>
-            {Array.from({ length: chatContainerNumber }).map((_, j) => (
-              <SingleChat key={j} />
-            ))}
-          </S.Column>
+        {Array.from({ length: chatContainerNumber * 3 }).map((_, i) => (
+          <SingleChat
+            key={i}
+            width={chatContainerSize.width}
+            height={chatContainerSize.height}
+            windowWidth={windowWidth}
+            windowHeight={windowHeight}
+            idx={i}
+            chatContainerNumber={chatContainerNumber}
+          />
         ))}
       </S.Inner>
     </S.Container>
   );
 }
 
-function SingleChat() {
+function SingleChat({ width, height, windowWidth, windowHeight, idx, chatContainerNumber }) {
+  const i = useMemo(() => idx % chatContainerNumber, [idx, chatContainerNumber]);
+  const j = useMemo(() => Math.floor(idx / chatContainerNumber), [idx, chatContainerNumber]);
+
   return (
-    <S.SingleChatContainer>
+    <S.SingleChatContainer width={width} height={height} x={(i - (chatContainerNumber - 1) / 2) * (width + windowHeight * 0.016)} y={(j - 1) * (height + windowHeight * 0.02)}>
       <S.ChatInner>
         <S.Chat>Hey! What are you doing? I mean what the fuck are you doing?</S.Chat>
         <S.Chat left={true} idx={0}>
