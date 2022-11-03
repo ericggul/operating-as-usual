@@ -65,7 +65,6 @@ export default function VoiceModal({ transitionState, closeModal }) {
     setUiState(0);
     SpeechRecognition.stopListening();
     toast.danger("Try Again");
-    console.log(transcript);
     if (transcript) {
       toast.warning(`You said "${transcript}"`);
     } else {
@@ -74,7 +73,7 @@ export default function VoiceModal({ transitionState, closeModal }) {
   }
 
   function handleRecordingButtonClick() {
-    setUiState((st) => st + 1);
+    setUiState((st) => 1 - st);
   }
 
   useEffect(() => {

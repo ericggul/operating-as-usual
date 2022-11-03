@@ -42,7 +42,6 @@ export default function MainComponent({ order, id, handleFinish }) {
   const [activateTounge, setActivateTounge] = useState(false);
 
   function handleClick() {
-    console.log(transitionState);
     setActivateCaptcha(true);
   }
 
@@ -90,8 +89,16 @@ export default function MainComponent({ order, id, handleFinish }) {
             setActivateCaptcha(false);
             if (transitionState === false) {
               setTransitionState(1);
-            } else {
+            } else if (transitionState === 1) {
               setActivateCalculation(true);
+            } else if (transitionState === 2) {
+              setActivateVoice(true);
+            } else if (transitionState === 3) {
+              setActivateFace(true);
+              setActivateTounge(false);
+            } else if (transitionState === 4) {
+              setActivateFace(true);
+              setActivateTounge(true);
             }
           }}
         />
@@ -149,7 +156,7 @@ export default function MainComponent({ order, id, handleFinish }) {
         </S.Loading>
       )}
       {transitionState > 0 && <ProgressBar progress={transitionState} />}
-      <Toast duration={3500} />
+      <Toast duration={5500} />
     </S.Container>
   );
 }

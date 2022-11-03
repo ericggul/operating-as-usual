@@ -6,28 +6,31 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(180deg, hsl(100, 100%, 90%) 0%, hsl(200, 100%, 90%) 100%);
+  background: #e8e8e8;
   font-family: Helvetica;
 `;
 
 export const Inner = styled.div`
-  width: 120%;
+  min-width: 120%;
   height: 120%;
   ${FlexCenterStyle};
-  flex-direction: column;
   position: relative;
-  transform: rotate(3deg);
 `;
 
-export const Row = styled.div`
-  min-width: 130%;
+export const Column = styled.div`
+  min-height: 130%;
   ${FlexCenterStyle};
+  flex-direction: column;
 `;
 
 export const SingleChatContainer = styled.div`
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+
   width: ${({ theme }) => (theme.windowHeight * 0.75) / 2}px;
   height: ${({ theme }) => theme.windowHeight * 0.75}px;
-  ${({ theme }) => `margin: ${theme.windowHeight * 0.04}px ${theme.windowHeight * 0.032}px`};
+  ${({ theme }) => `margin: ${theme.windowHeight * 0.01}px ${theme.windowHeight * 0.008}px`};
   border-radius: ${({ theme }) => theme.windowHeight * 0.035}px;
   background: rgba(255, 255, 255, 0.8);
   position: relative;
@@ -39,9 +42,9 @@ export const SingleChatContainer = styled.div`
 `;
 
 export const ChatInner = styled.div`
-  width: 90%;
-  min-height: 90%;
+  width: 89%;
   position: relative;
+  margin-bottom: 1rem;
 `;
 
 export const Chat = styled.div`
@@ -49,7 +52,7 @@ export const Chat = styled.div`
   width: fit-content;
   max-width: 90%;
   font-size: 14px;
-  background: ${({ left }) => (left ? "white" : "hsl(200, 100%, 94%)")};
+  background: ${({ left, idx }) => (left ? `linear-gradient(hsl(0, 100%, ${100 - idx * 2}%), hsl(0, 100%, ${97 - idx * 2}%))` : "white")};
 
   padding: 8px 16px;
 
@@ -58,4 +61,28 @@ export const Chat = styled.div`
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   margin: 13px 0;
   ${({ left }) => !left && "margin-left: auto;"}
+  ${FlexCenterStyle};
+  transition: all 0.3s ease-in-out;
+`;
+
+export const Loading = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0.1rem;
+  border-radius: 50%;
+  background: ${({ left }) => (left ? "#f3f3f3" : "#ccc")};
+
+  animation: jump-dots 0.8s infinite ease-in-out;
+  animation-delay: ${({ i }) => i * 0.1}s;
+  @keyframes jump-dots {
+    0% {
+      transform: translateY(0rem);
+    }
+    25% {
+      transform: translateY(-0.3rem);
+    }
+    50% {
+      transform: translateY(0rem);
+    }
+  }
 `;

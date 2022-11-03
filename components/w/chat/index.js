@@ -19,44 +19,62 @@ export default function Chat() {
   return (
     <S.Container>
       <S.Inner>
-        <S.Row>
-          {Array.from({ length: chatContainerNumber }).map((_, i) => (
-            <SingleChat key={i} />
-          ))}
-        </S.Row>
-        <S.Row>
-          {Array.from({ length: chatContainerNumber }).map((_, i) => (
-            <SingleChat key={i} />
-          ))}
-        </S.Row>
-        <S.Row>
-          {Array.from({ length: chatContainerNumber }).map((_, i) => (
-            <SingleChat key={i} />
-          ))}
-        </S.Row>
+        {Array.from({ length: chatContainerNumber }).map((_, i) => (
+          <S.Column key={i}>
+            {Array.from({ length: chatContainerNumber }).map((_, j) => (
+              <SingleChat key={j} />
+            ))}
+          </S.Column>
+        ))}
       </S.Inner>
     </S.Container>
   );
 }
 
-function SingleChat({ color }) {
+function SingleChat() {
   return (
     <S.SingleChatContainer>
       <S.ChatInner>
         <S.Chat>Hey! What are you doing? I mean what the fuck are you doing?</S.Chat>
-        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat left={true} idx={0}>
+          I'm doing my stuffs!
+        </S.Chat>
         <S.Chat>Why?</S.Chat>
-        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat left={true} idx={1}>
+          I'm doing my stuffs!
+        </S.Chat>
         <S.Chat>Why?</S.Chat>
-        <S.Chat left={true}>Because it's how i do things everyday!</S.Chat>
+        <S.Chat left={true} idx={2}>
+          Because it's how i do things everyday!
+        </S.Chat>
         <S.Chat>Why?</S.Chat>
-        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat left={true} idx={3}>
+          I'm doing my stuffs!
+        </S.Chat>
         <S.Chat>Why?</S.Chat>
-        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
+        <S.Chat left={true} idx={4}>
+          I'm doing my stuffs!
+        </S.Chat>
         <S.Chat>Why?</S.Chat>
-        <S.Chat left={true}>I'm doing my stuffs!</S.Chat>
-        <S.Chat>HEY</S.Chat>
+        <S.Chat left={true} idx={5}>
+          I'm doing my stuffs!
+        </S.Chat>
+        <S.Chat>Why?</S.Chat>
+        <S.Chat left={true} idx={6}>
+          I'm doing my stuffs!
+        </S.Chat>
+        <Loading left={false} />
       </S.ChatInner>
     </S.SingleChatContainer>
+  );
+}
+
+function Loading({ left = false, idx = 0 }) {
+  return (
+    <S.Chat left={left} idx={idx}>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <S.Loading key={i} i={i} left={left} />
+      ))}
+    </S.Chat>
   );
 }

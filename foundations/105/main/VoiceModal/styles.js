@@ -45,10 +45,10 @@ export const Verify = styled.div`
 `;
 
 export const Eye = styled.div`
-  width: 9.5rem;
+  width: 10.5rem;
   height: 1.2rem;
   border-radius: 0.2rem;
-  font-size: 2.2rem;
+  font-size: 2rem;
   // letter-spacing: -0.2rem;
   font-weight: bold;
   margin: 0 2rem;
@@ -63,7 +63,7 @@ export const Command = styled.div`
   font-weight: 300;
   text-align: center;
   max-width: 70%;
-  margin-top: 14%;
+  margin-top: 18%;
   width: 6rem;
   text-align: center;
 `;
