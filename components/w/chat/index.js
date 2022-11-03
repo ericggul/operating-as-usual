@@ -3,7 +3,7 @@ import useResize from "utils/hooks/useResize";
 import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function Chat() {
-  const [windowWidth, windowHeight] = useResize();
+  const [windowWidth, windowHeight] = useResize(true);
 
   const [chatContainerSize, setChatContainerSize] = useState({ width: 0, height: 0 });
   const [chatContainerNumber, setChatContainerNumber] = useState(0);
@@ -11,7 +11,7 @@ export default function Chat() {
   useEffect(() => {
     let width = (windowHeight * 0.75) / 2;
     let height = windowHeight * 0.75;
-    let horizontalNumber = Math.ceil(windowWidth / (2 * width)) * 2 + 1;
+    let horizontalNumber = Math.floor(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
     setChatContainerNumber(horizontalNumber);
   }, [windowWidth, windowHeight]);

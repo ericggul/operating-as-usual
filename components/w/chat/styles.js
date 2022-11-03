@@ -23,7 +23,7 @@ export const SingleChatContainer = styled.div`
   transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
-  border-radius: ${({ theme }) => theme.windowHeight * 0.035}px;
+  border-radius: ${({ height }) => height * 0.05}px;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.3);
   display: flex;
