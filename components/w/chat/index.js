@@ -36,11 +36,31 @@ export default function Chat() {
 }
 
 function SingleChat({ width, height, windowWidth, windowHeight, idx, chatContainerNumber }) {
-  const i = useMemo(() => idx % chatContainerNumber, [idx, chatContainerNumber]);
-  const j = useMemo(() => Math.floor(idx / chatContainerNumber), [idx, chatContainerNumber]);
+  const [i, setI] = useState((idx % chatContainerNumber) - (chatContainerNumber - 1) / 2);
+  const [j, setJ] = useState(Math.floor(idx / chatContainerNumber) - 1);
+
+  useEffect(() => {
+    setI((idx % chatContainerNumber) - (chatContainerNumber - 1) / 2);
+    setJ(Math.floor(idx / chatContainerNumber) - 1);
+  }, [idx, chatContainerNumber]);
+
+  //to do:swap
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (i === -1) {
+        if (j == 0) {
+          setJ(-1);
+        }
+        if (j == -1) {
+          setJ(0);
+        }
+      }
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [j, i]);
 
   return (
-    <S.SingleChatContainer width={width} height={height} x={(i - (chatContainerNumber - 1) / 2) * (width + windowHeight * 0.016)} y={(j - 1) * (height + windowHeight * 0.02)}>
+    <S.SingleChatContainer width={width} height={height} x={i * (width + windowHeight * 0.016)} y={j * (height + windowHeight * 0.02)}>
       <S.ChatInner>
         <S.Chat>Hey! What are you doing? I mean what the fuck are you doing?</S.Chat>
         <S.Chat left={true} idx={0}>

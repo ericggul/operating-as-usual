@@ -108,11 +108,12 @@ export default function MainComponent({ order, id, handleFinish }) {
           transitionState={transitionState}
           closeModal={() => {
             setActivateCalculation(false);
-            if (transitionState === 1) {
-              setTransitionState(2);
-            } else {
-              setActivateVoice(true);
-            }
+            setTransitionState(2);
+            // if (transitionState === 1) {
+            //   setTransitionState(2);
+            // } else {
+            //   setActivateVoice(true);
+            // }
           }}
         />
       )}
@@ -121,16 +122,7 @@ export default function MainComponent({ order, id, handleFinish }) {
           transitionState={transitionState}
           closeModal={() => {
             setActivateVoice(false);
-            if (transitionState === 2) {
-              setTransitionState(3);
-            } else if (transitionState === 3) {
-              setFaceModalLoading(true);
-              setActivateFace(true);
-              setActivateTounge(false);
-            } else if (transitionState === 4) {
-              setActivateFace(true);
-              setActivateTounge(true);
-            }
+            setTransitionState(3);
           }}
         />
       )}

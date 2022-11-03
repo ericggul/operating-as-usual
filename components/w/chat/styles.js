@@ -30,6 +30,8 @@ export const SingleChatContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
   overflow: hidden;
+
+  transition: all 1s;
 `;
 
 export const ChatInner = styled.div`
