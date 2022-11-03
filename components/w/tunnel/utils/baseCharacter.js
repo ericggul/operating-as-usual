@@ -56,7 +56,7 @@ const BaseCharacter = (props) => {
   return (
     <>
       <mesh rotation={[-Math.PI * 0.5, 0, 0]} position={[0, -4, 0]} ref={planeRef}>
-        <planeGeometry args={[1000, 1000]} />
+        <planeGeometry args={[1000, 400]} />
         <meshStandardMaterial color="hsl(350, 100%, 50%)" transparent opacity={0.2} />
       </mesh>
     </>
