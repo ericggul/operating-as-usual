@@ -22,7 +22,7 @@ export default function Test() {
           const width = getRandom(5, 10);
           const height = getRandom(5, 10);
           return (
-            <group>
+            <group key={i}>
               <mesh key={i} position={[5, i, 0.5]}>
                 <boxGeometry attach="geometry" args={[10, 1, 1]} />
                 <meshStandardMaterial attach="material" color={"black"} />

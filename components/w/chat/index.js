@@ -64,31 +64,31 @@ function SingleChat({ width, height, windowWidth, windowHeight, idx, chatContain
       <S.ChatInner>
         <S.Chat>Hey! What are you doing? I mean what the fuck are you doing?</S.Chat>
         <S.Chat left={true} idx={0}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={1}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={2}>
-          Because it's how i do things everyday!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={3}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={4}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={5}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <S.Chat>Why?</S.Chat>
         <S.Chat left={true} idx={6}>
-          I'm doing my stuffs!
+          {`I'm doing my stuffs!`}
         </S.Chat>
         <Loading left={false} />
       </S.ChatInner>
