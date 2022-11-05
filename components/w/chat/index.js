@@ -13,13 +13,13 @@ export default function Chat() {
     let height = windowHeight * 0.75;
     let horizontalNumber = Math.floor(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
-    setChatContainerNumber(horizontalNumber);
+    setChatContainerNumber({ x: horizontalNumber * 10, y: 15 });
   }, [windowWidth, windowHeight]);
 
   return (
     <S.Container>
       <S.Inner>
-        {Array.from({ length: chatContainerNumber * 3 }).map((_, i) => (
+        {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
           <SingleChat
             key={i}
             width={chatContainerSize.width}
@@ -36,12 +36,12 @@ export default function Chat() {
 }
 
 function SingleChat({ width, height, windowWidth, windowHeight, idx, chatContainerNumber }) {
-  const [i, setI] = useState((idx % chatContainerNumber) - (chatContainerNumber - 1) / 2);
-  const [j, setJ] = useState(Math.floor(idx / chatContainerNumber) - 1);
+  const [i, setI] = useState((idx % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
+  const [j, setJ] = useState(Math.floor(idx / chatContainerNumber.x) - (chatContainerNumber.y - 1) / 2);
 
   useEffect(() => {
-    setI((idx % chatContainerNumber) - (chatContainerNumber - 1) / 2);
-    setJ(Math.floor(idx / chatContainerNumber) - 1);
+    setI((idx % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
+    setJ(Math.floor(idx / chatContainerNumber.x) - (chatContainerNumber.y - 1) / 2);
   }, [idx, chatContainerNumber]);
 
   //to do:swap

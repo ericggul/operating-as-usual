@@ -15,6 +15,8 @@ export const Inner = styled.div`
   min-height: 100%;
   ${FlexCenterStyle};
   position: relative;
+  transform: scale(0.1);
+  transition: all 1s ease-in-out;
 `;
 
 export const SingleChatContainer = styled.div`

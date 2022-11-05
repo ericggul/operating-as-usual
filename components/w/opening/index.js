@@ -10,22 +10,30 @@ const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) +
 
 const CODES = ["C", "E", "G"];
 
-export default function Pyramid({ opening }) {
+export default function Opening({ opening }) {
   const synth = useMemo(() => new Tone.PolySynth().toDestination(), []);
 
+  //please make sure to uncancel on non-developmode
   useEffect(() => {
     if (opening) {
-      openingMelody();
+      const timeout = setTimeout(() => {
+        openingMelody();
+      }, 200);
+      return () => clearTimeout(timeout);
     }
   }, [opening]);
 
-  useEffect(() => {
-    document.addEventListener("click", openingMelody);
-    return () => document.removeEventListener("click", openingMelody);
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener("click", openingMelody);
+  //   return () => document.removeEventListener("click", openingMelody);
+  // }, []);
+
+  const [visualState, setVisualState] = useState(11);
+  const [closingAnimation, setClosingAnimation] = useState(false);
 
   function openingMelody() {
     Tone.start();
+
     createHarmony(synth, ["C"], 0);
     createHarmony(synth, ["E"], 0.2);
     createHarmony(synth, ["G"], 0.4);
@@ -46,9 +54,76 @@ export default function Pyramid({ opening }) {
     createHarmony(synth, ["C"], 3.8, 1);
     createHarmony(synth, ["G"], 4.0);
     createHarmony(synth, ["C"], 4.2, -1);
+
+    //visual state
+    setVisualState(1);
+    const timeout1 = setTimeout(() => setVisualState(2), 600);
+    const timeout2 = setTimeout(() => setVisualState(3), 1000);
+    const timeout3 = setTimeout(() => setVisualState(4), 1200);
+    const timeout4 = setTimeout(() => setVisualState(5), 1800);
+    const timeout5 = setTimeout(() => setVisualState(6), 2200);
+    const timeout6 = setTimeout(() => setVisualState(7), 2400);
+    const timeout7 = setTimeout(() => setVisualState(8), 3000);
+    const timeout8 = setTimeout(() => setVisualState(9), 3400);
+    const timeout9 = setTimeout(() => setVisualState(10), 3600);
+    const timeout10 = setTimeout(() => setVisualState(11), 4200);
+    const timeout11 = setTimeout(() => setClosingAnimation(true), 4200);
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+      clearTimeout(timeout4);
+      clearTimeout(timeout5);
+      clearTimeout(timeout6);
+      clearTimeout(timeout7);
+      clearTimeout(timeout8);
+      clearTimeout(timeout9);
+      clearTimeout(timeout10);
+      clearTimeout(timeout11);
+    };
   }
 
-  return <S.Container opening={opening}>opening</S.Container>;
+  return (
+    <S.Container opening={opening}>
+      {(visualState === 1 || visualState === 2) && <p>W</p>}
+      {visualState === 2 && <MessUp word="W" />}
+      {visualState === 3 && <p style={{ fontSize: "9vw" }}>by</p>}
+      {(visualState === 4 || visualState === 5) && <p>JYC</p>}
+      {visualState === 5 && <MessUp word="JYC" />}
+      {visualState === 6 && <p style={{ fontSize: "9vw" }}>Starring</p>}
+      {(visualState === 7 || visualState === 8) && <p>You</p>}
+      {visualState === 8 && <MessUp word="You" />}
+      {visualState === 9 && <p style={{ fontSize: "9vw" }}>With</p>}
+      {(visualState === 10 || visualState === 11) && <p style={{ fontSize: "15vw" }}>Modern Society</p>}
+      {visualState === 11 && <MessUp word="Modern Society" repeat={20} />}
+
+      {closingAnimation && <S.Closing />}
+    </S.Container>
+  );
+}
+
+function MessUp({ word, repeat = 50 }) {
+  return (
+    <>
+      {new Array(repeat).fill(0).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            top: getRandom(10, 90) + "vh",
+            left: getRandom(10, 90) + "vw",
+            fontSize: getRandom(3, 10) + "vw",
+            color: "white",
+            opacity: 0.7,
+            transform: `translate(-50%, -50%)`,
+          }}
+        >
+          {word}
+        </div>
+      ))}
+    </>
+  );
 }
 
 function playRandom(synth, i) {

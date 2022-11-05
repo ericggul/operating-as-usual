@@ -48,7 +48,7 @@ const BaseCharacter = (props) => {
       if (currentSpeed.current > 800) {
         currentSpeed.current = currentSpeed.current * 1.01;
       } else {
-        currentSpeed.current = currentSpeed.current * 1.3;
+        currentSpeed.current = currentSpeed.current * 1.34;
       }
     }
   });

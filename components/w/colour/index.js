@@ -36,7 +36,6 @@ function Colour({ opening, setOpening }) {
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -54,7 +53,7 @@ function Colour({ opening, setOpening }) {
       setRandomnessState(0);
       setCycleState((s) => s + 1);
       if (cycleState < 15) {
-        setRandomnessStep((s) => s * 1.2);
+        setRandomnessStep((s) => s * 1.25);
       } else {
         setRandomnessStep((s) => s * 1.035);
       }
@@ -92,7 +91,7 @@ const Inner = ({ i, elements, randomnessState, opening }) => {
 
   const [windowWidth, windowHeight] = useResize();
 
-  const widthRandomness = useMemo(() => {
+  const heightRandomness = useMemo(() => {
     if (randomnessState < 35) {
       const min = 0.92;
       const max = 0.92 + (0.0001 + randomnessState * 0.000015) * randomnessState;
@@ -103,7 +102,7 @@ const Inner = ({ i, elements, randomnessState, opening }) => {
       return getRandom(min, max) ** i;
     }
   }, [i, elements, randomnessState]);
-  const heightRandomness = useMemo(() => {
+  const widthRandomness = useMemo(() => {
     const min = 0.92;
     const max = 0.92 + (0.0001 + randomnessState * 0.00001) * randomnessState;
     return getRandom(min, max) ** i;
