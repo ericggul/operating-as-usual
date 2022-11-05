@@ -2,15 +2,15 @@ import styled, { css } from "styled-components";
 import { FlexCenterStyle, WholeContainer } from "styles/common";
 
 export const Container = styled.div`
-  background: rgb(10, 0, 140);
-  ${WholeContainer}
-  ${FlexCenterStyle};
+  background: ${({ opening }) => (opening ? `rgb(10, 133, 140)` : `rgb(10, 0, 140)`)};
+  ${WholeContainer} ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
 
   font-family: Helvetica;
 
   cursor: none;
+  transition: all 0.3s ease-in-out;
 `;
 
 export const Square = styled.div`

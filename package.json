@@ -26,6 +26,7 @@
     "babel-plugin-styled-components": "^2.0.7",
     "d3-ease": "^3.0.1",
     "loplat-ui": "^1.9.1-canary.4",
+    "magenta": "^0.0.0",
     "next": "13.0.0",
     "prisma": "^4.5.0",
     "react": "18.2.0",

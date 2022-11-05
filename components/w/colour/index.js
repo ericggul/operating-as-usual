@@ -9,14 +9,11 @@ const getRandom = (a, b) => Math.random() * (b - a) + a;
 const CODES = ["C", "D", "E", "F", "G", "A", "B"];
 function randomnessStepToCodeConverter(randomnessState) {
   let floored = Math.floor(randomnessState);
-  console.log(floored);
-  console.log(`${CODES[floored % 7]}${Math.floor(floored / 7)}`);
   return `${CODES[floored % 7]}${Math.floor(floored / 7)}`;
 }
 
-function Colour() {
+function Colour({ opening, setOpening }) {
   const [windowWidth, windowHeight] = useResize();
-
   const [elements, setElements] = useState({ x: windowWidth / 2, y: windowHeight / 2 });
 
   useEffect(() => {
@@ -38,26 +35,22 @@ function Colour() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      Tone.start();
-
-      if (e.code === "KeyW") {
-        setRandomnessState((s) => s + randomnessStep);
-      }
-    };
-    const handleKeyUp = (e) => console.log(e.code);
-
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [randomnessStep]);
+  }, [randomnessStep, opening]);
+
+  const handleKeyDown = (e) => {
+    Tone.start();
+    if (e.code === "KeyW" && !opening) {
+      setRandomnessState((s) => s + randomnessStep);
+    }
+  };
 
   useEffect(() => {
-    if (randomnessState >= 60) {
+    if (randomnessState >= 60 && !opening) {
       setRandomnessState(0);
       setCycleState((s) => s + 1);
       if (cycleState < 15) {
@@ -66,29 +59,28 @@ function Colour() {
         setRandomnessStep((s) => s * 1.035);
       }
     }
-  }, [randomnessState, randomnessStep]);
+  }, [randomnessState, randomnessStep, opening]);
 
-  const router = useRouter();
   useEffect(() => {
     if (randomnessStep > 55) {
-      router.push("/w/tunnel");
+      setOpening(true);
     }
   }, [randomnessStep]);
 
   return (
-    <S.Container>
+    <S.Container opening={opening}>
       {new Array(50).fill(0).map((_, i) => (
-        <Inner i={i} key={i} elements={elements} randomnessState={randomnessState} />
+        <Inner i={i} key={i} elements={elements} randomnessState={opening ? 60 : randomnessState} opening={opening} />
       ))}
     </S.Container>
   );
 }
 
-const Inner = ({ i, elements, randomnessState }) => {
+const Inner = ({ i, elements, randomnessState, opening }) => {
   const synth = useMemo(() => new Tone.PolySynth().toDestination(), []);
 
   useEffect(() => {
-    if (i === 0) {
+    if (i === 0 && !opening) {
       try {
         const now = Tone.now();
         synth.triggerAttackRelease(randomnessStepToCodeConverter(randomnessState), "32n", now);
@@ -96,7 +88,7 @@ const Inner = ({ i, elements, randomnessState }) => {
         console.log(e);
       }
     }
-  }, [i, randomnessState]);
+  }, [i, randomnessState, opening]);
 
   const [windowWidth, windowHeight] = useResize();
 
@@ -112,7 +104,6 @@ const Inner = ({ i, elements, randomnessState }) => {
     }
   }, [i, elements, randomnessState]);
   const heightRandomness = useMemo(() => {
-    // if (randomnessState < 100) {
     const min = 0.92;
     const max = 0.92 + (0.0001 + randomnessState * 0.00001) * randomnessState;
     return getRandom(min, max) ** i;
