@@ -31,6 +31,19 @@ export const Box = styled.div`
   transition: 0.5s;
 `;
 
+export const Dots = styled.div`
+  ${FlexCenterStyle};
+  flex-direction: column;
+`;
+
+export const Dot = styled.div`
+  width: 0.5vw;
+  height: 0.5vw;
+  border-radius: 50%;
+  border: 1px solid white;
+  margin: 0.3vw 0;
+`;
+
 export const Unit = styled.div`
   font-size: 1.8vw;
   position: absolute;

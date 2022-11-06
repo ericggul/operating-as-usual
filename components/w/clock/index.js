@@ -45,14 +45,16 @@ export default function Pyramid() {
 
   useEffect(() => {
     if (second >= 60) {
+      setSecond(0);
       setMinute((m) => m + 1);
-      console.log("38");
-      setCycleState((c) => c + 1);
+      if (changing === 0) {
+        setCycleState((c) => c + 1);
+      }
     } else if (second < 0) {
       setSecond(59);
       setMinute((m) => m - 1);
     }
-  }, [second]);
+  }, [second, changing]);
 
   useEffect(() => {
     if (minute >= 60) {
@@ -135,7 +137,7 @@ export default function Pyramid() {
         setChanging(6);
         setCentury((c) => c + randomnessStep / 3110400000);
       }
-      if (Math.random() < 0.8) {
+      if (Math.random() < 0.9) {
         setShowTime((t) => (t + 1) % 12);
       }
     }
@@ -157,35 +159,50 @@ export default function Pyramid() {
                 {formatNumber(century)}
                 <S.Unit>CC</S.Unit>
               </S.Box>
+              <DotSets />
               <S.Box highlighted={changing === 5}>
                 {formatNumber(year)}
                 <S.Unit>YY</S.Unit>
               </S.Box>
+              <DotSets />
               <S.Box highlighted={changing === 4}>
                 {formatNumber(month)}
                 <S.Unit>MM</S.Unit>
               </S.Box>
+              <DotSets />
               <S.Box highlighted={changing === 3}>
                 {formatNumber(day)}
                 <S.Unit>DD</S.Unit>
               </S.Box>
+              <DotSets />
             </>
           )}
           <S.Box highlighted={changing === 2}>
             {formatNumber(hour)}
             <S.Unit>HH</S.Unit>
           </S.Box>
+          <DotSets />
           <S.Box highlighted={changing === 1}>
             {formatNumber(minute)}
             <S.Unit>MM</S.Unit>
           </S.Box>
+          <DotSets />
           <S.Box highlighted={changing === 0}>
             {formatNumber(second)}
             <S.Unit>SS</S.Unit>
           </S.Box>
         </S.SingleTime>
       )}
-      {showTime < 6 && <Watch hour={hour} minute={minute} second={second} day={day} month={month} year={year} century={century} changing={changing} />}
+      {showTime < 7 && <Watch hour={hour} minute={minute} second={second} day={day} month={month} year={year} century={century} changing={changing} showTime={showTime} cycleState={cycleState} />}
     </S.Container>
+  );
+}
+
+function DotSets() {
+  return (
+    <S.Dots>
+      <S.Dot />
+      <S.Dot />
+    </S.Dots>
   );
 }
