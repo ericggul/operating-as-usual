@@ -87,23 +87,23 @@ export default function Opening({ opening }) {
   return (
     <S.Container opening={opening}>
       {(visualState === 1 || visualState === 2) && <p>W</p>}
-      {visualState === 2 && <MessUp word="W" />}
-      {visualState === 3 && <p style={{ fontSize: "9vw" }}>by</p>}
+      {visualState === 2 && <MessUp word="WWWW" />}
+      {visualState === 3 && <p style={{ fontSize: "6vw" }}>by</p>}
       {(visualState === 4 || visualState === 5) && <p>JYC</p>}
-      {visualState === 5 && <MessUp word="JYC" />}
-      {visualState === 6 && <p style={{ fontSize: "9vw" }}>Starring</p>}
+      {visualState === 5 && <MessUp word="Jeanyoon Choi" />}
+      {visualState === 6 && <p style={{ fontSize: "6vw" }}>Starring</p>}
       {(visualState === 7 || visualState === 8) && <p>You</p>}
-      {visualState === 8 && <MessUp word="You" />}
-      {visualState === 9 && <p style={{ fontSize: "9vw" }}>With</p>}
-      {(visualState === 10 || visualState === 11) && <p style={{ fontSize: "15vw" }}>Modern Society</p>}
-      {visualState === 11 && <MessUp word="Modern Society" repeat={20} />}
+      {visualState === 8 && <MessUp word="You and Me" />}
+      {visualState === 9 && <p style={{ fontSize: "6vw" }}>With</p>}
+      {(visualState === 10 || visualState === 11) && <p style={{ fontSize: "9vw" }}>Modern Society</p>}
+      {visualState === 11 && <MessUp word="Modern Society" />}
 
       {closingAnimation && <S.Closing />}
     </S.Container>
   );
 }
 
-function MessUp({ word, repeat = 50 }) {
+function MessUp({ word, repeat = 80 }) {
   return (
     <>
       {new Array(repeat).fill(0).map((_, i) => (
@@ -111,12 +111,14 @@ function MessUp({ word, repeat = 50 }) {
           key={i}
           style={{
             position: "absolute",
-            top: getRandom(10, 90) + "vh",
-            left: getRandom(10, 90) + "vw",
-            fontSize: getRandom(3, 10) + "vw",
+            top: "50%",
+            left: getRandom(20, 80) + "vw",
+            width: "25vw",
+            textAlign: "center",
+            fontSize: "2.3vw",
             color: "white",
-            opacity: 0.7,
-            transform: `translate(-50%, -50%)`,
+            opacity: 1,
+            transform: `translate(-50%, -50%) rotate(80deg)`,
           }}
         >
           {word}

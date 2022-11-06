@@ -120,6 +120,7 @@ export const Day = styled.div`
   background: ${({ changing }) => (changing >= 2 ? "white" : "transparent")};
   transform: rotate(${({ rotation }) => rotation}deg);
   box-shadow: inset 0 0 0.5rem white;
+  z-index: 1;
 `;
 
 export const SemiCenter = styled.div`
@@ -129,6 +130,17 @@ export const SemiCenter = styled.div`
   background: #111;
   z-index: 5;
   box-shadow: inset 0 0 0.2rem white;
+`;
+
+export const SemiText = styled.div`
+  font-size: 1vw;
+  color: white;
+  font-weight: lighter;
+  position: absolute;
+
+  top: 69%;
+  border: 0.3px solid white;
+  padding: 0.2vw;
 `;
 
 export const MegaClock = styled.div`

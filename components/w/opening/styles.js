@@ -9,11 +9,11 @@ export const Container = styled.div`
 
   z-index: 8;
 
-  font-family: Times New Roman;
+  font-family: Helvetica;
 
   cursor: none;
   color: white;
-  font-size: 30vw;
+  font-size: 12vw;
   text-transform: uppercase;
 
   opacity: 0;

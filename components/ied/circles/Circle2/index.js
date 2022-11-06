@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const REPEAT = 4;
 const getRandom = (a, b) => Math.random() * (b - a) + a;
 
-export default function VisualTest({ data }) {
+export default function Circle({ data }) {
   const [bubbledData, setBubbledData] = useState(new Array(REPEAT).fill(0).reduce((prev, curr) => [...prev, ...data], []));
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function VisualTest({ data }) {
       <S.Inner edges={Math.sqrt(data.length) * REPEAT}>
         {bubbledData.map((val, i) => (
           <S.Item key={i}>
-            <S.Circle key={i} val={val} i={i} />
+            <S.Circle key={i} val={val} />
           </S.Item>
         ))}
       </S.Inner>

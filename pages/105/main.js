@@ -60,21 +60,19 @@ export async function getServerSideProps(context) {
     .sort((a, b) => a - b)
     .filter((value, index, self) => self.indexOf(value) === index);
 
-  let nextIdx;
+  console.log(sortedIdxs);
+  let nextIdx = 0;
 
   if (sortedIdxs.length === 0) {
     nextIdx = 0;
   } else {
-    for (let i = 0; i < sortedIdxs.length; i++) {
-      if (sortedIdxs[i] !== i) {
-        if (sortedIdxs[i] > i) {
-          nextIdx = i;
-          break;
-        }
+    let lastEl = sortedIdxs[sortedIdxs.length - 1];
+
+    while (nextIdx < lastEl) {
+      if (!sortedIdxs.includes(nextIdx)) {
+        break;
       }
-    }
-    if (!nextIdx) {
-      nextIdx = sortedIdxs[sortedIdxs.length - 1] + 1;
+      nextIdx++;
     }
   }
 

@@ -145,7 +145,7 @@ export default function Pyramid() {
 
   useEffect(() => {
     if (cycleState >= 1) {
-      setRandomnessStep((s) => s * 1.8);
+      setRandomnessStep((s) => s * 1.9);
     }
   }, [cycleState]);
 

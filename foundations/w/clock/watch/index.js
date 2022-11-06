@@ -1,5 +1,8 @@
 import * as S from "./styles";
 
+//put 0 in front of numbers to match digit
+const formatNumber = (n, digit = 2) => ("0".repeat(digit) + Math.floor(n)).slice(-digit);
+
 export default function Watch({ hour, minute, second, day, month, year, century, changing, cycleState }) {
   return (
     <S.WatchContainer>
@@ -13,11 +16,13 @@ export default function Watch({ hour, minute, second, day, month, year, century,
               <S.SemiClock>
                 <S.Day rotation={((day + (hour * 1) / 24 + (minute * 1) / 1440 + (second * 1) / 86400) / 31) * 360} changing={changing} />
                 <S.SemiCenter />
+                <S.SemiText>{formatNumber(day)}</S.SemiText>
               </S.SemiClock>
               {changing >= 4 && (
                 <S.SemiClock>
                   <S.Day rotation={((month + (day * 1) / 31 + (hour * 1) / 744 + (minute * 1) / 44640 + (second * 1) / 2678400) / 12) * 360} changing={changing} />
                   <S.SemiCenter />
+                  <S.SemiText>{formatNumber(month)}</S.SemiText>
                 </S.SemiClock>
               )}
             </S.SemiClockContainer>
@@ -45,11 +50,13 @@ export default function Watch({ hour, minute, second, day, month, year, century,
             <S.SemiClock>
               <S.Day rotation={((day + (hour * 1) / 24 + (minute * 1) / 1440 + (second * 1) / 86400) / 31) * 360} changing={changing} />
               <S.SemiCenter />
+              <S.SemiText>{formatNumber(day)}</S.SemiText>
             </S.SemiClock>
             {changing >= 4 && (
               <S.SemiClock>
                 <S.Day rotation={((month + (day * 1) / 31 + (hour * 1) / 744 + (minute * 1) / 44640 + (second * 1) / 2678400) / 12) * 360} changing={changing} />
                 <S.SemiCenter />
+                <S.SemiText>{formatNumber(month)}</S.SemiText>
               </S.SemiClock>
             )}
           </S.SemiClockContainer>
@@ -77,11 +84,13 @@ export default function Watch({ hour, minute, second, day, month, year, century,
               <S.SemiClock>
                 <S.Day rotation={((day + (hour * 1) / 24 + (minute * 1) / 1440 + (second * 1) / 86400) / 31) * 360} changing={changing} />
                 <S.SemiCenter />
+                <S.SemiText>{formatNumber(day)}</S.SemiText>
               </S.SemiClock>
               {changing >= 4 && (
                 <S.SemiClock>
                   <S.Day rotation={((month + (day * 1) / 31 + (hour * 1) / 744 + (minute * 1) / 44640 + (second * 1) / 2678400) / 12) * 360} changing={changing} />
                   <S.SemiCenter />
+                  <S.SemiText>{formatNumber(month)}</S.SemiText>
                 </S.SemiClock>
               )}
             </S.SemiClockContainer>
