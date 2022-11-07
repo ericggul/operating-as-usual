@@ -5,14 +5,20 @@ import useResize from "utils/hooks/useResize";
 import { useState, useEffect, useMemo, useRef } from "react";
 
 export default function JPGConversation() {
+  //page state
+  const [pageIsMain, setPageIsMain] = useState(false);
+  const [image, setImage] = useState("/assets/images/jpgconversation/1.jpg");
+
   const [morphState, setMorphState] = useState(0);
 
   useEffect(() => {
     //keypress
 
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, []);
+    if (pageIsMain) {
+      window.addEventListener("keydown", handleKeyPress);
+      return () => window.removeEventListener("keydown", handleKeyPress);
+    }
+  }, [pageIsMain]);
 
   const handleKeyPress = (e) => {
     if (e.key === "ArrowRight") {
@@ -23,17 +29,23 @@ export default function JPGConversation() {
     }
   };
 
+  function handleUploadComplete(image) {
+    setImage(image);
+    setPageIsMain(true);
+  }
+
   //canvas refs
+
   const canvasContainer = useRef(null);
   const canvasItem = useRef(null);
 
   //canvas init
   useEffect(() => {
-    if (canvasContainer && canvasContainer.current) {
-      canvasItem.current = new Canvas(canvasContainer.current, "/assets/images/jpgconversation/1.jpg");
+    if (canvasContainer && canvasContainer.current && pageIsMain) {
+      canvasItem.current = new Canvas(canvasContainer.current, image);
       return () => canvasItem.current.destroy();
     }
-  }, [canvasContainer]);
+  }, [canvasContainer, pageIsMain]);
 
   useEffect(() => {
     if (canvasItem && canvasItem.current) {
@@ -57,7 +69,55 @@ export default function JPGConversation() {
     }
   }, [morphState, canvasItem]);
 
-  return <S.Container ref={canvasContainer}></S.Container>;
+  return (
+    <S.Container
+      ref={canvasContainer}
+      style={{
+        backgroundColor: pageIsMain ? "white" : "black",
+      }}
+    >
+      {!pageIsMain && <Uploader handleImageChange={handleUploadComplete} />}
+    </S.Container>
+  );
+}
+
+function Uploader({ handleImageChange }) {
+  const [imageFile, setImageFile] = useState(!null);
+  const [image, setImage] = useState(!null);
+
+  const onImageChange = (e) => {
+    if (e.target.files.length !== 0) {
+      if (e.target.files[0].size > 1048576 * 20) {
+        alert("File size is too big");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      setImageFile(e.target.files[0]);
+
+      reader.addEventListener("load", () => {
+        setImage(reader.result);
+        handleImageChange(reader.result);
+        let img = new Image();
+        img.src = reader.result;
+      });
+    }
+  };
+
+  return (
+    <S.UploaderWrapper>
+      <input
+        type="file"
+        accept="image/*"
+        id="image-input"
+        onChange={onImageChange}
+        style={{
+          color: "white",
+        }}
+      />
+    </S.UploaderWrapper>
+  );
 }
 
 class Canvas {
@@ -110,7 +170,7 @@ class Canvas {
   draw(pixelUnit = 1000) {
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
     this.ctx.fillStyle = "#000";
-    this.ctx.globalAlpha = 0.8;
+    this.ctx.globalAlpha = 0.7;
     this.pixelUnit = pixelUnit;
 
     if (this.imgData) {
@@ -152,7 +212,7 @@ class Canvas {
         for (let j = 0; j < this.stageHeight; j += this.pixelUnit) {
           let pixel = this.getPixel(i, j);
 
-          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0) || pixel.includes(255) || (pixel[0] + pixel[1] + pixel[2]) / 3 > 252) {
+          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0)) {
             this.ctx.fillStyle = `rgb(${(i * 5.1) % 255}, ${(j * 10.7) % 255}, ${((i * 3 + j * 7) * 2) % 255})`;
           } else {
             this.ctx.fillStyle = `rgb(${(255 - pixel[0] + morphState * Math.random()) % 255}, ${(255 - pixel[1]) % 255}, ${255 - pixel[2]})`;
@@ -175,8 +235,7 @@ class Canvas {
         for (let j = 0; j < this.stageHeight; j += this.pixelUnit) {
           let pixel = this.getPixel(i, j);
           let pixel2 = this.getPixel(this.stageWidth - i, j + this.pixelUnit);
-
-          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0) || pixel.includes(255) || (pixel[0] + pixel[1] + pixel[2]) / 3 > 252) {
+          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0)) {
             this.ctx.fillStyle = `rgb(${(i * 3.1 + 100) % 255}, ${(j * 7.7 - i * 4 + 300) % 255}, ${((i * 3 + j * 7) * 2) % 255})`;
           } else {
             this.ctx.fillStyle = `rgb(${(pixel[0] + pixel2[0]) % 255}, ${(pixel[1] + pixel2[2]) % 255}, ${pixel[2] + pixel[1]})`;
@@ -200,8 +259,7 @@ class Canvas {
           let pixel2 = this.getPixel(this.stageWidth - i, j + this.pixelUnit);
           let pixel3 = this.getPixel(i, this.stageHeight - j);
           let pixel4 = this.getPixel(this.stageWidth - i, this.stageHeight - j);
-
-          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0) || pixel.includes(255) || (pixel[0] + pixel[1] + pixel[2]) / 3 > 252) {
+          if (pixel === [0, 0, 0, 0] || pixel === [255, 255, 255, 255] || pixel.includes(0)) {
             this.ctx.fillStyle = `rgb(${(-i * 5.1) % 255}, ${(j * 4.7 + i * 2.7) % 255}, ${((i * 3 + j * 14) * 2) % 255})`;
           } else {
             this.ctx.fillStyle = `rgb(${(pixel[0] + pixel3[0] + pixel2[0] + pixel4[0]) % 255}, ${(pixel[1] + pixel2[2] + pixel3[1] + pixel4[0]) % 255}, ${
