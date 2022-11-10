@@ -16,12 +16,15 @@ export const Container = styled.div`
   font-size: 12vw;
   text-transform: uppercase;
 
+  background: black;
+
   opacity: 0;
   ${({ opening }) => opening && "opacity: 1;"}
   transition: opacity 1s ease-in-out;
 
   p {
     text-align: center;
+    z-index: 3;
   }
 `;
 
@@ -29,12 +32,12 @@ export const ClosingAnimation = styled.div`
   ${WholeContainer};
   ${FlexCenterStyle};
 
-  z-index: 10;
+  z-index: 0;
 `;
 
 export const Closing = styled.div`
   ${WholeContainer};
-  z-index: 10;
+  z-index: 0;
   background: black;
 
   animation: go-down 1s ease-in-out both;
@@ -45,46 +48,5 @@ export const Closing = styled.div`
     100% {
       transform: translateY(0);
     }
-  }
-`;
-
-export const Hole = styled.div`
-  position: relative;
-  ${WholeContainer};
-  overflow: hidden;
-  display: inline-block;
-
-  &:before {
-    content: "";
-    display: block;
-
-    /* Scale */
-    width: ${({ theme }) => theme.windowWidth + theme.windowHeight}px;
-    height: ${({ theme }) => theme.windowWidth + theme.windowHeight}px;
-    padding-bottom: 0;
-
-    /* Position */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    transform: translate(-50%, -50%);
-
-    /* Border */
-    border: solid ${({ theme }) => theme.windowWidth + theme.windowHeight}px black;
-    border-radius: 50%;
-
-    @keyframes hole {
-      0% {
-        width: ${({ theme }) => theme.windowWidth + theme.windowHeight}px;
-        height: ${({ theme }) => theme.windowWidth + theme.windowHeight}px;
-      }
-      100% {
-        width: 0;
-        height: 0;
-      }
-    }
-    animation: hole 1s ease-in-out forwards;
-    animation-delay: 0.5s;
   }
 `;

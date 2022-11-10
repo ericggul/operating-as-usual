@@ -2,8 +2,9 @@ import styled, { css } from "styled-components";
 import { FlexCenterStyle, WholeContainer } from "styles/common";
 
 export const Container = styled.div`
-  background: ${({ opening }) => (opening ? `rgb(10, 133, 140)` : `rgb(10, 0, 140)`)};
-  ${WholeContainer} ${FlexCenterStyle};
+  background: ${({ opening }) => (opening ? `rgb(10, 133, 140)` : `rgb(10, 0, 80)`)};
+  ${WholeContainer}
+  ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
 
