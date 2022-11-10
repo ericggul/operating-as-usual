@@ -4,6 +4,8 @@ import { FlexCenterStyle, WholeContainer } from "styles/common";
 export const WatchContainer = styled.div`
   ${WholeContainer};
   ${FlexCenterStyle};
+  overflow: visible;
+  transform: scale(${({ scaleLevel }) => Math.max(0.4, 1 - scaleLevel * 0.2)});
 `;
 
 const Clock0 = css`
