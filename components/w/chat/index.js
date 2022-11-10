@@ -13,7 +13,7 @@ export default function Chat() {
     let height = windowHeight * 0.75;
     let horizontalNumber = Math.floor(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
-    setChatContainerNumber({ x: horizontalNumber * 10, y: 15 });
+    setChatContainerNumber({ x: horizontalNumber, y: 3 });
   }, [windowWidth, windowHeight]);
 
   return (
