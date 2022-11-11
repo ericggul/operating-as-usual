@@ -48,7 +48,7 @@ export const Container = styled.div`
   }
 
   ${({ extinction }) => extinction && `animation: shake 0.5s infinite;`}
-  animation-delay: 4s;
+  animation-delay: 3s;
 `;
 
 export const SingleTime = styled.div`

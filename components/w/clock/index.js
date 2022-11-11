@@ -3,12 +3,9 @@ import useResize from "utils/hooks/useResize";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 
-import Watch from "foundations/w/clock/watch";
+import Watch from "foundations/w/clock/Watch";
 
 import * as Tone from "tone";
-
-const getRandom = (a, b) => Math.random() * (b - a) + a;
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 //put 0 in front of numbers to match digit
 const formatNumber = (n, digit = 2) => ("0".repeat(digit) + Math.floor(n)).slice(-digit);
@@ -171,6 +168,7 @@ export default function Pyramid() {
     }
   };
 
+  //adjust step acceleration
   useEffect(() => {
     if (cycleState >= 1) {
       if (step > 0 && step < 60) {
@@ -179,13 +177,15 @@ export default function Pyramid() {
         setStep((s) => s * 2.3);
       } else if (step < 86400) {
         setStep((s) => s * 1.6);
+      } else if (step < 2592000) {
+        setStep((s) => s * 1.45);
       } else if (step < 31104000) {
-        setStep((s) => s * 1.5);
+        setStep((s) => s * 1.2);
       }
     }
   }, [cycleState]);
 
-  //time unit
+  //time unit: shuffle order
   const [unitOrder, setUnitOrder] = useState([0, 1, 2, 3, 4, 5, 6]);
   const [shuffleStack, setShuffleStack] = useState(0);
   function unitOrderShuffle() {
@@ -200,6 +200,7 @@ export default function Pyramid() {
     }
   }, [shuffleStack]);
 
+  //extinction
   useEffect(() => {
     if (cycleState >= 60 && randomnessParty) {
       setExtinction(true);
@@ -210,10 +211,15 @@ export default function Pyramid() {
   const [gameOver, setGameOver] = useState(false);
   useEffect(() => {
     if (extinction) {
-      const osc = new Tone.Oscillator(1000, "sine").toDestination();
-      osc.start().stop("+5");
-      const timeout = setTimeout(() => setGameOver(true), 5000);
-      return () => clearTimeout(timeout);
+      const timeoutA = setTimeout(() => {
+        const osc = new Tone.Oscillator(1000, "sine").toDestination();
+        osc.start().stop("+5");
+      }, 1000);
+      const timeoutB = setTimeout(() => setGameOver(true), 6000);
+      return () => {
+        clearTimeout(timeoutA);
+        clearTimeout(timeoutB);
+      };
     }
   }, [extinction]);
 

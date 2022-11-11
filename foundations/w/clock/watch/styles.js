@@ -6,7 +6,7 @@ export const WatchContainer = styled.div`
   ${FlexCenterStyle};
   overflow: visible;
   transform: scale(${({ scaleLevel }) => Math.max(0.4, 1 - scaleLevel * 0.2)});
-  transition: 0.5s;
+  transition: 0.1s;
 `;
 
 const Clock0 = css`

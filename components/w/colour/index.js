@@ -111,7 +111,7 @@ const Inner = ({ i, elements, randomnessState, opening }) => {
   return (
     <S.Square
       style={{
-        background: `rgb(${i ** 0.8 * 10 + 10},${randomnessState ** 1.2 },${80 - i ** 2 * 0.3 + randomnessState ** 1.2 * 0.4})`,
+        background: `rgb(${i ** 0.8 * 10 + 10},${randomnessState ** 1.2},${50 - i ** 2 * 0.3 + randomnessState ** 1.2 * 0.4})`,
         top: `${elements.y}px`,
         left: `${elements.x}px`,
         height: `${heightRandomness * windowHeight}px`,
