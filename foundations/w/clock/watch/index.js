@@ -10,22 +10,22 @@ export default function Watch({ hour, minute, second, day, month, year, century,
   //mgaclock state
   useEffect(() => {
     if (changing === 5) {
-      if (year >= 30 && megaClockCount === 0) {
+      if (year >= 40 && megaClockCount === 0) {
         setMegaClockCount(1);
-      } else if (year >= 40 && megaClockCount === 1) {
+      } else if (year >= 50 && megaClockCount === 1) {
         setMegaClockCount(2);
-      } else if (year >= 50 && megaClockCount === 2) {
+      } else if (year >= 60 && megaClockCount === 2) {
         setMegaClockCount(3);
-      } else if (year >= 60 && megaClockCount === 3) {
+      } else if (year >= 70 && megaClockCount === 3) {
         setMegaClockCount(4);
-      } else if (year >= 70 && megaClockCount === 4) {
+      } else if (year >= 80 && megaClockCount === 4) {
         setMegaClockCount(5);
       }
     }
   }, [year, changing]);
 
   return (
-    <S.WatchContainer scaleLevel={Math.max(0, cycleState - 31)}>
+    <S.WatchContainer scaleLevel={Math.max(0, Math.floor((cycleState - 31) / 3) / 3)}>
       {changing >= 2 && (
         <S.Clock changing={changing}>
           <S.Hour rotation={(cycleState * (changing === 2) + (hour + (minute * 1) / 60) / 12) * 360} changing={changing} />

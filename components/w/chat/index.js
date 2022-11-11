@@ -44,21 +44,6 @@ function SingleChat({ width, height, windowWidth, windowHeight, idx, chatContain
     setJ(Math.floor(idx / chatContainerNumber.x) - (chatContainerNumber.y - 1) / 2);
   }, [idx, chatContainerNumber]);
 
-  //to do:swap
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (i === -1) {
-        if (j == 0) {
-          setJ(-1);
-        }
-        if (j == -1) {
-          setJ(0);
-        }
-      }
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, [j, i]);
-
   return (
     <S.SingleChatContainer width={width} height={height} x={i * (width + windowHeight * 0.016)} y={j * (height + windowHeight * 0.02)}>
       <S.ChatInner>

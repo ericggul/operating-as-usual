@@ -6,6 +6,7 @@ export const WatchContainer = styled.div`
   ${FlexCenterStyle};
   overflow: visible;
   transform: scale(${({ scaleLevel }) => Math.max(0.4, 1 - scaleLevel * 0.2)});
+  transition: 0.5s;
 `;
 
 const Clock0 = css`
@@ -30,7 +31,6 @@ const Clock2 = css`
 `;
 
 export const Clock = styled.div`
-  //   overflow: hidden;
   position: relative;
   margin: 1vw;
   transition: all 0.5s;
@@ -52,35 +52,45 @@ const StickCommon = css`
   transition: background 0.5s;
 `;
 
-export const Hour = styled.div`
+export const Hour = styled.div.attrs((props) => ({
+  style: {
+    background: props.changing >= 2 ? "white" : "transparent",
+    transform: `rotate(${props.rotation}deg)`,
+  },
+}))`
   ${StickCommon};
   height: 6.66vw;
   width: 0.8vw;
   top: -22%;
-  background: ${({ changing }) => (changing >= 2 ? "white" : "transparent")};
-  transform: rotate(${({ rotation }) => rotation}deg);
+
   box-shadow: inset 0 0 0.5rem white;
   transition: all 0.5s;
 `;
 
-export const Minute = styled.div`
+export const Minute = styled.div.attrs((props) => ({
+  style: {
+    height: props.changing === 1 ? "9vw" : "12vw",
+    top: props.changing === 1 ? "-30%" : "-40%",
+    background: props.changing >= 2 ? "white" : "transparent",
+    transform: `rotate(${props.rotation}deg)`,
+  },
+}))`
   ${StickCommon};
-  height: ${({ changing }) => (changing === 1 ? "9vw" : "12vw")};
   width: 0.8vw;
-  top: ${({ changing }) => (changing === 1 ? "-30%" : "-40%")};
-  background: ${({ changing }) => (changing >= 2 ? "white" : "transparent")};
-  transform: rotate(${({ rotation }) => rotation}deg);
   box-shadow: inset 0 0 0.3rem white;
   transition: all 0.5s;
 `;
 
-export const Second = styled.div`
+export const Second = styled.div.attrs((props) => ({
+  style: {
+    transform: `rotate(${props.rotation}deg)`,
+  },
+}))`
   ${StickCommon};
   height: 10vw;
   width: 0.1vw;
   top: -33%;
   background: transparent;
-  transform: rotate(${({ rotation }) => rotation}deg);
   box-shadow: inset 0 0 0.2rem white;
   transition: all 0.5s;
 `;
@@ -114,13 +124,16 @@ export const SemiClock = styled.div`
   transition: all 0.5s;
 `;
 
-export const Day = styled.div`
+export const Day = styled.div.attrs((props) => ({
+  style: {
+    transform: `rotate(${props.rotation}deg)`,
+  },
+}))`
   ${StickCommon};
   height: 3vw;
   width: 0.2vw;
   top: -33.3%;
-  background: ${({ changing }) => (changing >= 2 ? "white" : "transparent")};
-  transform: rotate(${({ rotation }) => rotation}deg);
+
   box-shadow: inset 0 0 0.5rem white;
   z-index: 1;
 `;

@@ -27,6 +27,7 @@ export default function Pyramid() {
   const [cycleState, setCycleState] = useState(0);
   const [step, setStep] = useState(1);
   const [randomnessParty, setRandomnessParty] = useState(false);
+  const [extinction, setExtinction] = useState(false);
 
   //changing: 0 = second, 1 = minute, 2 = hour, 3 = day, 4 = month, 5 = year, 6 = century
   const [changing, setChanging] = useState(0);
@@ -36,7 +37,7 @@ export default function Pyramid() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [step, cycleState, randomnessParty]);
+  }, [step, cycleState, randomnessParty, extinction]);
 
   //basic time adjust logic
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function Pyramid() {
   }, [month]);
 
   useEffect(() => {
-    if (changing >= 5 && year >= 70) {
+    if (changing >= 5 && year >= 80) {
       setRandomnessParty(true);
     }
   }, [changing, year]);
@@ -159,12 +160,12 @@ export default function Pyramid() {
         if (Math.random() < 0.9) {
           setShowTime((t) => (t + 1) % 12);
         }
-      } else {
-        setSecond((s) => s + getRandomInt(0, 60));
-        setMinute((m) => m + getRandomInt(0, 60));
-        setHour((h) => h + getRandomInt(0, 24));
-        setDay((d) => d + getRandomInt(0, 10));
-        setMonth((m) => m + getRandomInt(-1, 1));
+      } else if (randomnessParty && !extinction) {
+        setSecond((s) => s + 11);
+        setMinute((m) => m + 11);
+        setHour((h) => h + 5);
+        setDay((d) => d + 2);
+        setMonth((m) => m + 1);
         unitOrderShuffle();
       }
     }
@@ -199,79 +200,106 @@ export default function Pyramid() {
     }
   }, [shuffleStack]);
 
+  useEffect(() => {
+    if (cycleState >= 60 && randomnessParty) {
+      setExtinction(true);
+    }
+  }, [cycleState, randomnessParty]);
+
+  const audioRef = useRef();
+  const [gameOver, setGameOver] = useState(false);
+  useEffect(() => {
+    if (extinction) {
+      const osc = new Tone.Oscillator(1000, "sine").toDestination();
+      osc.start().stop("+5");
+      const timeout = setTimeout(() => setGameOver(true), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [extinction]);
+
+  useEffect(() => {
+    if (audioRef && audioRef.current && gameOver) {
+      audioRef.current.play();
+    }
+  }, [gameOver, audioRef]);
+
   return (
-    <S.Container>
-      {(showTime >= 6 || changing >= 5) && (
-        <>
-          {new Array(Math.max(1, Math.min(cycleState - 30, 7))).fill(0).map((_, i) => (
-            <S.SingleTime key={i}>
-              {changing >= 3 && (
-                <>
-                  <S.Box highlighted={changing === 6}>
-                    {formatNumber(century)}
-                    <S.Unit>
-                      {TIME_UNITS[unitOrder[0]]}
-                      {TIME_UNITS[unitOrder[0]]}
-                    </S.Unit>
-                  </S.Box>
-                  <DotSets />
-                  <S.Box highlighted={changing === 5}>
-                    {formatNumber(year)}
-                    <S.Unit>
-                      {TIME_UNITS[unitOrder[1]]}
-                      {TIME_UNITS[unitOrder[1]]}
-                    </S.Unit>
-                  </S.Box>
-                  <DotSets />
-                  <S.Box highlighted={changing === 4}>
-                    {formatNumber(month)}
-                    <S.Unit>
-                      {TIME_UNITS[unitOrder[2]]}
-                      {TIME_UNITS[unitOrder[2]]}
-                    </S.Unit>
-                  </S.Box>
-                  <DotSets />
-                  <S.Box highlighted={changing === 3}>
-                    {formatNumber(day)}
-                    <S.Unit>
-                      {TIME_UNITS[unitOrder[3]]}
-                      {TIME_UNITS[unitOrder[3]]}
-                    </S.Unit>
-                  </S.Box>
-                  <DotSets />
-                </>
-              )}
-              <S.Box highlighted={changing === 2}>
-                {formatNumber(hour)}
-                <S.Unit>
-                  {TIME_UNITS[unitOrder[4]]}
-                  {TIME_UNITS[unitOrder[4]]}
-                </S.Unit>
-              </S.Box>
-              <DotSets />
-              <S.Box highlighted={changing === 1}>
-                {formatNumber(minute)}
-                <S.Unit>
-                  {TIME_UNITS[unitOrder[5]]}
-                  {TIME_UNITS[unitOrder[5]]}
-                </S.Unit>
-              </S.Box>
-              <DotSets />
-              <S.Box highlighted={changing === 0}>
-                {formatNumber(second)}
-                <S.Unit>
-                  {TIME_UNITS[unitOrder[6]]}
-                  {TIME_UNITS[unitOrder[6]]}
-                </S.Unit>
-              </S.Box>
-            </S.SingleTime>
-          ))}
-        </>
-      )}
-      {(showTime < 7 || changing >= 5) && (
-        <Watch hour={hour} minute={minute} second={second} day={day} month={month} year={year} century={century} changing={changing} showTime={showTime} cycleState={cycleState} />
-      )}
-    </S.Container>
+    <>
+      <S.Container extinction={extinction}>
+        {(showTime >= 6 || changing >= 5) && (
+          <>
+            {new Array(cycleState >= 45 ? 7 : 1).fill(0).map((_, i) => (
+              <S.SingleTime key={i}>
+                {changing >= 3 && (
+                  <>
+                    <S.Box highlighted={changing === 6} extinctions={extinction}>
+                      {formatNumber(century)}
+                      <S.Unit>
+                        {TIME_UNITS[unitOrder[0]]}
+                        {TIME_UNITS[unitOrder[0]]}
+                      </S.Unit>
+                    </S.Box>
+                    <DotSets />
+                    <S.Box highlighted={changing === 5} extinctions={extinction}>
+                      {formatNumber(year)}
+                      <S.Unit>
+                        {TIME_UNITS[unitOrder[1]]}
+                        {TIME_UNITS[unitOrder[1]]}
+                      </S.Unit>
+                    </S.Box>
+                    <DotSets />
+                    <S.Box highlighted={changing === 4} extinctions={extinction}>
+                      {formatNumber(month)}
+                      <S.Unit>
+                        {TIME_UNITS[unitOrder[2]]}
+                        {TIME_UNITS[unitOrder[2]]}
+                      </S.Unit>
+                    </S.Box>
+                    <DotSets />
+                    <S.Box highlighted={changing === 3} extinctions={extinction}>
+                      {formatNumber(day)}
+                      <S.Unit>
+                        {TIME_UNITS[unitOrder[3]]}
+                        {TIME_UNITS[unitOrder[3]]}
+                      </S.Unit>
+                    </S.Box>
+                    <DotSets />
+                  </>
+                )}
+                <S.Box highlighted={changing === 2} extinctions={extinction}>
+                  {formatNumber(hour)}
+                  <S.Unit>
+                    {TIME_UNITS[unitOrder[4]]}
+                    {TIME_UNITS[unitOrder[4]]}
+                  </S.Unit>
+                </S.Box>
+                <DotSets />
+                <S.Box highlighted={changing === 1} extinctions={extinction}>
+                  {formatNumber(minute)}
+                  <S.Unit>
+                    {TIME_UNITS[unitOrder[5]]}
+                    {TIME_UNITS[unitOrder[5]]}
+                  </S.Unit>
+                </S.Box>
+                <DotSets />
+                <S.Box highlighted={changing === 0} extinctions={extinction}>
+                  {formatNumber(second)}
+                  <S.Unit>
+                    {TIME_UNITS[unitOrder[6]]}
+                    {TIME_UNITS[unitOrder[6]]}
+                  </S.Unit>
+                </S.Box>
+              </S.SingleTime>
+            ))}
+          </>
+        )}
+        {(showTime < 7 || changing >= 5) && (
+          <Watch hour={hour} minute={minute} second={second} day={day} month={month} year={year} century={century} changing={changing} showTime={showTime} cycleState={cycleState} />
+        )}
+        <audio id="audio" src={"/assets/sound/mario.flac"} ref={audioRef} />
+      </S.Container>
+      {gameOver && <S.Hole />}
+    </>
   );
 }
 
