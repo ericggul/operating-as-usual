@@ -17,25 +17,35 @@ export default function Chat() {
     let height = windowHeight * 0.88;
     let horizontalNumber = Math.floor(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
-    setChatContainerNumber({ x: 1, y: 1 });
+    setChatContainerNumber({ x: horizontalNumber, y: 3 });
   }, [windowWidth, windowHeight]);
 
   //key down
-  const [chatNumber, setChatNumber] = useState(0);
+  const [conversationNumber, setConversationNumber] = useState(0);
   const [loadingLevel, setLoadingLevel] = useState(0);
+  const [accelerateSpeed, setAccelerateSpeed] = useState(3);
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [accelerateSpeed]);
 
   const handleKeyDown = (e) => {
     Tone.start();
     if (e.code === "KeyW") {
-      setLoadingLevel((l) => l + 1);
+      setLoadingLevel((l) => l + accelerateSpeed);
     }
   };
+
+  function handleLoadingLevelReset(locationIdx) {
+    if (locationIdx === 0) {
+      setConversationNumber((n) => n + 1);
+      setLoadingLevel(0);
+      setAccelerateSpeed((s) => s * 1.6);
+    }
+  }
 
   return (
     <S.Container>
@@ -48,8 +58,9 @@ export default function Chat() {
             windowHeight={windowHeight}
             locationIdx={i}
             chatContainerNumber={chatContainerNumber}
-            chatNumber={chatNumber}
             loadingLevel={loadingLevel}
+            conversationNumber={conversationNumber}
+            handleLoadingLevelReset={() => handleLoadingLevelReset(i)}
           />
         ))}
       </S.Inner>

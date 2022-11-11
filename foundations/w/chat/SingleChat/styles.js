@@ -29,7 +29,7 @@ export const Chat = styled.div`
   width: fit-content;
   max-width: 90%;
   font-size: 15px;
-  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(0, 100%, ${100 - locationIdx * 2}%), hsl(0, 100%, ${97 - locationIdx * 2}%))` : "white")};
+  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(0, 100%, ${97 - locationIdx * 3}%), hsl(0, 100%, ${94 - locationIdx * 3}%))` : "white")};
 
   padding: 8px 16px;
 
@@ -40,6 +40,34 @@ export const Chat = styled.div`
   ${({ left }) => !left && "margin-left: auto;"}
   ${FlexCenterStyle};
   transition: all 0.3s ease-in-out;
+  transform-origin: ${({ left }) => (left ? "left bottom" : "right bottom")};
+  transform: ${({ loadingLevel, left }) => loadingLevel && `scaleX(${loadingLevel * 0.03}) scaleY(${Math.min(loadingLevel * 0.03, 1)})`};
+
+  ${({ left }) => left && `animation: appear-chat 0.3s;`}
+  @keyframes appear-chat {
+    0% {
+      transform: scale(0.5);
+    }
+    20% {
+      transform: scale(1.1) rotate(5deg);
+    }
+    40% {
+      transform: scale(0.9) rotate(-5deg);
+    }
+    60% {
+      transform: scale(1.05) rotate(3deg);
+    }
+    80% {
+      transform: scale(0.95) rotate(-3deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+  }
+`;
+
+export const HiddenText = styled.div`
+  opacity: 0;
 `;
 
 export const Loading = styled.div`
@@ -47,7 +75,7 @@ export const Loading = styled.div`
   height: 0.5rem;
   margin: 0.1rem;
   border-radius: 50%;
-  background: ${({ left }) => (left ? "#f3f3f3" : "#ccc")};
+  background: #f3f3f3;
 
   animation: jump-dots 0.8s infinite ease-in-out;
   animation-delay: ${({ i }) => i * 0.1}s;
