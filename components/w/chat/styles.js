@@ -15,6 +15,6 @@ export const Inner = styled.div`
   min-height: 100%;
   ${FlexCenterStyle};
   position: relative;
-  transform: scale(1);
+  transform: scale(${({ scaleInner }) => scaleInner});
   transition: all 1s ease-in-out;
 `;

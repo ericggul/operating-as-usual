@@ -6,10 +6,12 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import axios from "axios";
 import * as Tone from "tone";
 
+//DUMMY_DATA
+import { DUMMY_DATA } from "./data";
+
 export default function Chat() {
   //posiiton, layout
   const [windowWidth, windowHeight] = useResize();
-
   const [chatContainerSize, setChatContainerSize] = useState({ width: 0, height: 0 });
   const [chatContainerNumber, setChatContainerNumber] = useState(0);
 
@@ -43,11 +45,25 @@ export default function Chat() {
   function handleLoadingLevelReset() {
     setConversationNumber((n) => n + 1);
     setLoadingLevel(0);
-    setAccelerateSpeed((s) => s * 1.3);
+    setAccelerateSpeed((s) => s * 1.15);
   }
 
+  const [scaleInner, setScaleInner] = useState(1);
+  useEffect(() => {
+    if (conversationNumber === 5) {
+      setChatContainerNumber({ x: 3, y: 1 });
+    } else if (conversationNumber === 7) {
+      setChatContainerNumber({ x: 5, y: 1 });
+    } else if (conversationNumber === 9) {
+      setChatContainerNumber({ x: 7, y: 1 });
+    } else if (conversationNumber === 11) {
+      setChatContainerNumber({ x: 7, y: 3 });
+      setScaleInner(0.99);
+    }
+  }, [conversationNumber]);
+
   //chat retrival
-  const [chats, setChats] = useState([{ text: `Hey! What are you doing?`, left: false }]);
+  const [chats, setChats] = useState([{ text: `Wow that was scary... Earth is gonna die`, left: false }]);
   const [getNewLeftChat, setGetNewLeftChat] = useState(false);
 
   //right chat finish
@@ -60,7 +76,6 @@ export default function Chat() {
           return chats;
         });
       }
-
       setGetNewLeftChat(true);
     }
   }, [loadingLevel, getNewLeftChat, chats]);
@@ -68,46 +83,35 @@ export default function Chat() {
   //generate left chat
   useEffect(() => {
     if (getNewLeftChat) {
-      handleGenerateLeftChat();
+      //dummy code
+      const timeout = setTimeout(() => {
+        let remain = conversationNumber * 2 + 1 - DUMMY_DATA.length;
+        console.log(remain);
+        let target;
+        if (remain < 0) {
+          target = DUMMY_DATA[conversationNumber * 2 + 1];
+        } else {
+          target = DUMMY_DATA[DUMMY_DATA.length + ((remain % 10) - 10)];
+        }
+
+        setChats((c) => [...c, target, { text: "Why?", left: false, loading: true }]);
+        handleLoadingLevelReset();
+        setGetNewLeftChat(false);
+      }, 2000 / (conversationNumber + 1));
+      return () => clearTimeout(timeout);
     }
   }, [getNewLeftChat, chats]);
 
-  const handleGenerateLeftChat = async () => {
-    const inputText = chatsToConversationConverter(chats);
-    let { text } = await generateSentences(inputText);
-    const timeout = setTimeout(() => {
-      setChats((c) => [...c, { text: text.replace(/(\r\n|\n|\r)/gm, ""), left: true }, { text: "Why?", left: false, loading: true }]);
-      handleLoadingLevelReset();
-      setGetNewLeftChat(false);
-    }, 2000 / (conversationNumber + 1));
-    return () => clearTimeout(timeout);
-  };
-
-  const chatsToConversationConverter = (chats) => {
-    let conversation = "Casual Conversation \n";
-    chats.forEach((chat) => {
-      conversation += chat.left ? "B" : "A";
-      conversation += ": " + chat.text + "\n";
-    });
-    conversation += "B: ";
-    return conversation;
-  };
-
-  const generateSentences = async (text) => {
-    const { data } = await axios.post("/api/gpt3", { text });
-    return data;
-  };
-
   return (
     <S.Container>
-      <S.Inner>
+      <S.Inner scaleInner={scaleInner}>
         {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
           <SingleChat
             key={i}
+            locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
             width={chatContainerSize.width}
             height={chatContainerSize.height}
             windowHeight={windowHeight}
-            locationIdx={i}
             chatContainerNumber={chatContainerNumber}
             loadingLevel={loadingLevel}
             conversationNumber={conversationNumber}

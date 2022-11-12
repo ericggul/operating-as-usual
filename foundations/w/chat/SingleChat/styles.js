@@ -29,7 +29,7 @@ export const Chat = styled.div`
   width: fit-content;
   max-width: 90%;
   font-size: 15px;
-  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(200, 100%, ${97 - locationIdx * 3}%), hsl(200, 100%, ${94 - locationIdx * 3}%))` : "white")};
+  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(200, 100%, ${97 - locationIdx * 3}%), hsl(200, 100%, ${85 - locationIdx * 3}%))` : "white")};
 
   padding: 8px 16px;
 
@@ -46,7 +46,7 @@ export const Chat = styled.div`
   position: relative;
   overflow: hidden;
 
-  ${({ left }) => left && `animation: appear-chat 0.4s;`}
+  animation: appear-chat 0.4s;
   @keyframes appear-chat {
     0% {
       transform: scale(0.5);
@@ -71,11 +71,11 @@ export const Chat = styled.div`
 
 export const ChatLoading = styled.div`
   position: absolute;
-  width: ${({ loadingLevel }) => loadingLevel}%;
+  width: ${({ loadingLevel }) => 100 - loadingLevel}%;
   height: 100%;
-  background: black;
+  background: linear-gradient(90deg, white, black);
   transition: all 0.1s ease-in-out;
-  left: 0;
+  right: 0;
 `;
 
 export const HiddenText = styled.div`

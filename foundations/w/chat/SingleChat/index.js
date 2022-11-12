@@ -5,12 +5,12 @@ import { useEffect, useState, useRef, useMemo } from "react";
 
 export default function SingleChat({ width, height, windowHeight, locationIdx, chatContainerNumber, conversationNumber, loadingLevel, chats, getNewLeftChat }) {
   //layout related
-  const [i, setI] = useState((locationIdx % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
-  const [j, setJ] = useState(Math.floor(locationIdx / chatContainerNumber.x) - (chatContainerNumber.y - 1) / 2);
+  const [i, setI] = useState((((locationIdx % chatContainerNumber.x) + chatContainerNumber.x) % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
+  const [j, setJ] = useState(Math.floor((locationIdx + (chatContainerNumber.x - 1) / 2) / chatContainerNumber.x));
 
   useEffect(() => {
-    setI((locationIdx % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
-    setJ(Math.floor(locationIdx / chatContainerNumber.x) - (chatContainerNumber.y - 1) / 2);
+    setI((((locationIdx % chatContainerNumber.x) + chatContainerNumber.x) % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
+    setJ(Math.floor((locationIdx + (chatContainerNumber.x - 1) / 2) / chatContainerNumber.x));
   }, [locationIdx, chatContainerNumber]);
 
   return (
@@ -19,7 +19,7 @@ export default function SingleChat({ width, height, windowHeight, locationIdx, c
         {chats.map((chat, i) => (
           <S.Chat i={i} locationIdx={Math.floor(i / 2)} left={chat.left} key={i} isLoading={chat.loading || false} loadingLevel={chat.loading ? loadingLevel : false}>
             {chat.text}
-            {chat.loading && <S.ChatLoading loadingLevel={loadingLevel} />}
+            {chat.loading && <S.ChatLoading locationIdx={conversationNumber} loadingLevel={loadingLevel} />}
           </S.Chat>
         ))}
         {getNewLeftChat && <LoadingLeft locationIdx={conversationNumber + 1} />}
