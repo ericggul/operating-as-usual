@@ -6,7 +6,7 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
-  background: #e8e8e8;
+  background: radial-gradient(#aaa 0%, #000 100%);
   font-family: Helvetica;
 `;
 

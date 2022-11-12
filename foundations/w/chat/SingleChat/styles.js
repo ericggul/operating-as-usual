@@ -7,9 +7,9 @@ export const SingleChatContainer = styled.div`
   transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
-  border-radius: ${({ height }) => height * 0.05}px;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: ${({ height }) => height * 0.03}px;
+  background: radial-gradient(rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.3) 100%);
+  // box-shadow: 3px 5px 10px rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -29,7 +29,7 @@ export const Chat = styled.div`
   width: fit-content;
   max-width: 90%;
   font-size: 15px;
-  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(0, 100%, ${97 - locationIdx * 3}%), hsl(0, 100%, ${94 - locationIdx * 3}%))` : "white")};
+  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(200, 100%, ${97 - locationIdx * 3}%), hsl(200, 100%, ${94 - locationIdx * 3}%))` : "white")};
 
   padding: 8px 16px;
 
@@ -41,29 +41,41 @@ export const Chat = styled.div`
   ${FlexCenterStyle};
   transition: all 0.3s ease-in-out;
   transform-origin: ${({ left }) => (left ? "left bottom" : "right bottom")};
-  transform: ${({ loadingLevel, left }) => loadingLevel && `scaleX(${loadingLevel * 0.03}) scaleY(${Math.min(loadingLevel * 0.03, 1)})`};
+  // transform: ${({ isLoading, left }) => !left && (isLoading ? "scale: 0" : "scale: 1")};
+  // transform: ${({ loadingLevel }) => loadingLevel && `scale(${Math.min(loadingLevel * 0.02, 1.2)})`};
+  position: relative;
+  overflow: hidden;
 
-  ${({ left }) => left && `animation: appear-chat 0.3s;`}
+  ${({ left }) => left && `animation: appear-chat 0.4s;`}
   @keyframes appear-chat {
     0% {
       transform: scale(0.5);
     }
     20% {
-      transform: scale(1.1) rotate(5deg);
+      transform: scale(1.1) rotate(3deg);
     }
     40% {
-      transform: scale(0.9) rotate(-5deg);
+      transform: scale(0.9) rotate(-3deg);
     }
     60% {
-      transform: scale(1.05) rotate(3deg);
+      transform: scale(1.05) rotate(1deg);
     }
     80% {
-      transform: scale(0.95) rotate(-3deg);
+      transform: scale(0.95) rotate(-1deg);
     }
     100% {
       transform: scale(1) rotate(0deg);
     }
   }
+`;
+
+export const ChatLoading = styled.div`
+  position: absolute;
+  width: ${({ loadingLevel }) => loadingLevel}%;
+  height: 100%;
+  background: black;
+  transition: all 0.1s ease-in-out;
+  left: 0;
 `;
 
 export const HiddenText = styled.div`
@@ -73,7 +85,7 @@ export const HiddenText = styled.div`
 export const Loading = styled.div`
   width: 0.5rem;
   height: 0.5rem;
-  margin: 0.1rem;
+  margin: 0.2rem 0.1rem;
   border-radius: 50%;
   background: #f3f3f3;
 

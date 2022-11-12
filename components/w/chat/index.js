@@ -3,6 +3,7 @@ import useResize from "utils/hooks/useResize";
 import SingleChat from "foundations/w/chat/SingleChat";
 import { useEffect, useState, useRef, useMemo } from "react";
 
+import axios from "axios";
 import * as Tone from "tone";
 
 export default function Chat() {
@@ -17,7 +18,7 @@ export default function Chat() {
     let height = windowHeight * 0.88;
     let horizontalNumber = Math.floor(windowWidth / (2 * width)) * 2 + 1;
     setChatContainerSize({ width, height });
-    setChatContainerNumber({ x: horizontalNumber, y: 3 });
+    setChatContainerNumber({ x: 1, y: 1 });
   }, [windowWidth, windowHeight]);
 
   //key down
@@ -39,13 +40,63 @@ export default function Chat() {
     }
   };
 
-  function handleLoadingLevelReset(locationIdx) {
-    if (locationIdx === 0) {
-      setConversationNumber((n) => n + 1);
-      setLoadingLevel(0);
-      setAccelerateSpeed((s) => s * 1.6);
-    }
+  function handleLoadingLevelReset() {
+    setConversationNumber((n) => n + 1);
+    setLoadingLevel(0);
+    setAccelerateSpeed((s) => s * 1.3);
   }
+
+  //chat retrival
+  const [chats, setChats] = useState([{ text: `Hey! What are you doing?`, left: false }]);
+  const [getNewLeftChat, setGetNewLeftChat] = useState(false);
+
+  //right chat finish
+  useEffect(() => {
+    if (loadingLevel > 100 && !getNewLeftChat) {
+      if (chats.length > 1) {
+        setChats((c) => {
+          let chats = [...c];
+          chats[chats.length - 1] = { text: `Why?`, left: false, loading: false };
+          return chats;
+        });
+      }
+
+      setGetNewLeftChat(true);
+    }
+  }, [loadingLevel, getNewLeftChat, chats]);
+
+  //generate left chat
+  useEffect(() => {
+    if (getNewLeftChat) {
+      handleGenerateLeftChat();
+    }
+  }, [getNewLeftChat, chats]);
+
+  const handleGenerateLeftChat = async () => {
+    const inputText = chatsToConversationConverter(chats);
+    let { text } = await generateSentences(inputText);
+    const timeout = setTimeout(() => {
+      setChats((c) => [...c, { text: text.replace(/(\r\n|\n|\r)/gm, ""), left: true }, { text: "Why?", left: false, loading: true }]);
+      handleLoadingLevelReset();
+      setGetNewLeftChat(false);
+    }, 2000 / (conversationNumber + 1));
+    return () => clearTimeout(timeout);
+  };
+
+  const chatsToConversationConverter = (chats) => {
+    let conversation = "Casual Conversation \n";
+    chats.forEach((chat) => {
+      conversation += chat.left ? "B" : "A";
+      conversation += ": " + chat.text + "\n";
+    });
+    conversation += "B: ";
+    return conversation;
+  };
+
+  const generateSentences = async (text) => {
+    const { data } = await axios.post("/api/gpt3", { text });
+    return data;
+  };
 
   return (
     <S.Container>
@@ -60,7 +111,8 @@ export default function Chat() {
             chatContainerNumber={chatContainerNumber}
             loadingLevel={loadingLevel}
             conversationNumber={conversationNumber}
-            handleLoadingLevelReset={() => handleLoadingLevelReset(i)}
+            chats={chats}
+            getNewLeftChat={getNewLeftChat}
           />
         ))}
       </S.Inner>
