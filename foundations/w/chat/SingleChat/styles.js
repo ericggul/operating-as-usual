@@ -73,13 +73,16 @@ export const Chat = styled.div.attrs((props) => ({
 
 export const ChatLoading = styled.div.attrs((props) => ({
   style: {
-    width: `${100 - props.loadingLevel}%`,
+    transform: `rotateY(${props.loadingLevel * 0.9}deg)`,
   },
 }))`
+  perspective: 30px;
   position: absolute;
+  width: 100%;
   height: 100%;
   background: linear-gradient(90deg, white, black);
   transition: all 0.1s ease-in-out;
+  transform-origin: right;
   right: 0;
 
   font-family: Times New Roman;
@@ -123,21 +126,4 @@ export const BlinkInner = styled.div`
   height: 100%;
 
   background: ${({ flash }) => (flash ? "white" : "black")};
-
-  // animation: blink-inner-animate 0.5s infinite linear;
-
-  // @keyframes blink-inner-animate {
-  //   0% {
-  //     background: black;
-  //   }
-  //   8% {
-  //     background: transparent;
-  //   }
-  //   16% {
-  //     background: black;
-  //   }
-  //   100% {
-  //     background: black;
-  //   }
-  // }
 `;

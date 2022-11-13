@@ -6,9 +6,6 @@ import { useState, useEffect } from "react";
 export const usePlayerControls = () => {
   const keys = {
     KeyW: "forward",
-    // KeyS: "backward",
-    //  KeyA: "left",
-    //   KeyD: "right",
     Space: "jump",
   };
   const moveFieldByKey = (key) => keys[key];

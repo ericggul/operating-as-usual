@@ -67,7 +67,7 @@ function Colour({ opening, setOpening }) {
   }, [randomnessStep]);
 
   return (
-    <S.Container opening={opening}>
+    <S.Container>
       {new Array(50).fill(0).map((_, i) => (
         <Inner i={i} key={i} elements={elements} randomnessState={opening ? 60 : randomnessState} opening={opening} />
       ))}
@@ -111,7 +111,7 @@ const Inner = ({ i, elements, randomnessState, opening }) => {
   return (
     <S.Square
       style={{
-        background: `rgb(${i ** 0.8 * 10 + 10},${randomnessState ** 1.2},${50 - i ** 2 * 0.3 + randomnessState ** 1.2 * 0.4})`,
+        background: `rgb(${i ** 0.8 * 10 + 10},${randomnessState ** 1.2},${40 - i ** 2 * 0.3 + randomnessState ** 1.2 * 0.4})`,
         top: `${elements.y}px`,
         left: `${elements.x}px`,
         height: `${heightRandomness * windowHeight}px`,

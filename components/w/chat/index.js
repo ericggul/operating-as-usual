@@ -42,11 +42,13 @@ export default function Chat() {
   // const [accelerateSpeed, setAccelerateSpeed] = useState(100);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [accelerateSpeed]);
+    if (!getNewLeftChat) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [accelerateSpeed, getNewLeftChat]);
 
   const handleKeyDown = (e) => {
     Tone.start();
@@ -58,7 +60,6 @@ export default function Chat() {
   function handleLoadingLevelReset() {
     setConversationNumber((n) => n + 1);
     setAccelerateSpeed((s) => (s <= 3 ? 4.3 : Math.min(s * 1.15, 100)));
-    // setLoadingLevel(accelerateSpeed >= 100 ? 100 : 0);
     setLoadingLevel(0);
   }
 
@@ -123,7 +124,7 @@ export default function Chat() {
         } else {
           target = DUMMY_DATA[DUMMY_DATA.length + ((remain % 10) - 10)];
         }
-        // speak(conversationNumber < 17 ? "w" : conversationNumber === 17 ? "x" : "why");
+
         setChats((c) => [...c, target, { text: "Why?", left: false, loading: true }]);
         handleLoadingLevelReset();
         setGetNewLeftChat(false);
@@ -146,52 +147,47 @@ export default function Chat() {
 
   return (
     <S.Container>
-      <S.Inner scaleInner={scaleInner}>
-        {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
-          <React.Fragment key={i}>
-            {conversationNumber <= 37 && (
-              <SingleChat
-                key={i}
-                locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
-                width={chatContainerSize.width}
-                height={chatContainerSize.height}
-                windowHeight={windowHeight}
-                chatContainerNumber={chatContainerNumber}
-                loadingLevel={loadingLevel}
-                conversationNumber={conversationNumber}
-                chats={chats}
-                getNewLeftChat={getNewLeftChat}
-              />
-            )}
-            {conversationNumber >= 38 && conversationNumber <= 55 && (
-              <SingleDot
-                key={i}
-                locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
-                width={chatContainerSize.width}
-                height={chatContainerSize.height}
-                windowHeight={windowHeight}
-                chatContainerNumber={chatContainerNumber}
-                flash={flash}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </S.Inner>
-      {conversationNumber >= 39 && <S.Text>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
+      {conversationNumber <= 70 && (
+        <S.Inner scaleInner={scaleInner}>
+          {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
+            <React.Fragment key={i}>
+              {conversationNumber <= 37 && (
+                <SingleChat
+                  key={i}
+                  locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
+                  width={chatContainerSize.width}
+                  height={chatContainerSize.height}
+                  windowHeight={windowHeight}
+                  chatContainerNumber={chatContainerNumber}
+                  loadingLevel={loadingLevel}
+                  conversationNumber={conversationNumber}
+                  chats={chats}
+                  getNewLeftChat={getNewLeftChat}
+                />
+              )}
+              {conversationNumber >= 38 && conversationNumber <= 55 && (
+                <SingleDot
+                  key={i}
+                  locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
+                  width={chatContainerSize.width}
+                  height={chatContainerSize.height}
+                  windowHeight={windowHeight}
+                  chatContainerNumber={chatContainerNumber}
+                  flash={flash}
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </S.Inner>
+      )}
+      {conversationNumber >= 38 && <S.Text>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
       {conversationNumber >= 54 && (
-        <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.1, 1)}>
+        <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.08, 1)}>
           <Tunnel />
         </S.TunnelContainer>
       )}
     </S.Container>
   );
-}
-
-function speak(text) {
-  const synth = window.speechSynthesis;
-  const utterThis = new SpeechSynthesisUtterance(text);
-  utterThis.rate = 1.5;
-  synth.speak(utterThis);
 }
 
 function music(conversationNumber, waitTime) {

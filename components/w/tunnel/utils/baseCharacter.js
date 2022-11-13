@@ -1,11 +1,11 @@
 import { useSphere, Physics, usePlane } from "@react-three/cannon";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePlayerControls } from "./helpers.js";
 import * as THREE from "three";
 
-const BaseCharacter = (props) => {
-  const [planeRef] = usePlane((index) => ({ type: "Static", mass: 0, ...props }));
+const BaseCharacter = ({ handleCharacterUp }) => {
+  const [planeRef] = usePlane((index) => ({ type: "Static", mass: 0, rotation: [-Math.PI * 0.5, 0, 0], position: [0, -4, 0], args: [0.5] }));
 
   const direction = new THREE.Vector3();
   const frontVector = new THREE.Vector3();
@@ -29,6 +29,7 @@ const BaseCharacter = (props) => {
     api.position.subscribe((p) => (position.current = p));
   }, []);
 
+  const [characterUpFired, setCharacterUpFired] = useState(false);
   useFrame((state) => {
     ref.current.getWorldPosition(camera.position);
     frontVector.set(0, 0, Number(backward) - Number(forward));
@@ -39,12 +40,16 @@ const BaseCharacter = (props) => {
     api.velocity.set(direction.x, velocity.current[1], direction.z);
     if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) api.velocity.set(velocity.current[0], 3, velocity.current[2]);
 
+    if (currentSpeed.current > 1100 && !characterUpFired) {
+      setCharacterUpFired(true);
+      handleCharacterUp();
+    }
+
     if (currentSpeed.current > 1250) {
-      api.velocity.set(0, 10, 0);
+      api.velocity.set(0, 15, 0);
     }
     if (Math.abs(position.current[2]) > 165) {
       api.position.set(0, -3, -10);
-
       if (currentSpeed.current > 800) {
         currentSpeed.current = currentSpeed.current * 1.01;
       } else {

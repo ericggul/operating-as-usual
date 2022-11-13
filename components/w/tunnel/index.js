@@ -22,21 +22,40 @@ export default function TunnelComponent() {
     setCurve(new THREE.CatmullRomCurve3(points));
   }
 
+  //when character is about to go up,
+  const [firstLayer, setFirstLayer] = useState(false);
+  const [secondLayer, setSecondLayer] = useState(false);
+  const [thirdLayer, setThirdLayer] = useState(false);
+
+  function handleCharacterUp() {
+    console.log("hcu");
+    setFirstLayer(true);
+    const timeoutA = setTimeout(() => {
+      setSecondLayer(true);
+    }, 1000);
+    const timeoutB = setTimeout(() => {
+      setThirdLayer(true);
+    }, 2000);
+    return () => {
+      clearTimeout(timeoutA);
+      clearTimeout(timeoutB);
+    };
+  }
+
   return (
     <S.Container>
       <Canvas
+        dpr={[1, 2]}
+        gl={{ alpha: true, antialias: false }}
         camera={{
           fov: 50,
-
-          // position: [0, 100, 100],
-
-          near: 1,
-          far: 10000,
+          // position: [1000, 1000, 1000],
+          near: 2,
+          far: 2000,
         }}
       >
         <color attach="background" args={["#000000"]} />
         <ambientLight intensity={0.03} />
-        {/* <fog attach="fog" args={["#333", 250, 1000]} /> */}
         <spotLight position={[0, 100, -200]} intensity={1.8} penumbra={1} color="hsl(200, 100%, 50%)" />
         <spotLight position={[0, -15, 300]} intensity={4} penumbra={1} color="hsl(350, 100%, 50%)" />
 
@@ -44,20 +63,16 @@ export default function TunnelComponent() {
           {new Array(70).fill(0).map((_, i) => (
             <TubeSet curve={curve} position={[10 * (i - 35), 0, 0]} key={i} />
           ))}
-          {new Array(70).fill(0).map((_, i) => (
-            <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} />
-          ))}
-          {new Array(70).fill(0).map((_, i) => (
-            <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} />
-          ))}
-          <BaseCharacter controls rotation={[-Math.PI * 0.5, 0, 0]} position={[0, -4, 0]} args={[0.5]} />
+          {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} />)}
+          {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} />)}
+          <BaseCharacter controls handleCharacterUp={handleCharacterUp} />
         </Physics>
         {/* <PointerLockControls /> */}
         {/* <OrbitControls /> */}
 
-        <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />
-        <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />
-        <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />
+        {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
+        {secondLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
+        {thirdLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
       </Canvas>
     </S.Container>
   );

@@ -96,4 +96,40 @@ body {
     src: url('/assets/fonts/BebasNeue-Regular.ttf');
   }
 
+
+  /* Futura */
+  @font-face{
+    font-family: "Futura";
+    src: url('/assets/fonts/Futura/futur.ttf');
+  }
+
+  @font-face {
+    font-family: "Futura";
+    font-weight: 700;
+    src: url('/assets/fonts/Futura/Futura Bold font.ttf');
+  }
+
+  @font-face {
+    font-family: "Futura";
+    font-style: 800;
+    src: url('/assets/fonts/Futura/Futura Heavy font.ttf');
+  }
+
+  @font-face {
+    font-family: "Futura";
+    font-style: 500;
+    src: url('/assets/fonts/Futura/Futura Medium font.ttf');
+  }
+
+  @font-face {
+    font-family: "Futura";
+    font-style: 200;
+    src: url('/assets/fonts/Futura/Futura Ultra Light font.ttf');
+  }
+
+  @font-face{
+    font-family: "Futura";
+    font-style: 300;
+    src: url('/assets/fonts/Futura/Futura Light font.ttf');
+  }
 `;
