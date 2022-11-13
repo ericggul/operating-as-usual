@@ -20,7 +20,8 @@ export const Inner = styled.div`
 `;
 
 export const TunnelContainer = styled.div`
-  opacity: 0.3;
+  opacity: ${({ opacity }) => opacity};
+  transition: all 0.3s ease-in-out;
   ${WholeContainer};
 `;
 

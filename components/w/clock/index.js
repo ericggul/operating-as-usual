@@ -204,7 +204,7 @@ export default function Pyramid() {
       const timeoutA = setTimeout(() => {
         setBeforeSiren(false);
       }, 1000);
-      const timeoutB = setTimeout(() => setGameOver(true), 5500);
+      const timeoutB = setTimeout(() => setGameOver(true), 4500);
       return () => {
         clearTimeout(timeoutA);
         clearTimeout(timeoutB);
@@ -215,7 +215,7 @@ export default function Pyramid() {
   useEffect(() => {
     if (!beforeSiren) {
       const osc = new Tone.Oscillator(1000, "sine").toDestination();
-      osc.start().stop("+5");
+      osc.start().stop("+4");
     }
   }, [beforeSiren]);
 

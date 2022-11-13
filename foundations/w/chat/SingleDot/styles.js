@@ -6,7 +6,7 @@ export const SingleDot = styled.div.attrs((props) => ({
     transform: `translate(${props.x}px, ${props.y}px)`,
     width: `${props.width}px`,
     height: `${props.height}px`,
-    background: props.flash ? props.backgroundColor : "black",
+    background: props.flash ? "white" : "black",
   },
 }))`
   position: absolute;

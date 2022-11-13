@@ -14,7 +14,9 @@ import * as Tone from "tone";
 //DUMMY_DATA
 import { DUMMY_DATA } from "./data";
 
-const WORDS = ["We Are", "History", "Identity", "Home", "World"];
+const WORDS = ["Who We Are", "Our History", "Our Identity", "Our Home", "Our World"];
+
+//NOW: Need to Control speed, smoother transition
 
 export default function Chat() {
   //posiiton, layout
@@ -32,12 +34,12 @@ export default function Chat() {
   }, [chatContainerSize, windowWidth, windowHeight]);
 
   //key down
-  // const [conversationNumber, setConversationNumber] = useState(0);
-  // const [loadingLevel, setLoadingLevel] = useState(0);
-  // const [accelerateSpeed, setAccelerateSpeed] = useState(3);
-  const [conversationNumber, setConversationNumber] = useState(30);
+  const [conversationNumber, setConversationNumber] = useState(0);
   const [loadingLevel, setLoadingLevel] = useState(0);
-  const [accelerateSpeed, setAccelerateSpeed] = useState(100);
+  const [accelerateSpeed, setAccelerateSpeed] = useState(3);
+  // const [conversationNumber, setConversationNumber] = useState(30);
+  // const [loadingLevel, setLoadingLevel] = useState(0);
+  // const [accelerateSpeed, setAccelerateSpeed] = useState(100);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -56,9 +58,11 @@ export default function Chat() {
   function handleLoadingLevelReset() {
     setConversationNumber((n) => n + 1);
     setAccelerateSpeed((s) => (s <= 3 ? 4.3 : Math.min(s * 1.15, 100)));
-    setLoadingLevel(accelerateSpeed >= 100 ? 100 : 0);
+    // setLoadingLevel(accelerateSpeed >= 100 ? 100 : 0);
+    setLoadingLevel(0);
   }
 
+  //scale and number adjust
   const [scaleInner, setScaleInner] = useState(1);
   useEffect(() => {
     console.log("cn", conversationNumber);
@@ -71,10 +75,11 @@ export default function Chat() {
     } else if (conversationNumber >= 16 && conversationNumber <= 37 && conversationNumber % 4 === 1) {
       let idx = conversationNumber - 1;
       setChatContainerNumber({ x: Math.floor((idx % 8) / 2) + 7, y: 1 });
-    } else if (conversationNumber >= 39 && conversationNumber <= 53 && conversationNumber % 2 === 1) {
-      setChatContainerNumber({ x: Math.min(conversationNumber - 37 + 7, 28), y: Math.min(conversationNumber - 37 + 1, 15) });
-    } else if (conversationNumber >= 38 && conversationNumber <= 53 && conversationNumber % 2 === 0) {
-      setScaleInner((s) => Math.max(s * 0.5, 0.01));
+    } else if (conversationNumber >= 38 && conversationNumber <= 55) {
+      setScaleInner((s) => Math.max(s * 0.6, 0.0001));
+      if (conversationNumber % 2 === 1) {
+        setChatContainerNumber({ x: Math.min(conversationNumber - 37 + 7, 28), y: Math.min(conversationNumber - 37 + 1, 15) });
+      }
     }
   }, [conversationNumber]);
 
@@ -84,7 +89,7 @@ export default function Chat() {
 
   //right chat finish
   useEffect(() => {
-    if (loadingLevel >= 100 && !getNewLeftChat && conversationNumber <= 60) {
+    if (loadingLevel >= 100 && !getNewLeftChat && conversationNumber <= 120) {
       if (chats.length === 1) {
         setChats((c) => {
           let chats = [...c];
@@ -92,7 +97,7 @@ export default function Chat() {
           return chats;
         });
       }
-      if (chats.length > 1) {
+      if (chats.length > 1 && conversationNumber <= 50) {
         setChats((c) => {
           let chats = [...c];
           chats[chats.length - 1] = { text: `Why?`, left: false, loading: false };
@@ -106,13 +111,9 @@ export default function Chat() {
   //generate left chat
   useEffect(() => {
     if (getNewLeftChat) {
-      let timeOut = Math.max(3000 / 1.1 ** conversationNumber, 500);
+      let waitTime = Math.max(3000 / 1.1 ** conversationNumber, 500);
       //tone
-      const osc = new Tone.Oscillator().toDestination();
-      osc.frequency.value = "C2";
-      const randomLetter = ["C", "D", "E", "F", "G"][(conversationNumber + 2) % 5];
-      osc.frequency.rampTo(`${randomLetter}4`, (timeOut / 1000) * 0.95);
-      osc.start().stop(`+${timeOut / 1000}`);
+      music(conversationNumber, waitTime);
 
       const timeout = setTimeout(() => {
         let remain = conversationNumber * 2 + 1 - DUMMY_DATA.length;
@@ -122,30 +123,24 @@ export default function Chat() {
         } else {
           target = DUMMY_DATA[DUMMY_DATA.length + ((remain % 10) - 10)];
         }
-
-        speak(conversationNumber < 17 ? "w" : conversationNumber === 17 ? "x" : "why");
+        // speak(conversationNumber < 17 ? "w" : conversationNumber === 17 ? "x" : "why");
         setChats((c) => [...c, target, { text: "Why?", left: false, loading: true }]);
-
         handleLoadingLevelReset();
         setGetNewLeftChat(false);
-      }, timeOut);
+      }, waitTime);
       return () => clearTimeout(timeout);
     }
   }, [getNewLeftChat, chats, accelerateSpeed, conversationNumber]);
 
+  //flashing
   const [flash, setFlash] = useState(false);
-  const [backgroundColor, setBackgroundColor] = useState("#fff");
-
   useEffect(() => {
-    if (conversationNumber >= 54 && conversationNumber <= 60) {
+    if (conversationNumber >= 54 && conversationNumber <= 70) {
       setFlash(true);
       const timeout = setTimeout(() => {
         setFlash(false);
       }, 50);
       return () => clearTimeout(timeout);
-    } else if (conversationNumber >= 61) {
-      setFlash(true);
-      setBackgroundColor("#ff0000");
     }
   }, [conversationNumber]);
 
@@ -154,7 +149,7 @@ export default function Chat() {
       <S.Inner scaleInner={scaleInner}>
         {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
           <React.Fragment key={i}>
-            {conversationNumber <= 37 ? (
+            {conversationNumber <= 37 && (
               <SingleChat
                 key={i}
                 locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
@@ -167,7 +162,8 @@ export default function Chat() {
                 chats={chats}
                 getNewLeftChat={getNewLeftChat}
               />
-            ) : (
+            )}
+            {conversationNumber >= 38 && conversationNumber <= 55 && (
               <SingleDot
                 key={i}
                 locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
@@ -176,19 +172,17 @@ export default function Chat() {
                 windowHeight={windowHeight}
                 chatContainerNumber={chatContainerNumber}
                 flash={flash}
-                backgroundColor={backgroundColor}
-                conversationNumber={conversationNumber}
               />
             )}
           </React.Fragment>
         ))}
       </S.Inner>
-      {conversationNumber >= 37 && <S.Text>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
-      {/* {conversationNumber >= 50 && (
-        <S.TunnelContainer>
+      {conversationNumber >= 39 && <S.Text>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
+      {conversationNumber >= 54 && (
+        <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.1, 1)}>
           <Tunnel />
         </S.TunnelContainer>
-      )} */}
+      )}
     </S.Container>
   );
 }
@@ -198,4 +192,12 @@ function speak(text) {
   const utterThis = new SpeechSynthesisUtterance(text);
   utterThis.rate = 1.5;
   synth.speak(utterThis);
+}
+
+function music(conversationNumber, waitTime) {
+  const osc = new Tone.Oscillator().toDestination();
+  osc.frequency.value = "C2";
+  const randomLetter = ["C", "D", "E", "F", "G"][(conversationNumber + 2) % 5];
+  osc.frequency.rampTo(`${randomLetter}4`, (waitTime / 1000) * 0.95);
+  osc.start().stop(`+${waitTime / 1000}`);
 }

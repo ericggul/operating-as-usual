@@ -52,7 +52,7 @@ export default function TunnelComponent() {
           ))}
           <BaseCharacter controls rotation={[-Math.PI * 0.5, 0, 0]} position={[0, -4, 0]} args={[0.5]} />
         </Physics>
-        <PointerLockControls />
+        {/* <PointerLockControls /> */}
         {/* <OrbitControls /> */}
 
         <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />
