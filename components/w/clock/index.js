@@ -25,6 +25,7 @@ export default function Pyramid() {
   const [step, setStep] = useState(1);
   const [randomnessParty, setRandomnessParty] = useState(false);
   const [extinction, setExtinction] = useState(false);
+  const [beforeSiren, setBeforeSiren] = useState(true);
 
   //changing: 0 = second, 1 = minute, 2 = hour, 3 = day, 4 = month, 5 = year, 6 = century
   const [changing, setChanging] = useState(0);
@@ -157,13 +158,17 @@ export default function Pyramid() {
         if (Math.random() < 0.9) {
           setShowTime((t) => (t + 1) % 12);
         }
-      } else if (randomnessParty && !extinction) {
-        setSecond((s) => s + 11);
-        setMinute((m) => m + 11);
-        setHour((h) => h + 5);
-        setDay((d) => d + 2);
-        setMonth((m) => m + 1);
-        unitOrderShuffle();
+      } else if (randomnessParty && beforeSiren) {
+        const s = Math.floor(Math.random() * 3);
+        if (s % 3 === 0) {
+          setSecond((s) => s + 11);
+          setMinute((m) => m + 11);
+        } else if (s % 3 === 1) {
+          setHour((h) => h + 5);
+          setDay((d) => d + 2);
+        } else {
+          setMonth((m) => m + 1);
+        }
       }
     }
   };
@@ -174,7 +179,7 @@ export default function Pyramid() {
       if (step > 0 && step < 60) {
         setStep((s) => s * 2.8);
       } else if (step < 3600) {
-        setStep((s) => s * 2.3);
+        setStep((s) => s * 2.45);
       } else if (step < 86400) {
         setStep((s) => s * 1.6);
       } else if (step < 2592000) {
@@ -184,21 +189,6 @@ export default function Pyramid() {
       }
     }
   }, [cycleState]);
-
-  //time unit: shuffle order
-  const [unitOrder, setUnitOrder] = useState([0, 1, 2, 3, 4, 5, 6]);
-  const [shuffleStack, setShuffleStack] = useState(0);
-  function unitOrderShuffle() {
-    setShuffleStack((s) => s + 1);
-  }
-
-  useEffect(() => {
-    if (shuffleStack >= 6) {
-      setShuffleStack(0);
-      const newOrder = unitOrder.sort(() => Math.random() - 0.5);
-      setUnitOrder(newOrder);
-    }
-  }, [shuffleStack]);
 
   //extinction
   useEffect(() => {
@@ -212,16 +202,22 @@ export default function Pyramid() {
   useEffect(() => {
     if (extinction) {
       const timeoutA = setTimeout(() => {
-        const osc = new Tone.Oscillator(1000, "sine").toDestination();
-        osc.start().stop("+5");
+        setBeforeSiren(false);
       }, 1000);
-      const timeoutB = setTimeout(() => setGameOver(true), 6000);
+      const timeoutB = setTimeout(() => setGameOver(true), 5500);
       return () => {
         clearTimeout(timeoutA);
         clearTimeout(timeoutB);
       };
     }
   }, [extinction]);
+
+  useEffect(() => {
+    if (!beforeSiren) {
+      const osc = new Tone.Oscillator(1000, "sine").toDestination();
+      osc.start().stop("+5");
+    }
+  }, [beforeSiren]);
 
   useEffect(() => {
     if (audioRef && audioRef.current && gameOver) {
@@ -240,60 +236,39 @@ export default function Pyramid() {
                   <>
                     <S.Box highlighted={changing === 6} extinctions={extinction}>
                       {formatNumber(century)}
-                      <S.Unit>
-                        {TIME_UNITS[unitOrder[0]]}
-                        {TIME_UNITS[unitOrder[0]]}
-                      </S.Unit>
+                      <S.Unit>{"CC"}</S.Unit>
                     </S.Box>
                     <DotSets />
                     <S.Box highlighted={changing === 5} extinctions={extinction}>
                       {formatNumber(year)}
-                      <S.Unit>
-                        {TIME_UNITS[unitOrder[1]]}
-                        {TIME_UNITS[unitOrder[1]]}
-                      </S.Unit>
+                      <S.Unit>{"YY"} </S.Unit>
                     </S.Box>
                     <DotSets />
                     <S.Box highlighted={changing === 4} extinctions={extinction}>
                       {formatNumber(month)}
-                      <S.Unit>
-                        {TIME_UNITS[unitOrder[2]]}
-                        {TIME_UNITS[unitOrder[2]]}
-                      </S.Unit>
+                      <S.Unit>{"MM"}</S.Unit>
                     </S.Box>
                     <DotSets />
                     <S.Box highlighted={changing === 3} extinctions={extinction}>
                       {formatNumber(day)}
-                      <S.Unit>
-                        {TIME_UNITS[unitOrder[3]]}
-                        {TIME_UNITS[unitOrder[3]]}
-                      </S.Unit>
+                      <S.Unit>{"DD"}</S.Unit>
                     </S.Box>
                     <DotSets />
                   </>
                 )}
                 <S.Box highlighted={changing === 2} extinctions={extinction}>
                   {formatNumber(hour)}
-                  <S.Unit>
-                    {TIME_UNITS[unitOrder[4]]}
-                    {TIME_UNITS[unitOrder[4]]}
-                  </S.Unit>
+                  <S.Unit>{"HH"}</S.Unit>
                 </S.Box>
                 <DotSets />
                 <S.Box highlighted={changing === 1} extinctions={extinction}>
                   {formatNumber(minute)}
-                  <S.Unit>
-                    {TIME_UNITS[unitOrder[5]]}
-                    {TIME_UNITS[unitOrder[5]]}
-                  </S.Unit>
+                  <S.Unit>{"MM"}</S.Unit>
                 </S.Box>
                 <DotSets />
                 <S.Box highlighted={changing === 0} extinctions={extinction}>
                   {formatNumber(second)}
-                  <S.Unit>
-                    {TIME_UNITS[unitOrder[6]]}
-                    {TIME_UNITS[unitOrder[6]]}
-                  </S.Unit>
+                  <S.Unit>{"SS"}</S.Unit>
                 </S.Box>
               </S.SingleTime>
             ))}

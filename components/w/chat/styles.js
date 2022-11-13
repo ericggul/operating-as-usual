@@ -16,5 +16,18 @@ export const Inner = styled.div`
   ${FlexCenterStyle};
   position: relative;
   transform: scale(${({ scaleInner }) => scaleInner});
-  transition: all 1s ease-in-out;
+  transition: all 0.3s ease-in-out;
+`;
+
+export const TunnelContainer = styled.div`
+  opacity: 0.3;
+  ${WholeContainer};
+`;
+
+export const Text = styled.div`
+  ${WholeContainer};
+  ${FlexCenterStyle};
+  color: white;
+  font-size: 8rem;
+  font-family: Times New Roman;
 `;

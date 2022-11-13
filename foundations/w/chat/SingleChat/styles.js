@@ -1,15 +1,17 @@
 import styled, { css } from "styled-components";
 import { FlexCenterStyle, WholeContainer } from "styles/common";
 
-export const SingleChatContainer = styled.div`
+export const SingleChatContainer = styled.div.attrs((props) => ({
+  style: {
+    transform: `translate(${props.x}px, ${props.y}px)`,
+    width: `${props.width}px`,
+    height: `${props.height}px`,
+    borderRadius: `${props.theme.windowHeight * 0.03}px`,
+  },
+}))`
   position: absolute;
 
-  transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
-  border-radius: ${({ height }) => height * 0.03}px;
   background: radial-gradient(rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.3) 100%);
-  // box-shadow: 3px 5px 10px rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -24,25 +26,25 @@ export const ChatInner = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const Chat = styled.div`
+export const Chat = styled.div.attrs((props) => ({
+  style: {
+    background: props.left ? `linear-gradient(hsl(200, 100%, ${97 - props.locationIdx ** 1.1 * 1.7}%), hsl(200, 100%, ${83 - props.locationIdx ** 1.1 * 1.7}%))` : "white",
+    borderRadius: props.left ? "15px 15px 15px 0" : "15px 15px 0 15px",
+    marginLeft: !props.left && "auto",
+    transformOrigin: props.left ? "left bottom" : "right bottom",
+  },
+}))`
   box-sizing: border-box;
   width: fit-content;
   max-width: 90%;
   font-size: 15px;
-  background: ${({ left, locationIdx }) => (left ? `linear-gradient(hsl(200, 100%, ${97 - locationIdx * 3}%), hsl(200, 100%, ${85 - locationIdx * 3}%))` : "white")};
-
   padding: 8px 16px;
-
-  border-radius: ${({ left }) => (left ? "15px 15px 15px 0" : "15px 15px 0 15px")};
 
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   margin: 13px 0;
-  ${({ left }) => !left && "margin-left: auto;"}
   ${FlexCenterStyle};
   transition: all 0.3s ease-in-out;
-  transform-origin: ${({ left }) => (left ? "left bottom" : "right bottom")};
-  // transform: ${({ isLoading, left }) => !left && (isLoading ? "scale: 0" : "scale: 1")};
-  // transform: ${({ loadingLevel }) => loadingLevel && `scale(${Math.min(loadingLevel * 0.02, 1.2)})`};
+
   position: relative;
   overflow: hidden;
 
@@ -69,20 +71,33 @@ export const Chat = styled.div`
   }
 `;
 
-export const ChatLoading = styled.div`
+export const ChatLoading = styled.div.attrs((props) => ({
+  style: {
+    width: `${100 - props.loadingLevel}%`,
+  },
+}))`
   position: absolute;
-  width: ${({ loadingLevel }) => 100 - loadingLevel}%;
   height: 100%;
   background: linear-gradient(90deg, white, black);
   transition: all 0.1s ease-in-out;
   right: 0;
+
+  font-family: Times New Roman;
+  color: white;
+  ${FlexCenterStyle};
+  font-size: 1.2rem;
+  overflow: hidden;
 `;
 
 export const HiddenText = styled.div`
   opacity: 0;
 `;
 
-export const Loading = styled.div`
+export const Loading = styled.div.attrs((props) => ({
+  style: {
+    animationDelay: `${props.i * 0.1}s`,
+  },
+}))`
   width: 0.5rem;
   height: 0.5rem;
   margin: 0.2rem 0.1rem;
@@ -90,7 +105,6 @@ export const Loading = styled.div`
   background: #f3f3f3;
 
   animation: jump-dots 0.8s infinite ease-in-out;
-  animation-delay: ${({ i }) => i * 0.1}s;
   @keyframes jump-dots {
     0% {
       transform: translateY(0rem);
@@ -102,4 +116,28 @@ export const Loading = styled.div`
       transform: translateY(0rem);
     }
   }
+`;
+
+export const BlinkInner = styled.div`
+  width: 100%;
+  height: 100%;
+
+  background: ${({ flash }) => (flash ? "white" : "black")};
+
+  // animation: blink-inner-animate 0.5s infinite linear;
+
+  // @keyframes blink-inner-animate {
+  //   0% {
+  //     background: black;
+  //   }
+  //   8% {
+  //     background: transparent;
+  //   }
+  //   16% {
+  //     background: black;
+  //   }
+  //   100% {
+  //     background: black;
+  //   }
+  // }
 `;

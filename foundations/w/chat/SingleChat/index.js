@@ -3,6 +3,8 @@ import useResize from "utils/hooks/useResize";
 import axios from "axios";
 import { useEffect, useState, useRef, useMemo } from "react";
 
+const getRandom = (a, b) => Math.random() * (b - a) + a;
+
 export default function SingleChat({ width, height, windowHeight, locationIdx, chatContainerNumber, conversationNumber, loadingLevel, chats, getNewLeftChat }) {
   //layout related
   const [i, setI] = useState((((locationIdx % chatContainerNumber.x) + chatContainerNumber.x) % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
@@ -19,7 +21,11 @@ export default function SingleChat({ width, height, windowHeight, locationIdx, c
         {chats.map((chat, i) => (
           <S.Chat i={i} locationIdx={Math.floor(i / 2)} left={chat.left} key={i} isLoading={chat.loading || false} loadingLevel={chat.loading ? loadingLevel : false}>
             {chat.text}
-            {chat.loading && <S.ChatLoading locationIdx={conversationNumber} loadingLevel={loadingLevel} />}
+            {chat.loading && (
+              <S.ChatLoading locationIdx={conversationNumber} loadingLevel={loadingLevel}>
+                W
+              </S.ChatLoading>
+            )}
           </S.Chat>
         ))}
         {getNewLeftChat && <LoadingLeft locationIdx={conversationNumber + 1} />}

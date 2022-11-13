@@ -25,7 +25,7 @@ export default function Watch({ hour, minute, second, day, month, year, century,
   }, [year, changing]);
 
   return (
-    <S.WatchContainer scaleLevel={Math.max(0, Math.floor((cycleState - 31) / 3) / 3)}>
+    <S.WatchContainer scaleLevel={Math.max(0, Math.floor((cycleState - 34) / 3) / 3)}>
       {changing >= 2 && (
         <S.Clock changing={changing}>
           <S.Hour rotation={(cycleState * (changing === 2) + (hour + (minute * 1) / 60) / 12) * 360} changing={changing} />
