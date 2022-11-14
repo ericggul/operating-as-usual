@@ -108,9 +108,10 @@ export default function Chat() {
 
   //generate left chat
   useEffect(() => {
-    if (getNewLeftChat) {
+    if (getNewLeftChat && conversationNumber <= 70) {
       let waitTime = Math.max(3000 / 1.1 ** conversationNumber, 500);
       //tone
+
       music(conversationNumber, waitTime);
 
       const timeout = setTimeout(() => {
@@ -178,7 +179,7 @@ export default function Chat() {
           ))}
         </S.Inner>
       )}
-      {conversationNumber >= 36 && <S.Text opacity={Math.min((conversationNumber - 35) * 0.15, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
+      {conversationNumber >= 38 && <S.Text opacity={Math.min((conversationNumber - 37) * 0.25, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
       {conversationNumber >= 54 && (
         <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.08, 1)}>
           <Tunnel />

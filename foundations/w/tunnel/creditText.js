@@ -23,7 +23,9 @@ export default function CreditText(props) {
   const mesh = useRef(null);
 
   const [size, setSize] = useState(new THREE.Vector3());
+  const [showText, setShowText] = useState(false);
   useLayoutEffect(() => {
+    setShowText(false);
     const temp = new THREE.Vector3();
     mesh.current.geometry.computeBoundingBox();
     mesh.current.geometry.boundingBox.getSize(temp);
@@ -34,13 +36,18 @@ export default function CreditText(props) {
     if (mesh.current) {
       mesh.current.position.x = -size.x / 2;
       mesh.current.position.y = props.yPos - size.y / 2;
+      setShowText(true);
     }
   });
 
   return (
-    <mesh ref={mesh} position={[-100, props.yPos - 100, 30]}>
-      <textGeometry attach="geometry" args={[props.text, config]} />
-      <meshPhongMaterial attach="material" />
-    </mesh>
+    <>
+      {
+        <mesh ref={mesh} position={[-100, props.yPos - 100, 30]}>
+          <textGeometry attach="geometry" args={[props.text, config]} />
+          <meshPhongMaterial attach="material" />
+        </mesh>
+      }
+    </>
   );
 }

@@ -23,8 +23,9 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
   const { forward, backward, left, right, jump } = usePlayerControls();
 
   //settings
-  // const currentSpeed = useRef(20);
-  const currentSpeed = useRef(1200);
+  const currentSpeed = useRef(20);
+  //testing
+  // const currentSpeed = useRef(1200);
   const velocity = useRef([0, 0, 0]);
   const position = useRef([0, -3, -10]);
 
@@ -50,7 +51,7 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
     //testing params
     // api.position.set(0, 170, -10);
 
-    if (currentSpeed.current > 1100 && !characterUpPrepareFired) {
+    if (currentSpeed.current > 1000 && !characterUpPrepareFired) {
       setCharacterUpPrepareFired(true);
       characterUpPrepare();
     } else if (currentSpeed.current > 1200 && !characterUpFired) {

@@ -26,6 +26,7 @@ export default function Pyramid() {
   const [randomnessParty, setRandomnessParty] = useState(false);
   const [extinction, setExtinction] = useState(false);
   const [beforeSiren, setBeforeSiren] = useState(true);
+  const [siren, setSiren] = useState(false);
 
   //changing: 0 = second, 1 = minute, 2 = hour, 3 = day, 4 = month, 5 = year, 6 = century
   const [changing, setChanging] = useState(0);
@@ -112,7 +113,7 @@ export default function Pyramid() {
   }, [month]);
 
   useEffect(() => {
-    if (changing >= 5 && year >= 80) {
+    if (changing >= 5 && year >= 95) {
       setRandomnessParty(true);
     }
   }, [changing, year]);
@@ -167,7 +168,7 @@ export default function Pyramid() {
           setHour((h) => h + 5);
           setDay((d) => d + 2);
         } else {
-          setMonth((m) => m + 1);
+          setMonth((m) => m + 2);
         }
       }
     }
@@ -183,7 +184,7 @@ export default function Pyramid() {
       } else if (step < 86400) {
         setStep((s) => s * 1.6);
       } else if (step < 2592000) {
-        setStep((s) => s * 1.45);
+        setStep((s) => s * 1.65);
       } else if (step < 31104000) {
         setStep((s) => s * 1.2);
       }
@@ -192,10 +193,10 @@ export default function Pyramid() {
 
   //extinction
   useEffect(() => {
-    if (cycleState >= 60 && randomnessParty) {
+    if (year >= 98 && randomnessParty) {
       setExtinction(true);
     }
-  }, [cycleState, randomnessParty]);
+  }, [year, randomnessParty]);
 
   const audioRef = useRef();
   const [gameOver, setGameOver] = useState(false);
@@ -203,21 +204,25 @@ export default function Pyramid() {
     if (extinction) {
       const timeoutA = setTimeout(() => {
         setBeforeSiren(false);
+      }, 700);
+      const timeoutC = setTimeout(() => {
+        setSiren(true);
       }, 1000);
       const timeoutB = setTimeout(() => setGameOver(true), 4500);
       return () => {
         clearTimeout(timeoutA);
         clearTimeout(timeoutB);
+        clearTimeout(timeoutC);
       };
     }
   }, [extinction]);
 
   useEffect(() => {
-    if (!beforeSiren) {
+    if (siren) {
       const osc = new Tone.Oscillator(1000, "sine").toDestination();
       osc.start().stop("+4");
     }
-  }, [beforeSiren]);
+  }, [siren]);
 
   useEffect(() => {
     if (audioRef && audioRef.current && gameOver) {
