@@ -21,7 +21,7 @@ export const Inner = styled.div`
 
 export const TunnelContainer = styled.div`
   opacity: ${({ opacity }) => opacity};
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s linear;
   ${WholeContainer};
 `;
 
@@ -31,4 +31,5 @@ export const Text = styled.div`
   color: white;
   font-size: 8rem;
   font-family: Times New Roman;
+  opacity: ${({ opacity }) => opacity};
 `;

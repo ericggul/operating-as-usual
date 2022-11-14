@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePlayerControls } from "./helpers.js";
 import * as THREE from "three";
 
-const BaseCharacter = ({ handleCharacterUp }) => {
+const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
   const [planeRef] = usePlane((index) => ({ type: "Static", mass: 0, rotation: [-Math.PI * 0.5, 0, 0], position: [0, -4, 0], args: [0.5] }));
 
   const direction = new THREE.Vector3();
@@ -21,15 +21,22 @@ const BaseCharacter = ({ handleCharacterUp }) => {
   }));
 
   const { forward, backward, left, right, jump } = usePlayerControls();
-  const currentSpeed = useRef(20);
+
+  //settings
+  // const currentSpeed = useRef(20);
+  const currentSpeed = useRef(1200);
   const velocity = useRef([0, 0, 0]);
   const position = useRef([0, -3, -10]);
+
   useEffect(() => {
     api.velocity.subscribe((v) => (velocity.current = v));
     api.position.subscribe((p) => (position.current = p));
   }, []);
 
+  //state checker to ensure that function won't be fired twice
+  const [characterUpPrepareFired, setCharacterUpPrepareFired] = useState(false);
   const [characterUpFired, setCharacterUpFired] = useState(false);
+
   useFrame((state) => {
     ref.current.getWorldPosition(camera.position);
     frontVector.set(0, 0, Number(backward) - Number(forward));
@@ -40,14 +47,23 @@ const BaseCharacter = ({ handleCharacterUp }) => {
     api.velocity.set(direction.x, velocity.current[1], direction.z);
     if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) api.velocity.set(velocity.current[0], 3, velocity.current[2]);
 
-    if (currentSpeed.current > 1100 && !characterUpFired) {
+    //testing params
+    // api.position.set(0, 170, -10);
+
+    if (currentSpeed.current > 1100 && !characterUpPrepareFired) {
+      setCharacterUpPrepareFired(true);
+      characterUpPrepare();
+    } else if (currentSpeed.current > 1200 && !characterUpFired) {
       setCharacterUpFired(true);
-      handleCharacterUp();
+      characterUp();
     }
 
-    if (currentSpeed.current > 1250) {
-      api.velocity.set(0, 15, 0);
+    if (currentSpeed.current > 1250 && position.current[1] < 300) {
+      api.velocity.set(0, 5, 0);
+    } else if (position.current[1] > 300) {
+      api.velocity.set(0, 0, 0);
     }
+
     if (Math.abs(position.current[2]) > 165) {
       api.position.set(0, -3, -10);
       if (currentSpeed.current > 800) {

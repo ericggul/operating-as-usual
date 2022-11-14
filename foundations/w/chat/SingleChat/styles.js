@@ -28,7 +28,7 @@ export const ChatInner = styled.div`
 
 export const Chat = styled.div.attrs((props) => ({
   style: {
-    background: props.left ? `linear-gradient(hsl(200, 100%, ${97 - props.locationIdx ** 1.1 * 1.7}%), hsl(200, 100%, ${83 - props.locationIdx ** 1.1 * 1.7}%))` : "white",
+    background: props.left ? `linear-gradient(hsl(200, 100%, ${97 - props.locationIdx ** 1.13 * 1.7}%), hsl(200, 100%, ${83 - props.locationIdx ** 1.13 * 1.7}%))` : "white",
     borderRadius: props.left ? "15px 15px 15px 0" : "15px 15px 0 15px",
     marginLeft: !props.left && "auto",
     transformOrigin: props.left ? "left bottom" : "right bottom",

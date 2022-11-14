@@ -7,6 +7,8 @@ export const SingleDot = styled.div.attrs((props) => ({
     width: `${props.width}px`,
     height: `${props.height}px`,
     background: props.flash ? "white" : "black",
+    opacity: props.opacity,
+    borderRadius: `${props.theme.windowHeight * 0.03}px`,
   },
 }))`
   position: absolute;

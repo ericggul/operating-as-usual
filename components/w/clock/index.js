@@ -277,7 +277,7 @@ export default function Pyramid() {
         {(showTime < 7 || changing >= 5) && (
           <Watch hour={hour} minute={minute} second={second} day={day} month={month} year={year} century={century} changing={changing} showTime={showTime} cycleState={cycleState} />
         )}
-        <audio id="audio" src={"/assets/sound/mario.flac"} ref={audioRef} />
+        <audio id="audio" src={"/assets/sound/Mario.flac"} ref={audioRef} />
       </S.Container>
       {gameOver && <S.Hole />}
     </>

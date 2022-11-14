@@ -73,13 +73,10 @@ export default function Chat() {
       setChatContainerNumber({ x: 5, y: 1 });
     } else if (conversationNumber === 14) {
       setChatContainerNumber({ x: 7, y: 1 });
-    } else if (conversationNumber >= 16 && conversationNumber <= 37 && conversationNumber % 4 === 1) {
-      let idx = conversationNumber - 1;
-      setChatContainerNumber({ x: Math.floor((idx % 8) / 2) + 7, y: 1 });
-    } else if (conversationNumber >= 38 && conversationNumber <= 55) {
+    } else if (conversationNumber >= 41 && conversationNumber <= 60) {
       setScaleInner((s) => Math.max(s * 0.6, 0.0001));
       if (conversationNumber % 2 === 1) {
-        setChatContainerNumber({ x: Math.min(conversationNumber - 37 + 7, 28), y: Math.min(conversationNumber - 37 + 1, 15) });
+        setChatContainerNumber({ x: Math.min(conversationNumber - 39 + 7, 11), y: Math.min(conversationNumber - 39 + 1, 5) });
       }
     }
   }, [conversationNumber]);
@@ -151,7 +148,7 @@ export default function Chat() {
         <S.Inner scaleInner={scaleInner}>
           {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
             <React.Fragment key={i}>
-              {conversationNumber <= 37 && (
+              {conversationNumber <= 39 && (
                 <SingleChat
                   key={i}
                   locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
@@ -165,14 +162,15 @@ export default function Chat() {
                   getNewLeftChat={getNewLeftChat}
                 />
               )}
-              {conversationNumber >= 38 && conversationNumber <= 55 && (
+              {conversationNumber >= 31 && conversationNumber <= 55 && (
                 <SingleDot
-                  key={i}
+                  key={-i - 1}
                   locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
                   width={chatContainerSize.width}
                   height={chatContainerSize.height}
                   windowHeight={windowHeight}
                   chatContainerNumber={chatContainerNumber}
+                  opacity={Math.min((conversationNumber - 30) * 0.1, 1)}
                   flash={flash}
                 />
               )}
@@ -180,7 +178,7 @@ export default function Chat() {
           ))}
         </S.Inner>
       )}
-      {conversationNumber >= 38 && <S.Text>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
+      {conversationNumber >= 36 && <S.Text opacity={Math.min((conversationNumber - 35) * 0.15, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
       {conversationNumber >= 54 && (
         <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.08, 1)}>
           <Tunnel />

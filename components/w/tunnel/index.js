@@ -4,9 +4,19 @@ import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, PointerLockControls, Stars, MeshReflectorMaterial } from "@react-three/drei";
 import { Physics, usePlane } from "@react-three/cannon";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-import BaseCharacter from "./utils/baseCharacter";
+//foundations
+import BaseCharacter from "foundations/w/tunnel/baseCharacter";
+import Mirror from "foundations/w/tunnel/mirror";
+import TubeSet from "foundations/w/tunnel/tubeSet";
+import CreditText from "foundations/w/tunnel/creditText";
+
+const TEXT_CONFIGS = [
+  { size: 300, yPos: 210, text: "W" },
+  { size: 300, yPos: 250, text: "JYC" },
+  { size: 180, yPos: 300, text: "Fin" },
+];
 
 export default function TunnelComponent() {
   const [curve, setCurve] = useState(null);
@@ -27,20 +37,58 @@ export default function TunnelComponent() {
   const [secondLayer, setSecondLayer] = useState(false);
   const [thirdLayer, setThirdLayer] = useState(false);
 
-  function handleCharacterUp() {
-    console.log("hcu");
+  function characterUpPrepare() {
     setFirstLayer(true);
     const timeoutA = setTimeout(() => {
       setSecondLayer(true);
     }, 1000);
     const timeoutB = setTimeout(() => {
       setThirdLayer(true);
-    }, 2000);
+    }, 3000);
     return () => {
       clearTimeout(timeoutA);
       clearTimeout(timeoutB);
     };
   }
+
+  //when character is going up play zarathustra music
+  const [musicPlayed, setMusicPlayed] = useState(false);
+  const audioRef = useRef();
+  function characterUp() {
+    if (audioRef && audioRef.current && !musicPlayed) {
+      setMusicPlayed(true);
+      audioRef.current.play();
+    }
+  }
+
+  //based on time after music played, set additional animations
+  const [textState, setTextState] = useState(-1);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  useEffect(() => {
+    if (musicPlayed) {
+      const timeoutA = setTimeout(() => {
+        setTextState(0);
+      }, 44.1 * 1000);
+      const timeoutB = setTimeout(() => {
+        setTextState(1);
+      }, 52.2 * 1000);
+      const timeoutC = setTimeout(() => {
+        setTextState(2);
+      }, 61.5 * 1000);
+
+      const timeoutD = setTimeout(() => {
+        setFadeOut(true);
+      }, 71 * 1000);
+
+      return () => {
+        clearTimeout(timeoutA);
+        clearTimeout(timeoutB);
+        clearTimeout(timeoutC);
+        clearTimeout(timeoutD);
+      };
+    }
+  }, [musicPlayed]);
 
   return (
     <S.Container>
@@ -49,7 +97,6 @@ export default function TunnelComponent() {
         gl={{ alpha: true, antialias: false }}
         camera={{
           fov: 50,
-          // position: [1000, 1000, 1000],
           near: 2,
           far: 2000,
         }}
@@ -65,7 +112,7 @@ export default function TunnelComponent() {
           ))}
           {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} />)}
           {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} />)}
-          <BaseCharacter controls handleCharacterUp={handleCharacterUp} />
+          <BaseCharacter controls characterUpPrepare={characterUpPrepare} characterUp={characterUp} />
         </Physics>
         {/* <PointerLockControls /> */}
         {/* <OrbitControls /> */}
@@ -73,44 +120,11 @@ export default function TunnelComponent() {
         {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
         {secondLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
         {thirdLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
+        {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
       </Canvas>
+      <audio id="audio" src={"/assets/sound/Zarathustra.mp3"} ref={audioRef} />
+
+      {fadeOut && <S.FadeOut />}
     </S.Container>
-  );
-}
-
-function TubeSet({ curve, position }) {
-  return (
-    <group position={position}>
-      <mesh>
-        <tubeGeometry args={[curve, 2, 5, 25, true]} />
-        <meshStandardMaterial color="white" roughness={0} metalness={0.6} />
-      </mesh>
-      <mesh position={[0, 0, -200]}>
-        <sphereGeometry args={[9, 32, 32]} />
-        <meshStandardMaterial color="white" roughness={0} metalness={1} />
-      </mesh>
-      <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[8, 32, 32]} />
-        <meshStandardMaterial color="white" roughness={0} metalness={1} />
-      </mesh>
-    </group>
-  );
-}
-
-function Mirror(props) {
-  return (
-    <mesh {...props}>
-      <planeGeometry args={props.size} />
-      <MeshReflectorMaterial
-        mixBlur={0}
-        mixStrength={1} // Strength of the reflections
-        mixContrast={1}
-        resolution={2048} // Off-buffer resolution, lower=faster, higher=better quality, slower
-        mirror={1} // Mirror environment, 0 = texture colors, 1 = pick up env colors
-        depthToBlurRatioBias={0.25} // Adds a bias factor to the depthTexture before calculating the blur amount [blurFactor = blurTexture * (depthTexture + bias)]. It accepts values between 0 and 1, default is 0.25. An amount > 0 of bias makes sure that the blurTexture is not too sharp because of the multiplication with the depthTexture
-        debug={0}
-        reflectorOffset={0} // Offsets the virtual camera that projects the reflection. Useful when the reflective surface is some distance from the object's origin (default = 0)
-      />
-    </mesh>
   );
 }
