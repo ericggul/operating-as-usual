@@ -11,10 +11,11 @@ import BaseCharacter from "foundations/w/tunnel/baseCharacter";
 import Mirror from "foundations/w/tunnel/mirror";
 import TubeSet from "foundations/w/tunnel/tubeSet";
 import CreditText from "foundations/w/tunnel/creditText";
+import Sound from "foundations/w/tunnel/sound";
 
 const TEXT_CONFIGS = [
   { size: 300, yPos: 210, text: "W" },
-  { size: 300, yPos: 250, text: "JYC" },
+  { size: 300, yPos: 255, text: "JYC" },
   { size: 180, yPos: 300, text: "Fin" },
 ];
 
@@ -32,6 +33,19 @@ export default function TunnelComponent() {
     setCurve(new THREE.CatmullRomCurve3(points));
   }
 
+  //ambient music
+  const tunnelAudioRef = useRef();
+  useEffect(() => {
+    if (tunnelAudioRef && tunnelAudioRef.current) {
+      tunnelAudioRef.current.play();
+
+      //temporary
+      document.addEventListener("click", () => {
+        tunnelAudioRef.current.play();
+      });
+    }
+  }, [tunnelAudioRef]);
+
   //when character is about to go up,
   const [firstLayer, setFirstLayer] = useState(false);
   const [secondLayer, setSecondLayer] = useState(false);
@@ -40,11 +54,13 @@ export default function TunnelComponent() {
   function characterUpPrepare() {
     setFirstLayer(true);
     const timeoutA = setTimeout(() => {
+      console.log("a");
       setSecondLayer(true);
-    }, 1000);
+    }, 10000);
     const timeoutB = setTimeout(() => {
+      console.log("b");
       setThirdLayer(true);
-    }, 3000);
+    }, 28000);
     return () => {
       clearTimeout(timeoutA);
       clearTimeout(timeoutB);
@@ -53,11 +69,12 @@ export default function TunnelComponent() {
 
   //when character is going up play zarathustra music
   const [musicPlayed, setMusicPlayed] = useState(false);
-  const audioRef = useRef();
+  const zarathustraAudioRef = useRef();
   function characterUp() {
-    if (audioRef && audioRef.current && !musicPlayed) {
+    if (zarathustraAudioRef && zarathustraAudioRef.current && !musicPlayed) {
+      console.log("60 main");
       setMusicPlayed(true);
-      audioRef.current.play();
+      zarathustraAudioRef.current.play();
     }
   }
 
@@ -118,12 +135,13 @@ export default function TunnelComponent() {
         {/* <OrbitControls /> */}
 
         {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
-        {secondLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
-        {thirdLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
+        {firstLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
+        {firstLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
         {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
       </Canvas>
-      <audio id="audio" src={"/assets/sound/Zarathustra.mp3"} ref={audioRef} />
-
+      <audio id="audio" src={"/assets/sound/Zarathustra.mp3"} ref={zarathustraAudioRef} />
+      <audio id="audio" src={"/assets/sound/Tunnel.wav"} ref={tunnelAudioRef} />
+      {/* <Sound /> */}
       {fadeOut && <S.FadeOut />}
     </S.Container>
   );

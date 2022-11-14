@@ -121,54 +121,63 @@ export default function Pyramid() {
   //on key press w
   const [showTime, setShowTime] = useState(0);
 
+  //timer adjust
+  const nowRef = useRef(Date.now());
+  const thenRef = useRef(Date.now());
+
   const handleKeyDown = (e) => {
-    Tone.start();
+    nowRef.current = Date.now();
+    if (nowRef.current - thenRef.current > 50) {
+      console.log(nowRef.current - thenRef.current);
+      thenRef.current = nowRef.current;
+      Tone.start();
 
-    const synth = new Tone.MembraneSynth().toDestination();
-    const now = Tone.now();
+      const synth = new Tone.MembraneSynth().toDestination();
+      const now = Tone.now();
 
-    if (e.code === "KeyW") {
-      if (!randomnessParty) {
-        if (step === 0) {
-          setChanging(5);
-          setYear((y) => y + 1);
-        } else if (step > 0 && step < 60) {
-          synth.triggerAttackRelease("C2", "8n", now + 0.1);
-          setSecond((s) => s + step);
-        } else if (step > 60 && step < 3600) {
-          synth.triggerAttackRelease("C2", "8n", now + 0.1);
-          setChanging(1);
-          setMinute((m) => m + step / 60);
-        } else if (step > 3600 && step < 86400) {
-          synth.triggerAttackRelease("C3", "8n", now + 0.1);
-          setChanging(2);
-          setHour((h) => h + step / 3600);
-        } else if (step > 86400 && step < 2592000) {
-          synth.triggerAttackRelease("C4", "8n", now + 0.1);
-          setChanging(3);
-          setDay((d) => d + step / 86400);
-        } else if (step > 2592000 && step < 31104000) {
-          synth.triggerAttackRelease("C5", "8n", now + 0.1);
-          setChanging(4);
-          setMonth((m) => m + step / 2592000);
-        } else if (step > 31104000) {
-          setStep(0);
-          setChanging(5);
-          setYear((y) => y + 1);
-        }
-        if (Math.random() < 0.9) {
-          setShowTime((t) => (t + 1) % 12);
-        }
-      } else if (randomnessParty && beforeSiren) {
-        const s = Math.floor(Math.random() * 3);
-        if (s % 3 === 0) {
-          setSecond((s) => s + 11);
-          setMinute((m) => m + 11);
-        } else if (s % 3 === 1) {
-          setHour((h) => h + 5);
-          setDay((d) => d + 2);
-        } else {
-          setMonth((m) => m + 2);
+      if (e.code === "KeyW") {
+        if (!randomnessParty) {
+          if (step === 0) {
+            setChanging(5);
+            setYear((y) => y + 1);
+          } else if (step > 0 && step < 60) {
+            synth.triggerAttackRelease("C2", "8n", now + 0.1);
+            setSecond((s) => s + step);
+          } else if (step > 60 && step < 3600) {
+            synth.triggerAttackRelease("C2", "8n", now + 0.1);
+            setChanging(1);
+            setMinute((m) => m + step / 60);
+          } else if (step > 3600 && step < 86400) {
+            synth.triggerAttackRelease("C3", "8n", now + 0.1);
+            setChanging(2);
+            setHour((h) => h + step / 3600);
+          } else if (step > 86400 && step < 2592000) {
+            synth.triggerAttackRelease("C4", "8n", now + 0.1);
+            setChanging(3);
+            setDay((d) => d + step / 86400);
+          } else if (step > 2592000 && step < 31104000) {
+            synth.triggerAttackRelease("C5", "8n", now + 0.1);
+            setChanging(4);
+            setMonth((m) => m + step / 2592000);
+          } else if (step > 31104000) {
+            setStep(0);
+            setChanging(5);
+            setYear((y) => y + 1);
+          }
+          if (Math.random() < 0.9) {
+            setShowTime((t) => (t + 1) % 12);
+          }
+        } else if (randomnessParty && beforeSiren) {
+          const s = Math.floor(Math.random() * 3);
+          if (s % 3 === 0) {
+            setSecond((s) => s + 11);
+            setMinute((m) => m + 11);
+          } else if (s % 3 === 1) {
+            setHour((h) => h + 5);
+            setDay((d) => d + 2);
+          } else {
+            setMonth((m) => m + 2);
+          }
         }
       }
     }

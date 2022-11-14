@@ -50,10 +50,18 @@ export default function Chat() {
     }
   }, [accelerateSpeed, getNewLeftChat]);
 
+  //timer adjust
+  const nowRef = useRef(Date.now());
+  const thenRef = useRef(Date.now());
+
   const handleKeyDown = (e) => {
-    Tone.start();
-    if (e.code === "KeyW") {
-      setLoadingLevel((l) => Math.min(l + accelerateSpeed, 100));
+    nowRef.current = Date.now();
+    if (nowRef.current - thenRef.current > 50) {
+      thenRef.current = nowRef.current;
+      Tone.start();
+      if (e.code === "KeyW") {
+        setLoadingLevel((l) => Math.min(l + accelerateSpeed, 100));
+      }
     }
   };
 

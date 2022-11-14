@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import * as Tone from "tone";
 
@@ -41,10 +41,19 @@ function Colour({ opening, setOpening }) {
     };
   }, [randomnessStep, opening]);
 
+  //timer adjust
+  const nowRef = useRef(Date.now());
+  const thenRef = useRef(Date.now());
+
   const handleKeyDown = (e) => {
-    Tone.start();
-    if (e.code === "KeyW" && !opening) {
-      setRandomnessState((s) => s + randomnessStep);
+    nowRef.current = Date.now();
+    if (nowRef.current - thenRef.current > 50) {
+      console.log(nowRef.current - thenRef.current);
+      thenRef.current = nowRef.current;
+      Tone.start();
+      if (e.code === "KeyW" && !opening) {
+        setRandomnessState((s) => s + randomnessStep);
+      }
     }
   };
 

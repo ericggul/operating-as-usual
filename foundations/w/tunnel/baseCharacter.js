@@ -20,12 +20,12 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
     position: [0, -3, -10],
   }));
 
-  const { forward, backward, left, right, jump } = usePlayerControls();
+  const forward = usePlayerControls();
 
   //settings
   const currentSpeed = useRef(20);
   //testing
-  // const currentSpeed = useRef(1200);
+  // const currentSpeed = useRef(1000);
   const velocity = useRef([0, 0, 0]);
   const position = useRef([0, -3, -10]);
 
@@ -40,21 +40,19 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
 
   useFrame((state) => {
     ref.current.getWorldPosition(camera.position);
-    frontVector.set(0, 0, Number(backward) - Number(forward));
-    sideVector.set(Number(left) - Number(right), 0, 0);
+    frontVector.set(0, 0, -Number(forward));
+    sideVector.set(0, 0, 0);
     direction.subVectors(frontVector, sideVector).normalize().multiplyScalar(currentSpeed.current).applyEuler(camera.rotation);
 
     speed.fromArray(velocity.current);
     api.velocity.set(direction.x, velocity.current[1], direction.z);
-    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) api.velocity.set(velocity.current[0], 3, velocity.current[2]);
 
-    //testing params
-    // api.position.set(0, 170, -10);
-
-    if (currentSpeed.current > 1000 && !characterUpPrepareFired) {
+    if (currentSpeed.current > 1100 && !characterUpPrepareFired) {
       setCharacterUpPrepareFired(true);
       characterUpPrepare();
-    } else if (currentSpeed.current > 1200 && !characterUpFired) {
+    }
+
+    if (currentSpeed.current > 1200 && !characterUpFired) {
       setCharacterUpFired(true);
       characterUp();
     }

@@ -4,20 +4,23 @@ import { useState, useEffect } from "react";
  * Player Controls
  ****************/
 export const usePlayerControls = () => {
-  const keys = {
-    KeyW: "forward",
-    Space: "jump",
-  };
-  const moveFieldByKey = (key) => keys[key];
+  const [forward, setForward] = useState(false);
 
-  const [movement, setMovement] = useState({ forward: false, backward: false, left: false, right: false, jump: false });
+  const handleKeyDown = (e) => {
+    if (e.code === "KeyW" && !forward) {
+      setForward(true);
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.code === "KeyW") {
+      setForward(false);
+    }
+  };
 
   useEffect(() => {
-    const handleKeyDown = (e) => setMovement((m) => ({ ...m, [moveFieldByKey(e.code)]: true }));
-    const handleKeyUp = (e) => setMovement((m) => ({ ...m, [moveFieldByKey(e.code)]: false }));
-
-    document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
@@ -25,5 +28,5 @@ export const usePlayerControls = () => {
     };
   }, []);
 
-  return movement;
+  return forward;
 };
