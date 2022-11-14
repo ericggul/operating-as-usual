@@ -6,10 +6,21 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
+  color: black;
 
   background: #111;
   font-family: Helvetica;
   transition: 0.5s;
+  z-index: 10;
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 
   @keyframes shake {
     0% {
@@ -47,8 +58,13 @@ export const Container = styled.div`
     }
   }
 
-  ${({ extinction }) => extinction && `animation: shake 0.5s infinite;`}
-  animation-delay: 3s;
+  animation: appear 1s ease-in-out;
+
+  ${({ extinction }) =>
+    extinction &&
+    `
+  animation: shake 0.5s infinite;
+  animation-delay: 3s;`}
 `;
 
 export const SingleTime = styled.div`
@@ -108,7 +124,7 @@ export const Hole = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: 2;
+    z-index: 20;
     transform: translate(-50%, -50%);
     /* Border */
     border: solid ${({ theme }) => theme.windowWidth + theme.windowHeight}px black;

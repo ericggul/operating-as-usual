@@ -48,7 +48,7 @@ const StickCommon = css`
   bottom: 0;
   right: 0;
   transform-origin: bottom center;
-  z-index: 1;
+  z-index: 11;
   transition: background 0.5s;
 `;
 
@@ -102,7 +102,7 @@ export const Center = styled.div`
   border-radius: 50%;
   background: #111;
   box-shadow: inset 0 0 0.5rem white;
-  z-index: 5;
+  z-index: 15;
 `;
 
 export const SemiClockContainer = styled.div`
@@ -135,7 +135,7 @@ export const Day = styled.div.attrs((props) => ({
   top: -33.3%;
 
   box-shadow: inset 0 0 0.5rem white;
-  z-index: 1;
+  z-index: 11;
 `;
 
 export const SemiCenter = styled.div`
@@ -143,7 +143,7 @@ export const SemiCenter = styled.div`
   height: 0.8vw;
   border-radius: 50%;
   background: #111;
-  z-index: 5;
+  z-index: 15;
   box-shadow: inset 0 0 0.2rem white;
 `;
 

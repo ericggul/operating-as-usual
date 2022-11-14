@@ -1,35 +1,54 @@
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import * as Tone from "tone";
 
-const getRandom = (a, b) => Math.random() * (b - a) + a;
-const getRandomFromArray = (array) => array[Math.floor(Math.random() * array.length)];
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-const CODES = ["C", "E", "G"];
-
-export default function Opening({ opening }) {
+export default function Opening({ opening, toClock }) {
   const synth = useMemo(() => new Tone.PolySynth().toDestination(), []);
 
-  //please make sure to uncancel on non-developmode
   useEffect(() => {
     if (opening) {
-      const timeout = setTimeout(() => {
+      const T = 23 * (0.08 + (23 * 0.06) / 40);
+      const timeoutA = setTimeout(() => {
         openingMelody();
       }, 200);
-      return () => clearTimeout(timeout);
+      const timeoutB = setTimeout(() => {
+        clockTransition();
+      }, T * 1000 + 200);
+      return () => {
+        clearTimeout(timeoutA);
+        clearTimeout(timeoutB);
+      };
     }
   }, [opening]);
 
-  // useEffect(() => {
-  //   document.addEventListener("click", openingMelody);
-  //   return () => document.removeEventListener("click", openingMelody);
-  // }, []);
+  let intervalRef = useRef(null);
+  function clockTransition() {
+    intervalRef.current = setInterval(() => {
+      console.log("inv");
+      const synth = new Tone.PolySynth().toDestination();
+      const now = Tone.now();
+      synth.triggerAttackRelease("B2", "64n", now + 0.05);
+    }, 1000);
 
-  const [visualState, setVisualState] = useState(11);
-  const [closingAnimation, setClosingAnimation] = useState(false);
+    const timeout = setTimeout(() => {
+      toClock();
+    }, 4900);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef && intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [intervalRef]);
 
   function openingMelody() {
     Tone.start();
@@ -38,7 +57,9 @@ export default function Opening({ opening }) {
     synth.triggerAttack("C8", now);
     synth.triggerRelease("C8", now + 0.1);
     for (let i = 0; i <= 24; i++) {
-      synth.triggerAttackRelease(`${TEMP_CODES[i % 4]}${8 - Math.ceil(i / 4)}`, "64n", now + i * (0.08 + (i * 0.06) / 40));
+      const code = `${TEMP_CODES[i % 4]}${8 - Math.ceil(i / 4)}`;
+      console.log(code);
+      synth.triggerAttackRelease(code, "64n", now + i * (0.08 + (i * 0.06) / 40));
     }
   }
 

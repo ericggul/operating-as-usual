@@ -41,12 +41,15 @@ export default function Pyramid() {
   //basic time adjust logic
   useEffect(() => {
     if (!randomnessParty) {
+      const synth = new Tone.MembraneSynth().toDestination();
+      const now = Tone.now();
+      synth.triggerAttackRelease("B2", "64n", now + 0.05);
       const interval = setInterval(() => {
         setSecond((s) => s + 1);
         try {
           const synth = new Tone.MembraneSynth().toDestination();
           const now = Tone.now();
-          synth.triggerAttackRelease("D2", "8n", now + 0.1);
+          synth.triggerAttackRelease("B2", "64n", now + 0.05);
         } catch (e) {
           console.log(e);
         }

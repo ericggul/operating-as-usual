@@ -30,15 +30,19 @@ function Colour({ opening, setOpening }) {
   };
 
   useEffect(() => {
-    window.addEventListener("mousemove", onMouseClick);
-    return () => window.removeEventListener("mousemove", onMouseClick);
-  }, []);
+    if (!opening) {
+      window.addEventListener("mousemove", onMouseClick);
+      return () => window.removeEventListener("mousemove", onMouseClick);
+    }
+  }, [opening]);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    if (!opening) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
+    }
   }, [randomnessStep, opening]);
 
   //timer adjust
@@ -47,11 +51,11 @@ function Colour({ opening, setOpening }) {
 
   const handleKeyDown = (e) => {
     nowRef.current = Date.now();
-    if (nowRef.current - thenRef.current > 50) {
+    if (nowRef.current - thenRef.current > 50 && !opening) {
       console.log(nowRef.current - thenRef.current);
       thenRef.current = nowRef.current;
       Tone.start();
-      if (e.code === "KeyW" && !opening) {
+      if (e.code === "KeyW") {
         setRandomnessState((s) => s + randomnessStep);
       }
     }
