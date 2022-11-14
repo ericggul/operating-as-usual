@@ -32,4 +32,5 @@ export const Text = styled.div`
   font-size: 8rem;
   font-family: Times New Roman;
   opacity: ${({ opacity }) => opacity};
+  transition: all 0.5s linear;
 `;

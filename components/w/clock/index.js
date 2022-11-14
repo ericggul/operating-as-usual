@@ -3,7 +3,7 @@ import useResize from "utils/hooks/useResize";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 
-import Watch from "foundations/w/clock/Watch";
+import Watch from "foundations/w/clock/watch";
 
 import * as Tone from "tone";
 

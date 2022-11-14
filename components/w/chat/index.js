@@ -34,12 +34,12 @@ export default function Chat() {
   }, [chatContainerSize, windowWidth, windowHeight]);
 
   //key down
-  const [conversationNumber, setConversationNumber] = useState(0);
-  const [loadingLevel, setLoadingLevel] = useState(0);
-  const [accelerateSpeed, setAccelerateSpeed] = useState(3);
-  // const [conversationNumber, setConversationNumber] = useState(30);
+  // const [conversationNumber, setConversationNumber] = useState(0);
   // const [loadingLevel, setLoadingLevel] = useState(0);
-  // const [accelerateSpeed, setAccelerateSpeed] = useState(100);
+  // const [accelerateSpeed, setAccelerateSpeed] = useState(3);
+  const [conversationNumber, setConversationNumber] = useState(30);
+  const [loadingLevel, setLoadingLevel] = useState(0);
+  const [accelerateSpeed, setAccelerateSpeed] = useState(100);
 
   useEffect(() => {
     if (!getNewLeftChat) {
@@ -82,7 +82,7 @@ export default function Chat() {
     } else if (conversationNumber === 14) {
       setChatContainerNumber({ x: 7, y: 1 });
     } else if (conversationNumber >= 41 && conversationNumber <= 60) {
-      setScaleInner((s) => Math.max(s * 0.6, 0.0001));
+      setScaleInner((s) => Math.max(s * 0.68, 0.0001));
       if (conversationNumber % 2 === 1) {
         setChatContainerNumber({ x: Math.min(conversationNumber - 39 + 7, 11), y: Math.min(conversationNumber - 39 + 1, 5) });
       }
@@ -151,6 +151,15 @@ export default function Chat() {
     }
   }, [conversationNumber]);
 
+  //ambient music
+  const tunnelAudioRef = useRef();
+  useEffect(() => {
+    if (tunnelAudioRef && tunnelAudioRef.current && conversationNumber >= 56) {
+      tunnelAudioRef.current.play();
+      tunnelAudioRef.current.volume = Math.min((conversationNumber - 55) * 0.08, 1);
+    }
+  }, [tunnelAudioRef, conversationNumber]);
+
   return (
     <S.Container>
       {conversationNumber <= 70 && (
@@ -189,10 +198,11 @@ export default function Chat() {
       )}
       {conversationNumber >= 38 && <S.Text opacity={Math.min((conversationNumber - 37) * 0.25, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
       {conversationNumber >= 54 && (
-        <S.TunnelContainer opacity={Math.min((conversationNumber - 55) * 0.08, 1)}>
+        <S.TunnelContainer opacity={Math.min((conversationNumber - 54) * 0.08, 1)}>
           <Tunnel />
         </S.TunnelContainer>
       )}
+      <audio id="audio" src={"/assets/sound/Tunnel.wav"} ref={tunnelAudioRef} loop />
     </S.Container>
   );
 }
@@ -203,4 +213,8 @@ function music(conversationNumber, waitTime) {
   const randomLetter = ["C", "D", "E", "F", "G"][(conversationNumber + 2) % 5];
   osc.frequency.rampTo(`${randomLetter}4`, (waitTime / 1000) * 0.95);
   osc.start().stop(`+${waitTime / 1000}`);
+
+  if (conversationNumber >= 48) {
+    Tone.getDestination().volume.value = -(conversationNumber - 47) * 1.33;
+  }
 }

@@ -1,6 +1,8 @@
 import { PositionalAudio } from "@react-three/drei";
 
-export default function TubeSet({ curve, position }) {
+import Sound from "./sound";
+
+export default function TubeSet({ curve, position, containsAudio, playAudio }) {
   return (
     <group position={position}>
       <mesh>
@@ -10,12 +12,7 @@ export default function TubeSet({ curve, position }) {
       <mesh position={[0, 0, -200]}>
         <sphereGeometry args={[9, 32, 32]} />
         <meshStandardMaterial color="white" roughness={0} metalness={1} />
-        <PositionalAudio
-          url="/assets/sound/Tunnel.wav"
-          distance={30}
-          loop
-          // All THREE.PositionalAudio props are valid
-        />
+        {containsAudio && <Sound url="/assets/sound/Light.mp3" playLightAudio={playAudio} />}
       </mesh>
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[8, 32, 32]} />

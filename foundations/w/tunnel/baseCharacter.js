@@ -47,9 +47,10 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
     speed.fromArray(velocity.current);
     api.velocity.set(direction.x, velocity.current[1], direction.z);
 
-    if (currentSpeed.current > 1100 && !characterUpPrepareFired) {
+    if (currentSpeed.current > 1000 && !characterUpPrepareFired) {
       setCharacterUpPrepareFired(true);
       characterUpPrepare();
+      currentSpeed.current = currentSpeed.current * 1.07;
     }
 
     if (currentSpeed.current > 1200 && !characterUpFired) {
@@ -66,7 +67,7 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
     if (Math.abs(position.current[2]) > 165) {
       api.position.set(0, -3, -10);
       if (currentSpeed.current > 800) {
-        currentSpeed.current = currentSpeed.current * 1.01;
+        currentSpeed.current = currentSpeed.current * 1.008;
       } else {
         currentSpeed.current = currentSpeed.current * 1.34;
       }

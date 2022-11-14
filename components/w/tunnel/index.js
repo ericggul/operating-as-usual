@@ -9,10 +9,8 @@ import { useState, useEffect, useRef } from "react";
 //foundations
 import BaseCharacter from "foundations/w/tunnel/baseCharacter";
 import Mirror from "foundations/w/tunnel/mirror";
-import TubeSet from "foundations/w/tunnel/tubeSet";
+import TubeSet from "foundations/w/tunnel/tubeset";
 import CreditText from "foundations/w/tunnel/creditText";
-import Sound from "foundations/w/tunnel/sound";
-
 const TEXT_CONFIGS = [
   { size: 300, yPos: 210, text: "W" },
   { size: 300, yPos: 255, text: "JYC" },
@@ -33,19 +31,6 @@ export default function TunnelComponent() {
     setCurve(new THREE.CatmullRomCurve3(points));
   }
 
-  //ambient music
-  const tunnelAudioRef = useRef();
-  useEffect(() => {
-    if (tunnelAudioRef && tunnelAudioRef.current) {
-      tunnelAudioRef.current.play();
-
-      //temporary
-      document.addEventListener("click", () => {
-        tunnelAudioRef.current.play();
-      });
-    }
-  }, [tunnelAudioRef]);
-
   //when character is about to go up,
   const [firstLayer, setFirstLayer] = useState(false);
   const [secondLayer, setSecondLayer] = useState(false);
@@ -54,11 +39,9 @@ export default function TunnelComponent() {
   function characterUpPrepare() {
     setFirstLayer(true);
     const timeoutA = setTimeout(() => {
-      console.log("a");
       setSecondLayer(true);
-    }, 10000);
+    }, 12000);
     const timeoutB = setTimeout(() => {
-      console.log("b");
       setThirdLayer(true);
     }, 28000);
     return () => {
@@ -72,7 +55,6 @@ export default function TunnelComponent() {
   const zarathustraAudioRef = useRef();
   function characterUp() {
     if (zarathustraAudioRef && zarathustraAudioRef.current && !musicPlayed) {
-      console.log("60 main");
       setMusicPlayed(true);
       zarathustraAudioRef.current.play();
     }
@@ -81,9 +63,13 @@ export default function TunnelComponent() {
   //based on time after music played, set additional animations
   const [textState, setTextState] = useState(-1);
   const [fadeOut, setFadeOut] = useState(false);
+  const [backgroundPlay, setBackgroundPlay] = useState(true);
 
   useEffect(() => {
     if (musicPlayed) {
+      const timeoutZero = setTimeout(() => {
+        setBackgroundPlay(false);
+      }, 1300);
       const timeoutA = setTimeout(() => {
         setTextState(0);
       }, 44.1 * 1000);
@@ -99,6 +85,7 @@ export default function TunnelComponent() {
       }, 71 * 1000);
 
       return () => {
+        clearTimeout(timeoutZero);
         clearTimeout(timeoutA);
         clearTimeout(timeoutB);
         clearTimeout(timeoutC);
@@ -125,10 +112,10 @@ export default function TunnelComponent() {
 
         <Physics gravity={[0, -10, 0]}>
           {new Array(70).fill(0).map((_, i) => (
-            <TubeSet curve={curve} position={[10 * (i - 35), 0, 0]} key={i} />
+            <TubeSet curve={curve} position={[10 * (i - 35), 0, 0]} key={i} containsAudio={i === 35} playAudio={backgroundPlay} />
           ))}
-          {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} />)}
-          {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} />)}
+          {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} containsAudio={false} />)}
+          {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} containsAudio={false} />)}
           <BaseCharacter controls characterUpPrepare={characterUpPrepare} characterUp={characterUp} />
         </Physics>
         {/* <PointerLockControls /> */}
@@ -140,8 +127,6 @@ export default function TunnelComponent() {
         {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
       </Canvas>
       <audio id="audio" src={"/assets/sound/Zarathustra.mp3"} ref={zarathustraAudioRef} />
-      <audio id="audio" src={"/assets/sound/Tunnel.wav"} ref={tunnelAudioRef} />
-      {/* <Sound /> */}
       {fadeOut && <S.FadeOut />}
     </S.Container>
   );
