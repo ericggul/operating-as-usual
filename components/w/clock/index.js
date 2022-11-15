@@ -220,7 +220,7 @@ export default function Pyramid() {
       const timeoutC = setTimeout(() => {
         setSiren(true);
       }, 1000);
-      const timeoutB = setTimeout(() => setGameOver(true), 4500);
+      const timeoutB = setTimeout(() => setGameOver(true), 5000);
       return () => {
         clearTimeout(timeoutA);
         clearTimeout(timeoutB);

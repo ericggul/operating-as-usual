@@ -8,6 +8,7 @@ export const Container = styled.div`
   overflow: hidden;
   background: radial-gradient(#aaa 0%, #000 100%);
   font-family: Helvetica;
+  cursor: none;
 `;
 
 export const Inner = styled.div`

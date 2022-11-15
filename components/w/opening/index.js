@@ -58,7 +58,6 @@ export default function Opening({ opening, toClock }) {
     synth.triggerRelease("C8", now + 0.1);
     for (let i = 0; i <= 24; i++) {
       const code = `${TEMP_CODES[i % 4]}${8 - Math.ceil(i / 4)}`;
-      console.log(code);
       synth.triggerAttackRelease(code, "64n", now + i * (0.08 + (i * 0.06) / 40));
     }
   }

@@ -34,12 +34,12 @@ export default function Chat() {
   }, [chatContainerSize, windowWidth, windowHeight]);
 
   //key down
-  // const [conversationNumber, setConversationNumber] = useState(0);
-  // const [loadingLevel, setLoadingLevel] = useState(0);
-  // const [accelerateSpeed, setAccelerateSpeed] = useState(3);
-  const [conversationNumber, setConversationNumber] = useState(30);
+  const [conversationNumber, setConversationNumber] = useState(0);
   const [loadingLevel, setLoadingLevel] = useState(0);
-  const [accelerateSpeed, setAccelerateSpeed] = useState(100);
+  const [accelerateSpeed, setAccelerateSpeed] = useState(3);
+  // const [conversationNumber, setConversationNumber] = useState(30);
+  // const [loadingLevel, setLoadingLevel] = useState(0);
+  // const [accelerateSpeed, setAccelerateSpeed] = useState(100);
 
   useEffect(() => {
     if (!getNewLeftChat) {

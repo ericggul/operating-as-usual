@@ -2,7 +2,6 @@ import * as S from "./styles";
 
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, PointerLockControls, Stars, MeshReflectorMaterial } from "@react-three/drei";
 import { Physics, usePlane } from "@react-three/cannon";
 import { useState, useEffect, useRef } from "react";
 
@@ -12,9 +11,9 @@ import Mirror from "foundations/w/tunnel/mirror";
 import TubeSet from "foundations/w/tunnel/tubeset";
 import CreditText from "foundations/w/tunnel/creditText";
 const TEXT_CONFIGS = [
-  { size: 300, yPos: 210, text: "W" },
-  { size: 300, yPos: 255, text: "JYC" },
-  { size: 180, yPos: 300, text: "Fin" },
+  { size: 300, yPos: 230, text: "W" },
+  { size: 300, yPos: 275, text: "JYC" },
+  { size: 180, yPos: 320, text: "Fin" },
 ];
 
 export default function TunnelComponent() {
@@ -56,6 +55,8 @@ export default function TunnelComponent() {
   function characterUp() {
     if (zarathustraAudioRef && zarathustraAudioRef.current && !musicPlayed) {
       setMusicPlayed(true);
+      //volume
+      zarathustraAudioRef.current.volume = 0.8;
       zarathustraAudioRef.current.play();
     }
   }
@@ -118,15 +119,13 @@ export default function TunnelComponent() {
           {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} containsAudio={false} />)}
           <BaseCharacter controls characterUpPrepare={characterUpPrepare} characterUp={characterUp} />
         </Physics>
-        {/* <PointerLockControls /> */}
-        {/* <OrbitControls /> */}
 
         {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
         {firstLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
         {firstLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
         {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
       </Canvas>
-      <audio id="audio" src={"/assets/sound/Zarathustra.mp3"} ref={zarathustraAudioRef} />
+      <audio id="audio" src={"/assets/sound/Zarathustra.ogg"} ref={zarathustraAudioRef} />
       {fadeOut && <S.FadeOut />}
     </S.Container>
   );
