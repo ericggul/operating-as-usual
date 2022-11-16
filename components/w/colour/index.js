@@ -52,7 +52,6 @@ function Colour({ opening, setOpening }) {
   const handleKeyDown = (e) => {
     nowRef.current = Date.now();
     if (nowRef.current - thenRef.current > 50 && !opening) {
-      console.log(nowRef.current - thenRef.current);
       thenRef.current = nowRef.current;
       Tone.start();
       if (e.code === "KeyW") {

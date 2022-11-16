@@ -59,9 +59,9 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
     }
 
     if (currentSpeed.current > 1250 && position.current[1] <= 30) {
-      api.velocity.set(0, 15, 0);
+      api.velocity.set(0, 15 - position.current[1] / 3, 0);
     } else if (position.current[1] > 30 && position.current[1] <= 300) {
-      api.velocity.set(0, 270 / 58, 0);
+      api.velocity.set(0, 5, 0);
     } else if (position.current[1] > 300) {
       api.velocity.set(0, 0, 0);
     }

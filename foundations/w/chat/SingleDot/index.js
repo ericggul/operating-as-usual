@@ -7,7 +7,7 @@ const getRandom = (a, b) => Math.random() * (b - a) + a;
 
 const WORDS = ["We Are", "History", "Identity", "Home", "World"];
 
-export default function SingleDot({ width, height, windowHeight, locationIdx, chatContainerNumber, opacity, flash }) {
+export default function SingleDot({ width, height, windowHeight, locationIdx, chatContainerNumber, opacity }) {
   //layout related
   const [i, setI] = useState((((locationIdx % chatContainerNumber.x) + chatContainerNumber.x) % chatContainerNumber.x) - (chatContainerNumber.x - 1) / 2);
   const [j, setJ] = useState(Math.floor((locationIdx + (chatContainerNumber.x - 1) / 2) / chatContainerNumber.x));
@@ -17,5 +17,5 @@ export default function SingleDot({ width, height, windowHeight, locationIdx, ch
     setJ(Math.floor((locationIdx + (chatContainerNumber.x - 1) / 2) / chatContainerNumber.x));
   }, [locationIdx, chatContainerNumber]);
 
-  return <S.SingleDot width={width} height={height} x={i * (width + windowHeight * 0.016)} y={j * (height + windowHeight * 0.02)} flash={flash} opacity={opacity}/>;
+  return <S.SingleDot width={width} height={height} x={i * (width + windowHeight * 0.016)} y={j * (height + windowHeight * 0.02)} opacity={opacity} />;
 }

@@ -73,7 +73,7 @@ export const Chat = styled.div.attrs((props) => ({
 
 export const ChatLoading = styled.div.attrs((props) => ({
   style: {
-    transform: `rotateY(${props.loadingLevel * 0.9}deg)`,
+    transform: `scaleX(${1 - props.loadingLevel / 100})`,
   },
 }))`
   perspective: 30px;

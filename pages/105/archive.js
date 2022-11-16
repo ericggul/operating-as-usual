@@ -9,7 +9,7 @@ const ArchiveComponent = dynamic(() => import("components/105/archive"), { ssr: 
 
 export default function Archive(props) {
   const router = useRouter();
-  const { order, admin } = router.query;
+  const { order } = router.query;
 
   return (
     <>

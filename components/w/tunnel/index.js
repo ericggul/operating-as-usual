@@ -56,7 +56,6 @@ export default function TunnelComponent() {
     if (zarathustraAudioRef && zarathustraAudioRef.current && !musicPlayed) {
       setMusicPlayed(true);
       //volume
-      zarathustraAudioRef.current.volume = 0.8;
       zarathustraAudioRef.current.play();
     }
   }

@@ -9,7 +9,6 @@ import * as Tone from "tone";
 
 //put 0 in front of numbers to match digit
 const formatNumber = (n, digit = 2) => ("0".repeat(digit) + Math.floor(n)).slice(-digit);
-const TIME_UNITS = ["C", "Y", "M", "D", "H", "M", "S"];
 
 export default function Pyramid() {
   const [century, setCentury] = useState(Math.ceil(new Date().getFullYear() / 100));
@@ -31,32 +30,39 @@ export default function Pyramid() {
   //changing: 0 = second, 1 = minute, 2 = hour, 3 = day, 4 = month, 5 = year, 6 = century
   const [changing, setChanging] = useState(0);
 
+  //membrane synth
+  const synth = useMemo(() => new Tone.MembraneSynth().toDestination(), []);
+  const synthSecond = useMemo(() => new Tone.MembraneSynth().toDestination(), []);
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [step, cycleState, randomnessParty, extinction]);
+  }, [step, cycleState, randomnessParty, extinction, synth]);
 
   //basic time adjust logic
   useEffect(() => {
     if (!randomnessParty) {
-      const synth = new Tone.MembraneSynth().toDestination();
-      const now = Tone.now();
-      synth.triggerAttackRelease("B2", "64n", now + 0.05);
+      try {
+        const now = Tone.now();
+        synthSecond.triggerAttackRelease("B2", "64n", now + 0.05);
+      } catch (e) {
+        console.log(e);
+      }
+
       const interval = setInterval(() => {
         setSecond((s) => s + 1);
         try {
-          const synth = new Tone.MembraneSynth().toDestination();
           const now = Tone.now();
-          synth.triggerAttackRelease("B2", "64n", now + 0.05);
+          synthSecond.triggerAttackRelease("B2", "64n", now + 0.05);
         } catch (e) {
           console.log(e);
         }
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [randomnessParty]);
+  }, [randomnessParty, synthSecond]);
 
   useEffect(() => {
     if (second >= 60) {
@@ -135,7 +141,6 @@ export default function Pyramid() {
       thenRef.current = nowRef.current;
       Tone.start();
 
-      const synth = new Tone.MembraneSynth().toDestination();
       const now = Tone.now();
 
       if (e.code === "KeyW") {
@@ -231,8 +236,12 @@ export default function Pyramid() {
 
   useEffect(() => {
     if (siren) {
-      const osc = new Tone.Oscillator(1000, "sine").toDestination();
-      osc.start().stop("+4");
+      try {
+        const osc = new Tone.Oscillator(1000, "sine").toDestination();
+        osc.start().stop("+4");
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [siren]);
 

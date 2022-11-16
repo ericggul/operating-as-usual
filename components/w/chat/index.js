@@ -41,6 +41,9 @@ export default function Chat() {
   // const [loadingLevel, setLoadingLevel] = useState(0);
   // const [accelerateSpeed, setAccelerateSpeed] = useState(100);
 
+  //osc
+  const osc = useMemo(() => new Tone.Oscillator().toDestination(), []);
+
   useEffect(() => {
     if (!getNewLeftChat) {
       document.addEventListener("keydown", handleKeyDown);
@@ -120,7 +123,7 @@ export default function Chat() {
       let waitTime = Math.max(3000 / 1.1 ** conversationNumber, 500);
       //tone
 
-      music(conversationNumber, waitTime);
+      music(conversationNumber, waitTime, osc);
 
       const timeout = setTimeout(() => {
         let remain = conversationNumber * 2 + 1 - DUMMY_DATA.length;
@@ -137,19 +140,7 @@ export default function Chat() {
       }, waitTime);
       return () => clearTimeout(timeout);
     }
-  }, [getNewLeftChat, chats, accelerateSpeed, conversationNumber]);
-
-  //flashing
-  const [flash, setFlash] = useState(false);
-  useEffect(() => {
-    if (conversationNumber >= 54 && conversationNumber <= 70) {
-      setFlash(true);
-      const timeout = setTimeout(() => {
-        setFlash(false);
-      }, 50);
-      return () => clearTimeout(timeout);
-    }
-  }, [conversationNumber]);
+  }, [getNewLeftChat, chats, accelerateSpeed, conversationNumber, osc]);
 
   //ambient music
   const tunnelAudioRef = useRef();
@@ -189,7 +180,6 @@ export default function Chat() {
                   windowHeight={windowHeight}
                   chatContainerNumber={chatContainerNumber}
                   opacity={Math.min((conversationNumber - 30) * 0.1, 1)}
-                  flash={flash}
                 />
               )}
             </React.Fragment>
@@ -207,8 +197,7 @@ export default function Chat() {
   );
 }
 
-function music(conversationNumber, waitTime) {
-  const osc = new Tone.Oscillator().toDestination();
+function music(conversationNumber, waitTime, osc) {
   osc.frequency.value = "C2";
   const randomLetter = ["C", "D", "E", "F", "G"][(conversationNumber + 2) % 5];
   osc.frequency.rampTo(`${randomLetter}4`, (waitTime / 1000) * 0.95);
