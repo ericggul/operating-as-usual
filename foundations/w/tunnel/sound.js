@@ -9,21 +9,17 @@ export default function Sound(props) {
   const [listener] = useState(() => new THREE.AudioListener());
   const buffer = useLoader(THREE.AudioLoader, props.url);
 
-  console.log("12");
   useEffect(() => {
     if (sound && sound.current) {
-      console.log("14");
       if (props.playLightAudio) {
-        console.log("17");
         sound.current.setBuffer(buffer);
         sound.current.setLoop(true);
-        sound.current.setRefDistance(20);
+        sound.current.setRefDistance(40);
         sound.current.play();
         camera.add(listener);
         return () => camera.remove(listener);
       } else {
         if (sound && sound.current && sound.current.isPlaying) {
-          console.log("25");
           sound.current.stop();
         }
       }

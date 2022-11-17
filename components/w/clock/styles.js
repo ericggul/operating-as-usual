@@ -127,7 +127,7 @@ export const Hole = styled.div`
     z-index: 20;
     transform: translate(-50%, -50%);
     /* Border */
-    border: solid ${({ theme }) => theme.windowWidth + theme.windowHeight}px black;
+    border: solid ${({ theme }) => theme.windowWidth + theme.windowHeight}px white;
     border-radius: 50%;
     @keyframes hole {
       0% {

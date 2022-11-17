@@ -11,6 +11,8 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import axios from "axios";
 import * as Tone from "tone";
 
+import { toast, Toast } from "loplat-ui";
+
 //DUMMY_DATA
 import { DUMMY_DATA } from "./data";
 
@@ -19,6 +21,12 @@ const WORDS = ["Who We Are", "Our History", "Our Identity", "Our Home", "Our Wor
 //NOW: Need to Control speed, smoother transition
 
 export default function Chat() {
+  //loading
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
   //posiiton, layout
   const [windowWidth, windowHeight] = useResize();
   const [chatContainerSize, setChatContainerSize] = useState({ width: 0, height: 0 });
@@ -151,49 +159,64 @@ export default function Chat() {
     }
   }, [tunnelAudioRef, conversationNumber]);
 
+  //if key isn't pressed
+  useEffect(() => {
+    if (conversationNumber === 0 && loadingLevel === 0) {
+      const timeout = setTimeout(() => {
+        toast.info("Press W on your keyboard to start");
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [conversationNumber, loadingLevel]);
+
   return (
-    <S.Container>
-      {conversationNumber <= 70 && (
-        <S.Inner scaleInner={scaleInner}>
-          {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
-            <React.Fragment key={i}>
-              {conversationNumber <= 39 && (
-                <SingleChat
-                  key={i}
-                  locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
-                  width={chatContainerSize.width}
-                  height={chatContainerSize.height}
-                  windowHeight={windowHeight}
-                  chatContainerNumber={chatContainerNumber}
-                  loadingLevel={loadingLevel}
-                  conversationNumber={conversationNumber}
-                  chats={chats}
-                  getNewLeftChat={getNewLeftChat}
-                />
-              )}
-              {conversationNumber >= 31 && conversationNumber <= 55 && (
-                <SingleDot
-                  key={-i - 1}
-                  locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
-                  width={chatContainerSize.width}
-                  height={chatContainerSize.height}
-                  windowHeight={windowHeight}
-                  chatContainerNumber={chatContainerNumber}
-                  opacity={Math.min((conversationNumber - 30) * 0.1, 1)}
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </S.Inner>
+    <S.Wrapper>
+      {loaded && (
+        <S.Container>
+          {conversationNumber <= 70 && (
+            <S.Inner scaleInner={scaleInner}>
+              {Array.from({ length: chatContainerNumber.x * chatContainerNumber.y }).map((_, i) => (
+                <React.Fragment key={i}>
+                  {conversationNumber <= 39 && (
+                    <SingleChat
+                      key={i}
+                      locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
+                      width={chatContainerSize.width}
+                      height={chatContainerSize.height}
+                      windowHeight={windowHeight}
+                      chatContainerNumber={chatContainerNumber}
+                      loadingLevel={loadingLevel}
+                      conversationNumber={conversationNumber}
+                      chats={chats}
+                      getNewLeftChat={getNewLeftChat}
+                    />
+                  )}
+                  {conversationNumber >= 31 && conversationNumber <= 55 && (
+                    <SingleDot
+                      key={-i - 1}
+                      locationIdx={i - (chatContainerNumber.x * chatContainerNumber.y - 1) / 2}
+                      width={chatContainerSize.width}
+                      height={chatContainerSize.height}
+                      windowHeight={windowHeight}
+                      chatContainerNumber={chatContainerNumber}
+                      opacity={Math.min((conversationNumber - 30) * 0.1, 1)}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </S.Inner>
+          )}
+          {conversationNumber >= 38 && <S.Text opacity={Math.min((conversationNumber - 37) * 0.25, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
+          {conversationNumber >= 54 && (
+            <S.TunnelContainer opacity={Math.min((conversationNumber - 54) * 0.08, 1)}>
+              <Tunnel />
+            </S.TunnelContainer>
+          )}
+          <audio id="audio" src={"/assets/sound/Tunnel.wav"} ref={tunnelAudioRef} loop />
+        </S.Container>
       )}
-      {conversationNumber >= 38 && <S.Text opacity={Math.min((conversationNumber - 37) * 0.25, 1)}>{WORDS[(conversationNumber + 2) % 5]}</S.Text>}
-      {conversationNumber >= 54 && (
-        <S.TunnelContainer opacity={Math.min((conversationNumber - 54) * 0.08, 1)}>
-          <Tunnel />
-        </S.TunnelContainer>
-      )}
-      <audio id="audio" src={"/assets/sound/Tunnel.wav"} ref={tunnelAudioRef} loop />
-    </S.Container>
+      <Toast duration={4000} />
+    </S.Wrapper>
   );
 }
 

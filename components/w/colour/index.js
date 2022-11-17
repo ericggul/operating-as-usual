@@ -1,7 +1,7 @@
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useRouter } from "next/router";
+import { toast, Toast } from "loplat-ui";
 import * as Tone from "tone";
 
 const getRandom = (a, b) => Math.random() * (b - a) + a;
@@ -78,11 +78,22 @@ function Colour({ opening, setOpening }) {
     }
   }, [randomnessStep]);
 
+  //if key isn't pressed
+  useEffect(() => {
+    if (randomnessState === 0 && cycleState === 0) {
+      const timeout = setTimeout(() => {
+        toast.info("Press W on your keyboard to start");
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [randomnessState, cycleState]);
+
   return (
     <S.Container>
       {new Array(50).fill(0).map((_, i) => (
         <Inner i={i} key={i} elements={elements} randomnessState={opening ? 60 : randomnessState} opening={opening} />
       ))}
+      <Toast duration={7000} />
     </S.Container>
   );
 }
@@ -122,6 +133,7 @@ const Inner = ({ i, elements, randomnessState, opening }) => {
 
   return (
     <S.Square
+      i={i}
       style={{
         background: `rgb(${i ** 0.8 * 10 + 10},${randomnessState ** 1.2},${40 - i ** 2 * 0.3 + randomnessState ** 1.2 * 0.4})`,
         top: `${elements.y}px`,

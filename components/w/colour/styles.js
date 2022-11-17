@@ -17,6 +17,17 @@ export const Container = styled.div`
 export const Square = styled.div`
   position: absolute;
   border-radius: 50%;
+
+  animation: appear 1s both;
+  animation-delay: ${(props) => props.i * 0.03 + 0.5}s;
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export const OnTop = styled.div`

@@ -24,7 +24,7 @@ export default function Intro() {
       }
     } else {
       toast.danger("Your device has no camera.");
-      location.href = "https://internetinental.herokuapp.com/105";
+      location.href = "https://operating-as-usual.vercel.app/105";
     }
   }
 
@@ -40,7 +40,7 @@ export default function Intro() {
       }
     } else {
       toast.danger("Your device has no microphone.");
-      location.href = "https://internetinental.herokuapp.com/105";
+      location.href = "https://operating-as-usual.vercel.app/105";
     }
   }
 

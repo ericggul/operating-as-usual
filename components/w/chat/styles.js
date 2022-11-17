@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components";
 import { FlexCenterStyle, WholeContainer } from "styles/common";
 
+export const Wrapper = styled.div`
+  ${WholeContainer};
+  background: black;
+`;
+
 export const Container = styled.div`
   ${WholeContainer}
   ${FlexCenterStyle};
@@ -9,6 +14,16 @@ export const Container = styled.div`
   background: radial-gradient(#aaa 0%, #000 100%);
   font-family: Helvetica;
   cursor: none;
+
+  animation: appear 2s;
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Inner = styled.div`

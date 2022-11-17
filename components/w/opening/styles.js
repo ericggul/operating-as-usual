@@ -27,26 +27,3 @@ export const Container = styled.div`
     z-index: 3;
   }
 `;
-
-export const ClosingAnimation = styled.div`
-  ${WholeContainer};
-  ${FlexCenterStyle};
-
-  z-index: 0;
-`;
-
-export const Closing = styled.div`
-  ${WholeContainer};
-  z-index: 0;
-  background: black;
-
-  animation: go-down 1s ease-in-out both;
-  @keyframes go-down {
-    0% {
-      transform: translateY(-${({ theme }) => theme.windowHeight}px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-`;

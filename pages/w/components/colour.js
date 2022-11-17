@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/router";
 import * as S from "components/105/archive/styles";
 
 const ColourComponent = dynamic(() => import("components/w/colour"), { ssr: false });
@@ -17,11 +17,16 @@ export default function Tunnel() {
     setColourVisible(false);
   }
 
+  const router = useRouter();
+  function clockFinished() {
+    router.push("/w/chat");
+  }
+
   return (
     <S.Container>
       {colourVisible && <ColourComponent opening={opening} setOpening={setOpening} />}
       {colourVisible && <OpeningComponent opening={opening} toClock={toClock} />}
-      {clockVisible && <ClockComponent />}
+      {clockVisible && <ClockComponent clockFinished={clockFinished} />}
     </S.Container>
   );
 }

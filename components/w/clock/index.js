@@ -1,16 +1,15 @@
 import * as S from "./styles";
 import useResize from "utils/hooks/useResize";
 import { useState, useEffect, useMemo, useRef } from "react";
-import { useRouter } from "next/router";
 
 import Watch from "foundations/w/clock/watch";
-
+import { toast, Toast } from "loplat-ui";
 import * as Tone from "tone";
 
 //put 0 in front of numbers to match digit
 const formatNumber = (n, digit = 2) => ("0".repeat(digit) + Math.floor(n)).slice(-digit);
 
-export default function Pyramid() {
+export default function Clock({ clockFinished }) {
   const [century, setCentury] = useState(Math.ceil(new Date().getFullYear() / 100));
   const [year, setYear] = useState(new Date().getFullYear() % 100);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -248,6 +247,11 @@ export default function Pyramid() {
   useEffect(() => {
     if (audioRef && audioRef.current && gameOver) {
       audioRef.current.play();
+
+      const timeout = setTimeout(() => {
+        clockFinished();
+      }, 4500);
+      return () => clearTimeout(timeout);
     }
   }, [gameOver, audioRef]);
 

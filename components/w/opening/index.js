@@ -26,7 +26,6 @@ export default function Opening({ opening, toClock }) {
   let intervalRef = useRef(null);
   function clockTransition() {
     intervalRef.current = setInterval(() => {
-      console.log("inv");
       const synth = new Tone.PolySynth().toDestination();
       const now = Tone.now();
       synth.triggerAttackRelease("B2", "64n", now + 0.05);
