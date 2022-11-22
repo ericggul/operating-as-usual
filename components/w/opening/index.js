@@ -33,7 +33,7 @@ export default function Opening({ opening, toClock }) {
 
     const timeout = setTimeout(() => {
       toClock();
-    }, 4900);
+    }, 1900);
 
     return () => {
       clearInterval(interval);

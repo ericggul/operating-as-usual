@@ -3,6 +3,7 @@ import * as S from "./styles";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { Physics, usePlane } from "@react-three/cannon";
+import { PerformanceMonitor } from "@react-three/drei";
 import { useState, useEffect, useRef } from "react";
 
 //foundations
@@ -94,10 +95,12 @@ export default function TunnelComponent() {
     }
   }, [musicPlayed]);
 
+  const [dpr, setDpr] = useState(1.5);
+
   return (
     <S.Container>
       <Canvas
-        dpr={[1, 2]}
+        dpr={dpr}
         gl={{ alpha: true, antialias: false }}
         camera={{
           fov: 50,
@@ -105,24 +108,26 @@ export default function TunnelComponent() {
           far: 2000,
         }}
       >
-        <color attach="background" args={["#000000"]} />
-        <ambientLight intensity={0.03} />
-        <spotLight position={[0, 100, -200]} intensity={1.8} penumbra={1} color="hsl(200, 100%, 50%)" />
-        <spotLight position={[0, -15, 300]} intensity={4} penumbra={1} color="hsl(350, 100%, 50%)" />
+        <PerformanceMonitor onIncline={() => setDpr(2)} onDecline={() => setDpr(1)}>
+          <color attach="background" args={["#000000"]} />
+          <ambientLight intensity={0.03} />
+          <spotLight position={[0, 100, -200]} intensity={1.8} penumbra={1} color="hsl(200, 100%, 50%)" />
+          <spotLight position={[0, -15, 300]} intensity={4} penumbra={1} color="hsl(350, 100%, 50%)" />
 
-        <Physics gravity={[0, -10, 0]}>
-          {new Array(70).fill(0).map((_, i) => (
-            <TubeSet curve={curve} position={[10 * (i - 35), 0, 0]} key={i} containsAudio={i === 35} playAudio={backgroundPlay} />
-          ))}
-          {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} containsAudio={false} />)}
-          {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} containsAudio={false} />)}
-          <BaseCharacter controls characterUpPrepare={characterUpPrepare} characterUp={characterUp} />
-        </Physics>
+          <Physics gravity={[0, -10, 0]}>
+            {new Array(70).fill(0).map((_, i) => (
+              <TubeSet curve={curve} position={[10 * (i - 35), 0, 0]} key={i} containsAudio={i === 35} playAudio={backgroundPlay} />
+            ))}
+            {secondLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -200]} key={i} containsAudio={false} />)}
+            {thirdLayer && new Array(70).fill(0).map((_, i) => <TubeSet curve={curve} position={[10 * (i - 35), 0, -400]} key={i} containsAudio={false} />)}
+            <BaseCharacter controls characterUpPrepare={characterUpPrepare} characterUp={characterUp} />
+          </Physics>
 
-        {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
-        {firstLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
-        {firstLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
-        {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
+          {firstLayer && <Mirror position={[0, 25, -200]} rotation={[0, 0, 0]} size={[700, 50]} />}
+          {firstLayer && <Mirror position={[0, 50, -400]} rotation={[0, 0, 0]} size={[700, 100]} />}
+          {firstLayer && <Mirror position={[0, 400, -600]} rotation={[0, 0, 0]} size={[700, 800]} />}
+          {textState >= 0 && <CreditText {...TEXT_CONFIGS[textState]} />}
+        </PerformanceMonitor>
       </Canvas>
       <audio id="audio" src={"/assets/sound/Zarathustra.ogg"} ref={zarathustraAudioRef} />
       {fadeOut && <S.FadeOut />}

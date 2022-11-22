@@ -65,9 +65,9 @@ function Colour({ opening, setOpening }) {
       setRandomnessState(0);
       setCycleState((s) => s + 1);
       if (cycleState < 9) {
-        setRandomnessStep((s) => s * 1.39);
+        setRandomnessStep((s) => s * 1.38);
       } else {
-        setRandomnessStep((s) => s * 1.04);
+        setRandomnessStep((s) => s * 1.05);
       }
     }
   }, [randomnessState, randomnessStep, opening]);

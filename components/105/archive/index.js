@@ -82,7 +82,7 @@ function CameraAnimation({ windowWidth }) {
       () => {
         setLerpTargetIdx((idx) => (idx + 1) % TARGETS.length);
       },
-      windowWidth > 2000 ? windowWidth * 13 : 7000
+      windowWidth > 2000 ? windowWidth * 10 : 7000
     );
     return () => clearInterval(interval);
   }, [windowWidth]);
@@ -94,7 +94,7 @@ function CameraAnimation({ windowWidth }) {
     const time = state.clock.getElapsedTime();
 
     state.camera.lookAt(0, 0, 0);
-    state.camera.position.lerp(TARGETS[lerpTargetIdx], windowWidth > 2000 ? (0.0025 * 3000) / windowWidth : 0.01);
+    state.camera.position.lerp(TARGETS[lerpTargetIdx], windowWidth > 2000 ? (0.0028 * 3000) / windowWidth : 0.01);
     return null;
   });
   return null;

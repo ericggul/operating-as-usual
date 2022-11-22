@@ -196,7 +196,7 @@ export default function Clock({ clockFinished }) {
       if (step > 0 && step < 60) {
         setStep((s) => s * 2.9);
       } else if (step < 3600) {
-        setStep((s) => s * 2.55);
+        setStep((s) => s * 2.7);
       } else if (step < 86400) {
         setStep((s) => s * 1.7);
       } else if (step < 2592000) {
@@ -246,6 +246,7 @@ export default function Clock({ clockFinished }) {
 
   useEffect(() => {
     if (audioRef && audioRef.current && gameOver) {
+      console.log("game over!");
       audioRef.current.play();
 
       const timeout = setTimeout(() => {
@@ -260,7 +261,7 @@ export default function Clock({ clockFinished }) {
       <S.Container extinction={extinction}>
         {(showTime >= 6 || changing >= 5) && (
           <>
-            {new Array(cycleState >= 45 ? 7 : 1).fill(0).map((_, i) => (
+            {new Array(cycleState >= 380 ? 7 : 1).fill(0).map((_, i) => (
               <S.SingleTime key={i}>
                 {changing >= 3 && (
                   <>
