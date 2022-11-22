@@ -71,7 +71,7 @@ const BaseCharacter = ({ characterUpPrepare, characterUp }) => {
       if (currentSpeed.current > 800) {
         currentSpeed.current = currentSpeed.current * 1.008;
       } else {
-        currentSpeed.current = currentSpeed.current * 1.28;
+        currentSpeed.current = currentSpeed.current * 1.32;
       }
     }
   });

@@ -9,11 +9,11 @@ export default function Balls({ particles, completedIdxs, order }) {
     <>
       {new Array(5).fill(0).map((_, k) => (
         <Instances limit={21} key={k}>
-          {k === 0 && <tetrahedronGeometry attach="geometry" args={[3, 0]} />}
-          {k === 1 && <boxGeometry attach="geometry" args={[3, 3, 3, 1, 1, 1]} />}
-          {k === 2 && <octahedronGeometry attach="geometry" args={[3, 0]} />}
-          {k === 3 && <dodecahedronGeometry attach="geometry" args={[2.7, 0]} />}
-          {k === 4 && <icosahedronGeometry attach="geometry" args={[2.5, 0]} />}
+          {k === 0 && <tetrahedronBufferGeometry attach="geometry" args={[3, 0]} />}
+          {k === 1 && <boxBufferGeometry attach="geometry" args={[3, 3, 3, 1, 1, 1]} />}
+          {k === 2 && <octahedronBufferGeometry attach="geometry" args={[3, 0]} />}
+          {k === 3 && <dodecahedronBufferGeometry attach="geometry" args={[2.7, 0]} />}
+          {k === 4 && <icosahedronBufferGeometry attach="geometry" args={[2.5, 0]} />}
 
           <meshStandardMaterial roughness={0} color="#ff77ff" />
           {particles

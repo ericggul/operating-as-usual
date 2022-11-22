@@ -194,15 +194,15 @@ export default function Clock({ clockFinished }) {
   useEffect(() => {
     if (cycleState >= 1) {
       if (step > 0 && step < 60) {
-        setStep((s) => s * 2.8);
+        setStep((s) => s * 2.9);
       } else if (step < 3600) {
-        setStep((s) => s * 2.45);
+        setStep((s) => s * 2.55);
       } else if (step < 86400) {
-        setStep((s) => s * 1.6);
+        setStep((s) => s * 1.7);
       } else if (step < 2592000) {
-        setStep((s) => s * 1.65);
+        setStep((s) => s * 1.75);
       } else if (step < 31104000) {
-        setStep((s) => s * 1.2);
+        setStep((s) => s * 1.24);
       }
     }
   }, [cycleState]);

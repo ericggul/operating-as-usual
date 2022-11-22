@@ -14,7 +14,7 @@ export default function Sound(props) {
       if (props.playLightAudio) {
         sound.current.setBuffer(buffer);
         sound.current.setLoop(true);
-        sound.current.setRefDistance(40);
+        sound.current.setRefDistance(50);
         sound.current.play();
         camera.add(listener);
         return () => camera.remove(listener);
