@@ -7,7 +7,7 @@ const IntroComp = dynamic(() => import("foundations/common/Intro"), {
   ssr: false,
 });
 
-const Component = dynamic(() => import("components/intermission/v1"), { ssr: false });
+const Component = dynamic(() => import("components/17square/v2"), { ssr: false });
 
 export default function Intermission() {
   //intro
