@@ -6,6 +6,7 @@ export const Container = styled.div`
   ${FlexCenterStyle};
   flex-direction: column;
   overflow: hidden;
+  cursor: none;
   color: black;
 
   background: #111;

@@ -4,6 +4,7 @@ import { FlexCenterStyle, WholeContainer } from "styles/common";
 export const Wrapper = styled.div`
   ${WholeContainer};
   background: black;
+  cursor: none;
 `;
 
 export const Container = styled.div`

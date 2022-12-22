@@ -4,6 +4,7 @@ import { FlexCenterStyle, WholeContainer } from "styles/common";
 export const Container = styled.div`
   ${FlexCenterStyle};
   ${WholeContainer};
+  cursor: none;
 `;
 
 export const FadeOut = styled.div`
