@@ -27,28 +27,10 @@ export default function Container() {
       if (audioRef && audioRef.current) {
         audioRef.current.playbackRate = 7;
         audioRef.current.play();
-        getTTS();
       }
     }
     setI(second);
   }, [second]);
-
-  async function getTTS() {
-    try {
-      const res = await axios.post(
-        "/api/google-tts",
-        { text: `What are you doing on Feb?` },
-        {
-          responseType: "arraybuffer",
-        }
-      );
-      let data = res.data;
-
-      playAudio(data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   return (
     <S.Container>
@@ -80,97 +62,4 @@ export default function Container() {
       <audio id="audio" src={"/assets/sound/Applause.wav"} ref={audioRef} />
     </S.Container>
   );
-}
-
-async function playAudio(data) {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
-  const audioBuffer = await audioCtx.decodeAudioData(data);
-  const source = audioCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioCtx.destination);
-  source.start();
-}
-
-function triggerMusic() {
-  const lowPass = new Tone.Filter({
-    frequency: 16000,
-  }).toDestination();
-
-  // we can make our own hi hats with
-  // the noise synth and a sharp filter envelope
-  const openHiHat = new Tone.NoiseSynth({
-    volume: -10,
-    envelope: {
-      attack: 0.01,
-      decay: 0.3,
-    },
-  }).connect(lowPass);
-
-  const openHiHatPart = new Tone.Part(
-    (time) => {
-      openHiHat.triggerAttack(time);
-    },
-    [{ "8n": 2 }, { "8n": 6 }, { "16n": 7 }]
-  ).start(0);
-
-  for (let i = 0; i < 10; i++) {
-    const passTest = new Tone.Filter({
-      frequency: getRandom(8000, 64000),
-    }).toDestination();
-
-    let hiHatTest = new Tone.NoiseSynth({
-      volume: -getRandom(20, 3),
-      envelope: {
-        attack: getRandom(0.01, 0.03),
-        decay: 0.12,
-      },
-    }).connect(passTest);
-
-    const hatPart = new Tone.Part(
-      (time) => {
-        hiHatTest.triggerAttack(time);
-      },
-      [0, { "16n": 1 }, { "16n": 2 }, { "16n": 5 }, { "16n": 7 }, { "8n": 8 }]
-    ).start(Math.floor(getRandom(0, 8)) / 8);
-  }
-
-  // KICK
-  // const kickEnvelope = new Tone.AmplitudeEnvelope({
-  //   attack: 0.01,
-  //   decay: 0.2,
-  //   sustain: 0,
-  // }).toDestination();
-
-  // const kick = new Tone.Oscillator("A2").connect(kickEnvelope).start();
-
-  // const kickSnapEnv = new Tone.FrequencyEnvelope({
-  //   attack: 0.005,
-  //   decay: 0.01,
-  //   sustain: 0,
-  //   baseFrequency: "A2",
-  //   octaves: 2.7,
-  // }).connect(kick.frequency);
-
-  // const kickPart = new Tone.Part(
-  //   (time) => {
-  //     kickEnvelope.triggerAttack(time);
-  //     kickSnapEnv.triggerAttack(time);
-  //   },
-  //   ["0", "0:0:3", "0:2:0", "0:3:1"]
-  // ).start(0);
-
-  // TRANSPORT
-  Tone.Transport.loopStart = 0;
-  Tone.Transport.loopEnd = "1:0";
-  Tone.Transport.loop = true;
-
-  try {
-    // filtering the hi-hats a bit
-    // to make them sound nicer
-
-    Tone.Transport.start();
-  } catch (e) {
-    console.log(e);
-  }
 }
