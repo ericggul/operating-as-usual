@@ -12,30 +12,34 @@ export const BoxContainer = styled.div`
   ${WholeContainer};
 `;
 
-export const BoxSector = styled.div`
-  display: grid;
-  grid-template-columns: repeat(17, 1fr);
-  grid-template-rows: repeat(17, 1fr);
+export const TriangleSector = styled.div`
+  ${FlexCenterStyle};
+  ${WholeContainer};
+  flex-direction: column;
 `;
 
-export const Box = styled.div`
-  width: 3.8vh;
-  height: 3.8vh;
-  margin: 0.1vh;
-  background: white;
-  box-shadow: 0 0 2vh white;
+export const Row = styled.div`
+  ${FlexCenterStyle};
+`;
 
-  ${({ target, activated }) => target && activated && `background: black;`}
+export const Triangle = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 2vh solid transparent;
+  border-right: 2vh solid transparent;
 
+  ${({ up, target, activated }) =>
+    up ? `border-bottom: 3.464vh solid ${target ? (activated ? "white" : "#111") : "#111"};` : `border-top: 3.464vh solid ${target ? (activated ? "white" : "#111") : "#111"};`}
+  margin: 0.6vh -0.6vh;
   transition: 0.5s;
 `;
 
 export const Calculation = styled.div`
   mix-blend-mode: difference;
-  width: 50vh;
+  text-align: center;
   color: white;
-  text-shadow: 0 0 0.5vh white;
-  font-size: 5vh;
+  font-size: 2.5vh;
   z-index: 10;
   font-family: Courier New;
+  margin-bottom: 18vh;
 `;

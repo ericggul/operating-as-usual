@@ -35,15 +35,34 @@ export default function Container() {
     }
   }
 
+  function isTarget(i, j, cut = 16) {
+    if (i === 10) {
+      if (j >= 7 && j <= 13) return j - 7 < cut;
+    }
+    if (i === 11) {
+      if (j >= 9 && j <= 13) return 7 + (j - 9) < cut;
+    }
+    if (i === 12) {
+      if (j >= 11 && j <= 13) return 12 + (j - 11) < cut;
+    }
+    if (i === 13) {
+      if (j === 13) return 15 < cut;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <S.Container>
-      <S.BoxContainer>
-        <S.BoxSector>
-          {new Array(17).fill(0).map((_, i) => {
-            return new Array(17).fill(0).map((_, j) => <S.Box key={17 * i + j} target={i >= 6 && i <= 9 && j >= 6 && j <= 9} activated={(i - 6) * 4 + (j - 6) < second + 1} />);
-          })}
-        </S.BoxSector>
-      </S.BoxContainer>
+      <S.TriangleSector>
+        {new Array(17).fill(0).map((_, i) => (
+          <S.Row key={i}>
+            {new Array(2 * i + 1).fill(0).map((_, j) => (
+              <S.Triangle key={50 * i + j} up={j % 2 === 0} target={isTarget(i, j)} activated={isTarget(i, j, second + 1)} />
+            ))}
+          </S.Row>
+        ))}
+      </S.TriangleSector>
 
       <S.Calculation>
         <p>4m 33s + {i + 1}s</p>

@@ -35,11 +35,14 @@ export const Triangle = styled.div`
 `;
 
 export const Calculation = styled.div`
-  mix-blend-mode: difference;
-  text-align: center;
+  ${FlexCenterStyle};
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  ${WholeContainer};
+  text-align: right;
   color: white;
-  font-size: 3vh;
+  font-size: 2vh;
   z-index: 10;
   font-family: Courier New;
-  margin-bottom: 18vh;
 `;

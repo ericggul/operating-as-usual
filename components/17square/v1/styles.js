@@ -1,5 +1,5 @@
-import { FlexCenterStyle, WholeContainer } from "styles/common";
 import styled from "styled-components";
+import { FlexCenterStyle, WholeContainer } from "styles/common";
 
 export const Container = styled.div`
   ${WholeContainer};
@@ -14,26 +14,30 @@ export const BoxContainer = styled.div`
 
 export const BoxSector = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(17, 1fr);
+  grid-template-rows: repeat(17, 1fr);
 `;
 
 export const Box = styled.div`
-  width: 25vh;
-  height: 25vh;
-  font-size: 2.6vh;
-  ${FlexCenterStyle};
-  flex-direction: column;
+  width: 3.8vh;
+  height: 3.8vh;
+  margin: 0.2vh;
   background: black;
-  color: white;
+  box-shadow: 0 0 2vh #333;
 
-  ${({ activated }) => (activated ? `background: black; color: white;` : "background: white; color: white;")}
+  ${({ target, activated }) => target && activated && `background: white;`}
+
   transition: 0.5s;
 `;
 
-export const Intermission = styled.div`
-  font-size: 25vh;
-  font-weight: 900;
+export const Calculation = styled.div`
   mix-blend-mode: difference;
+  width: 20vh;
   color: white;
+  text-shadow: 0 0 0.5vh white;
+  font-size: 2vh;
+  z-index: 10;
+  font-family: Courier New;
+  margin-left: 25vh;
+  margin-bottom: 5vh;
 `;
