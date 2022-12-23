@@ -40,22 +40,11 @@ export default function Container() {
         { text: `What are you doing on Feb?` },
         {
           responseType: "arraybuffer",
-          "Access-Control-Allow-Origin": "*",
         }
       );
       let data = res.data;
-      //play audio
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioContext = new AudioContext();
-      console.log("51");
-      console.log(data);
-      const audioBuffer = await audioContext.decodeAudioData(data);
-      console.log("53");
-      const source = audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(audioContext.destination);
-      source.start();
-      console.log(source);
+
+      playAudio(data);
     } catch (e) {
       console.log(e);
     }
@@ -93,17 +82,14 @@ export default function Container() {
   );
 }
 
-async function playAudio(soundData) {
-  //play audio
-  console.log(soundData);
+async function playAudio(data) {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioContext = new AudioContext();
-  const audioBuffer = await audioContext.decodeAudioData(soundData);
-  const source = audioContext.createBufferSource();
+  const audioCtx = new AudioContext();
+  const audioBuffer = await audioCtx.decodeAudioData(data);
+  const source = audioCtx.createBufferSource();
   source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
+  source.connect(audioCtx.destination);
   source.start();
-  console.log(source);
 }
 
 function triggerMusic() {

@@ -13,7 +13,5 @@ export default async function handler(req, res) {
   };
 
   const [response] = await client.synthesizeSpeech(request);
-
-  console.log(response.audioContent);
-  res.status(200).json({ voice: response.audioContent });
+  res.send(response.audioContent);
 }
