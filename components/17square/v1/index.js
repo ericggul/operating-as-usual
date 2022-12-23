@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import useRandomInterval from "utils/hooks/useRandomInterval";
 
 import * as Tone from "tone";
+import axios from "axios";
 
 const getRandom = (min, max) => Math.random() * (max - min) + min;
 const getRandomChord = () => {
@@ -19,20 +20,53 @@ export default function Container() {
   useRandomInterval(() => setSecond((s) => (s + 1) % 15), 998, 1002);
 
   const SECONDS = 273;
+  const audioRef = useRef();
 
   useEffect(() => {
     if (second === 0) {
-      triggerSound();
+      if (audioRef && audioRef.current) {
+        audioRef.current.playbackRate = 7;
+        audioRef.current.play();
+        getTTS();
+      }
     }
     setI(second);
   }, [second]);
+
+  async function getTTS() {
+    try {
+      const res = await axios.post(
+        "/api/google-tts",
+        { text: `What are you doing on Feb?` },
+        {
+          responseType: "arraybuffer",
+          "Access-Control-Allow-Origin": "*",
+        }
+      );
+      let data = res.data;
+      //play audio
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContext();
+      console.log("51");
+      console.log(data);
+      const audioBuffer = await audioContext.decodeAudioData(data);
+      console.log("53");
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(audioContext.destination);
+      source.start();
+      console.log(source);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <S.Container>
       <S.BoxContainer>
         <S.BoxSector>
           {new Array(17).fill(0).map((_, i) => {
-            return new Array(17).fill(0).map((_, j) => <S.Box key={17 * i + j} target={i >= 6 && i <= 9 && j >= 2 && j <= 5} activated={(i - 6) * 4 + (j - 2) < second + 1} />);
+            return new Array(17).fill(0).map((_, j) => <S.Box key={17 * i + j} targetNumber={i >= 6 && i <= 9 && j >= 2 && j <= 5} isActivated={(i - 6) * 4 + (j - 2) < second + 1} />);
           })}
         </S.BoxSector>
       </S.BoxContainer>
@@ -54,11 +88,25 @@ export default function Container() {
           17<sup>2</sup>s - 4<sup>2</sup>s + {i + 1}s
         </p>
       </S.Calculation>
+      <audio id="audio" src={"/assets/sound/Applause.wav"} ref={audioRef} />
     </S.Container>
   );
 }
 
-function triggerSound() {
+async function playAudio(soundData) {
+  //play audio
+  console.log(soundData);
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioContext = new AudioContext();
+  const audioBuffer = await audioContext.decodeAudioData(soundData);
+  const source = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioContext.destination);
+  source.start();
+  console.log(source);
+}
+
+function triggerMusic() {
   const lowPass = new Tone.Filter({
     frequency: 16000,
   }).toDestination();

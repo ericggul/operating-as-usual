@@ -25,7 +25,7 @@ export const Box = styled.div`
   background: black;
   box-shadow: 0 0 2vh #333;
 
-  ${({ target, activated }) => target && activated && `background: white;`}
+  ${({ targetNumber, isActivated }) => targetNumber && isActivated && `background: white;`}
 
   transition: 0.5s;
 `;

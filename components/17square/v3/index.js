@@ -49,10 +49,10 @@ export default function Container() {
         <group>
           {new Array(16).fill(0).map((_, i) => i <= second && <SingleLight key={i} i={i} />)}
           {new Array(17).fill(0).map((_, i) => (
-            <group key={i}>
+            <group key={-i}>
               {new Array(17).fill(0).map((_, j) => (
                 <mesh
-                  key={j}
+                  key={j * 100 + i}
                   position={[(i - 7.5) * 1.5, (j - 7.5) * 1.5, 0]}
 
                   // scale={i >= 6 && i <= 9 && j >= 6 && j <= 9 ? [1.5, 1.5, 1.5] : [1, 1, 1]}
@@ -91,8 +91,8 @@ export default function Container() {
 function SingleLight({ i }) {
   return (
     <>
-      <pointLight key={i} position={[((i % 4) - 1.5) * 1.5, (Math.floor(i / 4) - 1.5) * 1.5, -1.3]} color={`hsl(0, 100%, 100%)`} intensity={0.6} />
-      <pointLight key={i} position={[((i % 4) - 1.5) * 2, (Math.floor(i / 4) - 1.5) * 2, 10]} color={`hsl(180, 100%, 100%)`} intensity={0.1} />
+      <pointLight position={[((i % 4) - 1.5) * 1.5, (Math.floor(i / 4) - 1.5) * 1.5, -1.3]} color={`hsl(0, 100%, 100%)`} intensity={0.6} />
+      <pointLight position={[((i % 4) - 1.5) * 2, (Math.floor(i / 4) - 1.5) * 2, 10]} color={`hsl(180, 100%, 100%)`} intensity={0.1} />
     </>
   );
 }
