@@ -28,8 +28,8 @@ export const Triangle = styled.div`
   border-left: 2vh solid transparent;
   border-right: 2vh solid transparent;
 
-  ${({ up, target, activated }) =>
-    up ? `border-bottom: 3.464vh solid ${target ? (activated ? "white" : "#111") : "#111"};` : `border-top: 3.464vh solid ${target ? (activated ? "white" : "#111") : "#111"};`}
+  ${({ up, isTarget, activated }) =>
+    up ? `border-bottom: 3.464vh solid ${isTarget ? (activated ? "white" : "#111") : "#111"};` : `border-top: 3.464vh solid ${isTarget ? (activated ? "white" : "#111") : "#111"};`}
   margin: 0.6vh -0.6vh;
   transition: 0.5s;
 `;
@@ -42,4 +42,7 @@ export const Calculation = styled.div`
   z-index: 10;
   font-family: Courier New;
   margin-bottom: 18vh;
+
+  ${({ visible }) => (visible ? `opacity: 1;` : `opacity: 0;`)}
+  transition: 0.5s;
 `;

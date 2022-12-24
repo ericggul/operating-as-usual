@@ -40,4 +40,7 @@ export const Calculation = styled.div`
   font-family: Courier New;
   margin-left: 25vh;
   margin-bottom: 5vh;
+
+  ${({ visible }) => (visible ? `opacity: 1;` : `opacity: 0;`)}
+  transition: 0.5s;
 `;

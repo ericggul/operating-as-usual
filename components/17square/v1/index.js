@@ -2,35 +2,51 @@ import * as S from "./styles";
 import { useEffect, useState, useRef } from "react";
 import useRandomInterval from "utils/hooks/useRandomInterval";
 
-import * as Tone from "tone";
-import axios from "axios";
+import useTTS from "utils/hooks/useTTS";
 
-const getRandom = (min, max) => Math.random() * (max - min) + min;
-const getRandomChord = () => {
-  const notes = ["C", "D", "E", "F", "G", "A", "B"];
-  const note = notes[Math.floor(Math.random() * notes.length)];
-  const octave = Math.floor(Math.random() * 3) + 4;
-  return `${note}${octave}`;
-};
+const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this intermission, and we will be resuming in three seconds.`;
 
 export default function Container() {
-  const [second, setSecond] = useState(0);
+  const [wholeSecond, setWholeSecond] = useState(0);
+  const [second, setSecond] = useState(-1);
   const [i, setI] = useState(0);
 
-  useRandomInterval(() => setSecond((s) => (s + 1) % 15), 998, 1002);
+  useRandomInterval(() => setWholeSecond((s) => (s + 1) % 89), 998, 1002);
 
-  const SECONDS = 273;
   const audioRef = useRef();
+
+  const [speak, setSpeak] = useState(false);
+  useTTS(TEXT, speak, setSpeak);
+
+  useEffect(() => {
+    if (wholeSecond >= 73) {
+      setSecond(wholeSecond - 73);
+    } else if (wholeSecond === 0) {
+      setSecond(-1);
+    }
+  }, [wholeSecond]);
 
   useEffect(() => {
     if (second === 0) {
       if (audioRef && audioRef.current) {
-        audioRef.current.playbackRate = 7;
+        audioRef.current.playbackRate = 4;
         audioRef.current.play();
+        handleSpeak();
       }
     }
     setI(second);
   }, [second]);
+
+  const timeoutRef = useRef();
+  function handleSpeak() {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    timeoutRef.current = setTimeout(() => {
+      setSpeak(true);
+    }, 5500);
+  }
 
   return (
     <S.Container>
@@ -42,12 +58,11 @@ export default function Container() {
         </S.BoxSector>
       </S.BoxContainer>
 
-      <S.Calculation>
+      <S.Calculation visible={second >= 0}>
         <p>4m 33s + {i + 1}s</p>
         <p>
           {Math.floor((i + 1 + 273) / 60)}m {(i + 1 + 273) % 60}s
         </p>
-
         <p>{i + 1 + 273}s</p>
         <p>
           {289}s - {16 - i - 1}s

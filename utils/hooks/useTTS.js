@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function useTTS(text, speak, setSpeak) {
   const [arrayBufferData, setArrayBufferData] = useState(null);
@@ -34,11 +34,15 @@ export default function useTTS(text, speak, setSpeak) {
 }
 
 async function playAudio(data) {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
-  const audioBuffer = await audioCtx.decodeAudioData(data);
-  const source = audioCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioCtx.destination);
-  source.start();
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+    const audioBuffer = await audioCtx.decodeAudioData(data);
+    const source = audioCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioCtx.destination);
+    source.start();
+  } catch (e) {
+    console.log(e);
+  }
 }

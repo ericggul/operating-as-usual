@@ -45,4 +45,7 @@ export const Calculation = styled.div`
   font-size: 2vh;
   z-index: 10;
   font-family: Courier New;
+
+  ${({ visible }) => (visible ? `opacity: 1;` : `opacity: 0;`)}
+  transition: 0.5s;
 `;
