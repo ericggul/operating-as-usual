@@ -136,7 +136,6 @@ export default function Clock({ clockFinished }) {
   const handleKeyDown = (e) => {
     nowRef.current = Date.now();
     if (nowRef.current - thenRef.current > 50) {
-      console.log(nowRef.current - thenRef.current);
       thenRef.current = nowRef.current;
       Tone.start();
 
