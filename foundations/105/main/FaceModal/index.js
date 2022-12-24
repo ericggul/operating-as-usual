@@ -12,7 +12,6 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 //utils
 import { prepareModel } from "./utils/prepareModel";
 import { prepareVideo } from "./utils/prepareVideo";
-// import { analyseVoice } from "./utils/analyseVoice";
 import { drawResults } from "./utils/draw";
 
 import CheckMark from "foundations/105/main/CheckMark";
