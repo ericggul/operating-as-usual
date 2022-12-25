@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const request = {
     input: { text: req.body.text },
     voice: { languageCode: "en-UK", ssmlGender: "NEUTRAL" },
-    audioConfig: { audioEncoding: "LINEAR16" },
+    audioConfig: { audioEncoding: "LINEAR16", sampleRateHertz: 16000, pitch: 5.0 },
   };
 
   const [response] = await client.synthesizeSpeech(request);

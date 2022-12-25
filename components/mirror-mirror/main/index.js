@@ -3,7 +3,7 @@ import * as S from "./styles";
 import "regenerator-runtime/runtime";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { useEffect, useState } from "react";
-import useTTS from "utils/hooks/useTTS";
+import useTTSFilter from "utils/hooks/useTTSFilter";
 
 export default function Component() {
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
@@ -22,7 +22,7 @@ export default function Component() {
     return () => clearTimeout(timeout);
   }, [transcript]);
 
-  useTTS(transcript, translateSpeech, setTranslateSpeech);
+  useTTSFilter(transcript, translateSpeech, setTranslateSpeech);
 
   return <S.Container>{transcript}</S.Container>;
 }
