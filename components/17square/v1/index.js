@@ -4,14 +4,14 @@ import useRandomInterval from "utils/hooks/useRandomInterval";
 
 import useTTS from "utils/hooks/useTTS";
 
-const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this intermission, and we will be resuming in three seconds.`;
+const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this 16 seconds intermission, and we will be resuming in two seconds.`;
 
 export default function Container() {
   const [wholeSecond, setWholeSecond] = useState(0);
   const [second, setSecond] = useState(-1);
   const [i, setI] = useState(0);
 
-  useRandomInterval(() => setWholeSecond((s) => (s + 1) % 89), 998, 1002);
+  useRandomInterval(() => setWholeSecond((s) => (s + 1) % 289), 998, 1002);
 
   const audioRef = useRef();
 
@@ -19,8 +19,8 @@ export default function Container() {
   useTTS(TEXT, speak, setSpeak);
 
   useEffect(() => {
-    if (wholeSecond >= 73) {
-      setSecond(wholeSecond - 73);
+    if (wholeSecond >= 273) {
+      setSecond(wholeSecond - 273);
     } else if (wholeSecond === 0) {
       setSecond(-1);
     }

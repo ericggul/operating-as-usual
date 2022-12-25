@@ -2,18 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function useTTS(text, speak, setSpeak) {
-  const [arrayBufferData, setArrayBufferData] = useState(null);
+  const [audioBuffer, setAudioBuffer] = useState(null);
 
   useEffect(() => {
     getTTS(text);
   }, [text]);
 
   useEffect(() => {
-    if (speak && arrayBufferData) {
-      playAudio(arrayBufferData);
-      setSpeak(false);
+    if (speak && audioBuffer) {
+      handleAudio();
     }
-  }, [speak, arrayBufferData]);
+  }, [speak, audioBuffer]);
+
+  async function handleAudio() {
+    await playAudio(audioBuffer);
+    setSpeak(false);
+  }
 
   async function getTTS(text) {
     try {
@@ -26,20 +30,22 @@ export default function useTTS(text, speak, setSpeak) {
       );
       let data = res.data;
 
-      setArrayBufferData(data);
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContext();
+      const audioBuffer = await audioCtx.decodeAudioData(data);
+      setAudioBuffer(audioBuffer);
     } catch (e) {
       console.log(e);
     }
   }
 }
 
-async function playAudio(data) {
+async function playAudio(buffer) {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
-    const audioBuffer = await audioCtx.decodeAudioData(data);
     const source = audioCtx.createBufferSource();
-    source.buffer = audioBuffer;
+    source.buffer = buffer;
     source.connect(audioCtx.destination);
     source.start();
   } catch (e) {

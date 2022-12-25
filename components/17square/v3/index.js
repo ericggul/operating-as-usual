@@ -9,7 +9,7 @@ import * as Tone from "tone";
 import { Canvas } from "@react-three/fiber";
 import { MeshReflectorMaterial } from "@react-three/drei";
 
-const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this intermission, and we will be resuming in three seconds.`;
+const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this 16 seconds intermission, and we will be resuming in two seconds.`;
 
 export default function Container() {
   const [wholeSecond, setWholeSecond] = useState(0);
