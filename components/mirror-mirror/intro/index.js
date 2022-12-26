@@ -15,6 +15,7 @@ export default function Intro() {
         await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
+        console.log("21");
         setGranted(true);
       } catch (e) {
         toast.danger("It seems like your browser is blocking us to use microphone. Please allow the browser's microphone access to continue.");
@@ -24,6 +25,8 @@ export default function Intro() {
       location.href = "https://operating-as-usual.vercel.app/105";
     }
   }
+
+  console.log(granted);
 
   const [loading, setLoading] = useState(false);
 

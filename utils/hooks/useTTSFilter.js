@@ -6,6 +6,7 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
 
   useEffect(() => {
     if (text.length > 0 && speak) {
+      console.log("8", text, speak);
       getTTS(text);
     }
   }, [text, speak]);
@@ -24,19 +25,21 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
 
   async function getTTS(text) {
     try {
+      console.log("27");
       const res = await axios.post(
         "/api/google-tts",
         { text },
         {
-          responseType: "arraybuffer",
+          responseType: "string",
         }
       );
       let data = res.data;
 
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
-      const audioBuffer = await audioCtx.decodeAudioData(data);
-      setAudioBuffer(audioBuffer);
+      const snd = new Audio("data:audio/wav;base64," + data);
+      snd.play();
+      setSpeak(false);
+      setListenToVoice(false);
+      snd.onended = () => setListenToVoice(true);
     } catch (e) {
       console.log(e);
     }

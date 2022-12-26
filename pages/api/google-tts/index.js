@@ -1,10 +1,20 @@
 const textToSpeech = require("@google-cloud/text-to-speech");
+const { google } = require("googleapis");
 
 export default async function handler(req, res) {
-  const client = new textToSpeech.TextToSpeechClient();
+  const SCOPES = ["https://www.googleapis.com/auth/cloud-platform"];
 
-  const [result] = await client.listVoices({ languageCode: "en" });
-  const voices = result.voices;
+  //authentication
+  const { privateKey } = JSON.parse(process.env.GOOGLE_PRIVATE_KEY || "{ privateKey: null }");
+  const auth = new google.auth.GoogleAuth({
+    scopes: SCOPES,
+    projectId: process.env.GOOGLE_PROJECT_ID,
+    credentials: {
+      private_key: privateKey,
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    },
+  });
+  const authToken = await auth.getClient();
 
   const request = {
     input: { text: req.body.text },
@@ -12,7 +22,11 @@ export default async function handler(req, res) {
     audioConfig: { audioEncoding: "LINEAR16", sampleRateHertz: 16000, pitch: 5.0 },
   };
 
-  const [response] = await client.synthesizeSpeech(request);
+  const client = await google.texttospeech({
+    version: "v1",
+    auth: authToken,
+  });
 
-  res.send(response.audioContent);
+  const result = await client.text.synthesize({ resource: request });
+  res.send(result.data.audioContent);
 }
