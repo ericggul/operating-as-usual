@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import * as S from "./styles";
 import Link from "next/link";
 
-import { AiFillCamera } from "react-icons/ai";
 import { MdSettingsVoice } from "react-icons/md";
 import { toast, Toast, LineLoading } from "loplat-ui";
 

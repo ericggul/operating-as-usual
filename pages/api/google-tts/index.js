@@ -1,4 +1,3 @@
-const textToSpeech = require("@google-cloud/text-to-speech");
 const { google } = require("googleapis");
 
 export default async function handler(req, res) {
@@ -17,10 +16,11 @@ export default async function handler(req, res) {
   });
   const authToken = await auth.getClient();
 
+  //make request
   const request = {
     input: { text: req.body.text },
     voice: { languageCode: "en-UK", ssmlGender: "NEUTRAL" },
-    audioConfig: { audioEncoding: "LINEAR16", sampleRateHertz: 16000, pitch: 5.0 },
+    audioConfig: { audioEncoding: "LINEAR16" },
   };
 
   const client = await google.texttospeech({

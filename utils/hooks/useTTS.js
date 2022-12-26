@@ -2,22 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function useTTS(text, speak, setSpeak) {
-  const [audioBuffer, setAudioBuffer] = useState(null);
-
   useEffect(() => {
-    getTTS(text);
-  }, [text]);
-
-  useEffect(() => {
-    if (speak && audioBuffer) {
-      handleAudio();
+    if (text.length > 0 && speak) {
+      getTTS(text);
     }
-  }, [speak, audioBuffer]);
-
-  async function handleAudio() {
-    await playAudio(audioBuffer);
-    setSpeak(false);
-  }
+  }, [text, speak]);
 
   async function getTTS(text) {
     try {
@@ -25,30 +14,16 @@ export default function useTTS(text, speak, setSpeak) {
         "/api/google-tts",
         { text },
         {
-          responseType: "arraybuffer",
+          responseType: "string",
         }
       );
       let data = res.data;
 
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
-      const audioBuffer = await audioCtx.decodeAudioData(data);
-      setAudioBuffer(audioBuffer);
+      const snd = new Audio("data:audio/wav;base64," + data);
+      snd.play();
+      setSpeak(false);
     } catch (e) {
       console.log(e);
     }
-  }
-}
-
-async function playAudio(buffer) {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = new AudioContext();
-    const source = audioCtx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioCtx.destination);
-    source.start();
-  } catch (e) {
-    console.log(e);
   }
 }
