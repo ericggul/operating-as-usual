@@ -6,6 +6,7 @@ export default async function handler(req, res) {
 
   //authentication
   const { privateKey } = JSON.parse(process.env.GOOGLE_PRIVATE_KEY || "{ privateKey: null }");
+
   const auth = new google.auth.GoogleAuth({
     scopes: SCOPES,
     projectId: process.env.GOOGLE_PROJECT_ID,
