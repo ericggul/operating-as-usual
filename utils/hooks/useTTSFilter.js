@@ -5,7 +5,9 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
   const [audioBuffer, setAudioBuffer] = useState(null);
 
   useEffect(() => {
-    getTTS(text);
+    if (text.length > 0) {
+      getTTS(text);
+    }
   }, [text]);
 
   useEffect(() => {
@@ -43,29 +45,31 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
 
 async function playAudio(buffer, handleAudioEnded) {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = new AudioContext();
-    const source = audioCtx.createBufferSource();
+    if (buffer.duration > 0) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContext();
+      const source = audioCtx.createBufferSource();
 
-    source.buffer = buffer;
+      source.buffer = buffer;
 
-    console.log(buffer.duration);
+      console.log(buffer.duration);
 
-    source.connect(audioCtx.destination);
+      source.connect(audioCtx.destination);
 
-    // let filter = audioCtx.createBiquadFilter();
-    // filter.type = "peaking";
-    // filter.frequency.value = 1000;
-    // filter.gain.value = 25;
-    // source.connect(filter);
-    // filter.connect(audioCtx.destination);
+      // let filter = audioCtx.createBiquadFilter();
+      // filter.type = "peaking";
+      // filter.frequency.value = 1000;
+      // filter.gain.value = 25;
+      // source.connect(filter);
+      // filter.connect(audioCtx.destination);
 
-    source.start();
+      source.start();
 
-    const timeout = setTimout(() => {
-      handleAudioEnded();
-    }, (buffer.duration + 0.5) * 1000);
-    return () => clearTimeout(timeout);
+      const timeout = setTimeout(() => {
+        handleAudioEnded();
+      }, (buffer.duration + 0.5) * 1000);
+      return () => clearTimeout(timeout);
+    }
   } catch (e) {
     console.log(e);
   }

@@ -6,18 +6,27 @@ import { useEffect, useState } from "react";
 import useTTSFilter from "utils/hooks/useTTSFilter";
 
 export default function Component() {
+  const [displayedTranscript, setDisplayedTranscript] = useState("");
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   const [translateSpeech, setTranslateSpeech] = useState(false);
-  const [listenToVoice, setListenToVoice] = useState(true);
+  const [listenActivated, setListenActivated] = useState(true);
 
   useEffect(() => {
-    if (listenToVoice) {
-      SpeechRecognition.startListening({ language: "en-GB", continuous: true });
-    } else {
-      SpeechRecognition.stopListening();
+    SpeechRecognition.startListening({ language: "en-GB", continuous: true });
+  }, []);
+
+  useEffect(() => {
+    if (listenActivated) {
+      setDisplayedTranscript(transcript);
     }
-  }, [listenToVoice]);
+  }, [transcript, listenActivated]);
+
+  useEffect(() => {
+    if (listenActivated) {
+      resetTranscript();
+    }
+  }, [listenActivated]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -25,9 +34,9 @@ export default function Component() {
       resetTranscript();
     }, 3 * 1000);
     return () => clearTimeout(timeout);
-  }, [transcript]);
+  }, [displayedTranscript]);
 
-  useTTSFilter(transcript, translateSpeech, setTranslateSpeech, setListenToVoice);
+  useTTSFilter(displayedTranscript, translateSpeech, setTranslateSpeech, setListenActivated);
 
-  return <S.Container>{transcript}</S.Container>;
+  return <S.Container>{listenActivated && displayedTranscript}</S.Container>;
 }
