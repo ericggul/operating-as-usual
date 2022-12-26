@@ -1,12 +1,10 @@
 const textToSpeech = require("@google-cloud/text-to-speech");
-const { GoogleAuth } = require("google-auth-library");
 
 export default async function handler(req, res) {
   const client = new textToSpeech.TextToSpeechClient();
 
   const [result] = await client.listVoices({ languageCode: "en" });
   const voices = result.voices;
-  console.log(voices);
 
   const request = {
     input: { text: req.body.text },

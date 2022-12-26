@@ -8,11 +8,16 @@ import useTTSFilter from "utils/hooks/useTTSFilter";
 export default function Component() {
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-  useEffect(() => {
-    SpeechRecognition.startListening({ language: "en-GB", continuous: true });
-  }, []);
-
   const [translateSpeech, setTranslateSpeech] = useState(false);
+  const [listenToVoice, setListenToVoice] = useState(true);
+
+  useEffect(() => {
+    if (listenToVoice) {
+      SpeechRecognition.startListening({ language: "en-GB", continuous: true });
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  }, [listenToVoice]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,7 +27,7 @@ export default function Component() {
     return () => clearTimeout(timeout);
   }, [transcript]);
 
-  useTTSFilter(transcript, translateSpeech, setTranslateSpeech);
+  useTTSFilter(transcript, translateSpeech, setTranslateSpeech, setListenToVoice);
 
   return <S.Container>{transcript}</S.Container>;
 }

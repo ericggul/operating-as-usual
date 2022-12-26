@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function useTTS(text, speak, setSpeak) {
+export default function useTTS(text, speak, setSpeak, setListenToVoice) {
   const [audioBuffer, setAudioBuffer] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,8 @@ export default function useTTS(text, speak, setSpeak) {
   }, [speak, audioBuffer]);
 
   async function handleAudio() {
-    await playAudio(audioBuffer);
+    setListenToVoice(false);
+    await playAudio(audioBuffer, () => setListenToVoice(true));
     setSpeak(false);
   }
 
@@ -40,7 +41,7 @@ export default function useTTS(text, speak, setSpeak) {
   }
 }
 
-async function playAudio(buffer) {
+async function playAudio(buffer, handleAudioEnded) {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
@@ -62,8 +63,9 @@ async function playAudio(buffer) {
     source.start();
 
     const timeout = setTimout(() => {
-      console.log("ended");
+      handleAudioEnded();
     }, (buffer.duration + 0.5) * 1000);
+    return () => clearTimeout(timeout);
   } catch (e) {
     console.log(e);
   }
