@@ -1,4 +1,5 @@
 const textToSpeech = require("@google-cloud/text-to-speech");
+const { GoogleAuth } = require("google-auth-library");
 
 export default async function handler(req, res) {
   const client = new textToSpeech.TextToSpeechClient();
