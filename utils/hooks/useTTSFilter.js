@@ -48,6 +48,8 @@ async function playAudio(buffer) {
 
     source.buffer = buffer;
 
+    console.log(buffer.duration);
+
     source.connect(audioCtx.destination);
 
     // let filter = audioCtx.createBiquadFilter();
@@ -58,6 +60,10 @@ async function playAudio(buffer) {
     // filter.connect(audioCtx.destination);
 
     source.start();
+
+    const timeout = setTimout(() => {
+      console.log("ended");
+    }, (buffer.duration + 0.5) * 1000);
   } catch (e) {
     console.log(e);
   }
