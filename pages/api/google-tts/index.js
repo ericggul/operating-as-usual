@@ -6,6 +6,7 @@ export default async function handler(req, res) {
 
   const [result] = await client.listVoices({ languageCode: "en" });
   const voices = result.voices;
+  console.log(voices);
 
   const request = {
     input: { text: req.body.text },

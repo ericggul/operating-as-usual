@@ -47,11 +47,13 @@ async function playAudio(buffer) {
     const source = audioCtx.createBufferSource();
 
     source.buffer = buffer;
+
     source.connect(audioCtx.destination);
+
     // let filter = audioCtx.createBiquadFilter();
-    // filter.type = "highshelf";
+    // filter.type = "peaking";
     // filter.frequency.value = 1000;
-    // filter.gain.value = 35;
+    // filter.gain.value = 25;
     // source.connect(filter);
     // filter.connect(audioCtx.destination);
 
