@@ -33,7 +33,7 @@ export default function Component() {
       const timeout = setTimeout(() => {
         setTranslateSpeech(true);
         resetTranscript();
-      }, 3 * 1000);
+      }, 1.5 * 1000);
       return () => clearTimeout(timeout);
     }
   }, [displayedTranscript]);
