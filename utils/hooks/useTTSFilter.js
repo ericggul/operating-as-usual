@@ -25,7 +25,6 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
 
   async function getTTS(text) {
     try {
-      console.log("27");
       const res = await axios.post(
         "/api/google-tts",
         { text },
