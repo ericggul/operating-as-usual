@@ -18,22 +18,24 @@ export default function Component() {
 
   useEffect(() => {
     if (listenActivated) {
-      setDisplayedTranscript(transcript);
-    }
-  }, [transcript, listenActivated]);
-
-  useEffect(() => {
-    if (listenActivated) {
       resetTranscript();
     }
   }, [listenActivated]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setTranslateSpeech(true);
-      resetTranscript();
-    }, 3 * 1000);
-    return () => clearTimeout(timeout);
+    if (listenActivated) {
+      setDisplayedTranscript(transcript);
+    }
+  }, [transcript, listenActivated]);
+
+  useEffect(() => {
+    if (displayedTranscript) {
+      const timeout = setTimeout(() => {
+        setTranslateSpeech(true);
+        resetTranscript();
+      }, 3 * 1000);
+      return () => clearTimeout(timeout);
+    }
   }, [displayedTranscript]);
 
   useTTSFilter(displayedTranscript, translateSpeech, setTranslateSpeech, setListenActivated);

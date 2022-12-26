@@ -5,10 +5,10 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
   const [audioBuffer, setAudioBuffer] = useState(null);
 
   useEffect(() => {
-    if (text.length > 0) {
+    if (text.length > 0 && speak) {
       getTTS(text);
     }
-  }, [text]);
+  }, [text, speak]);
 
   useEffect(() => {
     if (speak && audioBuffer) {
