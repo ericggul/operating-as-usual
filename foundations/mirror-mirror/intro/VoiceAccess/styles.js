@@ -6,8 +6,11 @@ export const Container = styled.div`
   ${WholeContainer};
   flex-direction: column;
   font-family: Rubik Bubbles;
-  background: radial-gradient(#555, black);
+  background: transparent;
   color: white;
+
+  transition: all 0.4s;
+  transform: rotateX(${({ isHiding }) => (isHiding ? 90 : 0)}deg);
 `;
 
 export const Text = styled.div`
@@ -49,6 +52,18 @@ export const Icon = styled.div`
 `;
 
 export const ButtonText = styled.div``;
+
+export const Proceed = styled.div`
+  margin-top: 2.5rem;
+  font-size: 1.4rem;
+  border: 2px double white;
+  padding: 0.5rem 1.5rem;
+
+  transition: all 0.3s;
+  cursor: pointer;
+
+  ${({ check }) => (check ? `opacity: 1` : `opacity: 0.3`)};
+`;
 
 export const Top = styled.div`
   ${FlexCenterStyle};

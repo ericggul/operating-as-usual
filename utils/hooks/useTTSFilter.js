@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function useTTS(text, speak, setSpeak, setListenToVoice) {
+export default function useTTS(text, triggerConvert, speechGenerated) {
   useEffect(() => {
-    if (text.length > 0 && speak) {
+    if (text.length > 0 && triggerConvert) {
       getTTS(text);
     }
-  }, [text, speak]);
+  }, [text, triggerConvert]);
 
   async function getTTS(text) {
     try {
@@ -19,11 +19,7 @@ export default function useTTS(text, speak, setSpeak, setListenToVoice) {
       );
       let data = res.data;
 
-      const snd = new Audio("data:audio/wav;base64," + data);
-      snd.play();
-      setSpeak(false);
-      setListenToVoice(false);
-      snd.onended = () => setListenToVoice(true);
+      speechGenerated(data);
     } catch (e) {
       console.log(e);
     }

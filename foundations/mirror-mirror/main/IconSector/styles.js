@@ -1,9 +1,8 @@
 import { FlexCenterStyle, WholeContainer } from "styles/common";
 import styled from "styled-components";
 
-export const Container = styled.div`
-  ${WholeContainer};
+export const IconSector = styled.div`
   ${FlexCenterStyle};
-  flex-direction: column;
-  font-family: Rubik Bubbles;
+  font-size: 6rem;
+  margin-bottom: 2rem;
 `;
