@@ -47,16 +47,35 @@ export default function Component() {
   }, [displayedTranscript]);
 
   function handleSpeechGenerated(data) {
-    const snd = new Audio("data:audio/wav;base64," + data);
-    snd.play();
     setTriggerTranslate(false);
-    snd.onended = () => {
-      const timeout = setTimeout(() => {
-        setListenActivated(true);
-        setDisplayedTranscript("");
-      }, 400);
-      return () => clearTimeout(timeout);
-    };
+
+    //echo playing
+    //audiocontext
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    for (let i = 0; i < 10; i++) {
+      (function (i) {
+        const sound = new Audio("data:audio/wav;base64," + data);
+        const source = audioCtx.createMediaElementSource(sound);
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = (1 + i) ** -1.7;
+        source.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        setTimeout(() => {
+          sound.play();
+        }, 300 * i);
+
+        if (i === 9) {
+          sound.onended = () => {
+            console.log("71");
+            setTimeout(() => {
+              setListenActivated(true);
+              setDisplayedTranscript("");
+            }, 700);
+          };
+        }
+      })(i);
+    }
   }
 
   useTTSFilter(displayedTranscript, triggerTranslate, handleSpeechGenerated);
