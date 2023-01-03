@@ -33,31 +33,51 @@ export default function SafariAR() {
     }
   }
 
+  //language-translation
+
+  const [language, setLanguage] = useState("ja");
+  const [header, setHeader] = useState("");
+  const [text, setText] = useState("");
+
   useEffect(() => {
-    handleTranslate();
+    const interval = setInterval(() => {
+      const language = getRandomFromArray(LANGUAGE_CODES);
+      setLanguage(language);
+    }, 1300);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    languagHandler(language);
+  }, [language]);
+
+  async function languagHandler(language) {
+    const header = await handleTranslate(HEADER, language);
+    const text = await handleTranslate(TEXT, language);
+
+    setHeader(header);
+    setText(text);
+  }
 
   //translate
 
-  async function handleTranslate() {
+  async function handleTranslate(text, target) {
     const language = getRandomFromArray(LANGUAGE_CODES);
     const res = await axios.post(
       "/api/google/translate",
-      { text: "Hello", target: language },
+      { text, target },
       {
         responseType: "string",
       }
     );
-    console.log(res);
+    return res.data;
   }
 
   return (
     <S.Container>
       <S.Inner>
-        <S.Header>It seems like you owe JY 5 pound.</S.Header>
-        <S.Text>
-          Pay 5 pounds securely and simply, <br /> and let go of all the hesitation.
-        </S.Text>
+        <S.Header>{header}</S.Header>
+        <S.Text>{text}</S.Text>
         <S.PayButton onClick={handlePayment}>Pay Now</S.PayButton>
       </S.Inner>
     </S.Container>

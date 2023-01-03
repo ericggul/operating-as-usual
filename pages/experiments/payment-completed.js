@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-const Component = dynamic(() => import("components/experiments/completed"), {
+const Component = dynamic(() => import("components/experiments/payment/completed"), {
   ssr: false,
 });
 
