@@ -14,15 +14,17 @@ export default function SafariAR() {
   async function handlePayment() {
     const stripe = await getStripe();
 
+    let price = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID : process.env.NEXT_PUBLIC_STRIPE_TEST_PRICE_ID;
+
     const { error } = await stripe.redirectToCheckout({
       lineItems: [
         {
-          price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
+          price,
           quantity: 1,
         },
       ],
       mode: "payment",
-      successUrl: "https://www.google.com",
+      successUrl: "/experiments/payment-completed",
       cancelUrl: "https://www.google.com",
     });
 
