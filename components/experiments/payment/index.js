@@ -25,7 +25,7 @@ export default function SafariAR() {
       ],
       mode: "payment",
       successUrl: "https://operating-as-usual.vercel.app/experiments/payment-completed",
-      cancelUrl: "https://www.google.com",
+      cancelUrl: "https://operating-as-usual.vercel.app/experiments/payment-completed",
     });
 
     if (error) {
