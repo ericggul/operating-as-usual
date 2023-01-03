@@ -14,7 +14,7 @@ export default function SafariAR() {
   async function handlePayment() {
     const stripe = await getStripe();
 
-    let price = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID : process.env.NEXT_PUBLIC_STRIPE_TEST_PRICE_ID;
+    let price = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID : process.env.NEXT_PUBLIC_STRIPE_TEST_ID;
 
     const { error } = await stripe.redirectToCheckout({
       lineItems: [
@@ -24,7 +24,7 @@ export default function SafariAR() {
         },
       ],
       mode: "payment",
-      successUrl: "/experiments/payment-completed",
+      successUrl: "https://operating-as-usual.vercel.app/experiments/payment-completed",
       cancelUrl: "https://www.google.com",
     });
 
