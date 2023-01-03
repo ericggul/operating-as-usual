@@ -8,22 +8,31 @@ export const Container = styled.div`
   font-family: Raleway;
 `;
 
+export const Inner = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
+  justify-content: center;
+`;
+
 export const Header = styled.div`
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  max-width: 80%;
 `;
 
 export const Text = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
-  max-width: 80%;
   text-align: left;
 `;
 
 export const PayButton = styled.div`
-  ${FlexCenterStyle};
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  background-color: #f5f5f5;
 `;
