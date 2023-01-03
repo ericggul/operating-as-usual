@@ -18,6 +18,7 @@
     "@react-three/cannon": "^6.4.0",
     "@react-three/drei": "^9.38.1",
     "@react-three/fiber": "^8.8.10",
+    "@stripe/stripe-js": "^1.46.0",
     "@tensorflow-models/face-landmarks-detection": "^1.0.2",
     "@tensorflow-models/hand-pose-detection": "^2.0.0",
     "@tensorflow/tfjs": "^4.0.0",
