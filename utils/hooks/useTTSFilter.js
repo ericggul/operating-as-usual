@@ -11,7 +11,7 @@ export default function useTTS(text, triggerConvert, speechGenerated) {
   async function getTTS(text) {
     try {
       const res = await axios.post(
-        "/api/google-tts",
+        "/api/google/tts",
         { text },
         {
           responseType: "string",
