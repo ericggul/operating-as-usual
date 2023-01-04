@@ -12,6 +12,7 @@
     "@babel/core": "^7.19.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@google-cloud/text-to-speech": "^4.1.0",
+    "@google/model-viewer": "^2.1.1",
     "@mediapipe/face_mesh": "^0.4.1633559619",
     "@prisma/client": "^4.5.0",
     "@react-spring/three": "^9.5.5",

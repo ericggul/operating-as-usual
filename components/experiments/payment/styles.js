@@ -20,12 +20,14 @@ export const Header = styled.div`
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  height: 8rem;
 `;
 
 export const Text = styled.div`
   font-size: 1.2rem;
   margin-bottom: 1rem;
   text-align: left;
+  height: 5rem;
 `;
 
 export const PayButton = styled.div`
