@@ -20,12 +20,77 @@ export default function Component() {
     SpeechRecognition.startListening({ language: "en-GB", continuous: true });
   }, []);
 
+  async function recordAudio() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(stream);
+    const audioChunks = [];
+
+    mediaRecorder.addEventListener("dataavailable", (event) => {
+      audioChunks.push(event.data);
+    });
+
+    const start = () => {
+      mediaRecorder.start();
+    };
+
+    const stop = () => {
+      return new Promise((resolve) => {
+        mediaRecorder.addEventListener("stop", () => {
+          const audioBlob = new Blob(audioChunks);
+          const audioUrl = URL.createObjectURL(audioBlob);
+          const audio = new Audio(audioUrl);
+          const play = () => {
+            audio.play();
+          };
+          resolve({ audioBlob, audioUrl, play });
+        });
+
+        mediaRecorder.stop();
+      });
+    };
+
+    return { start, stop };
+  }
+
+  //translate if triggerTranslate is true
+  const [audio, setAudio] = useState(null);
+
+  useEffect(() => {
+    if (triggerTranslate && audio) {
+      setTriggerTranslate(false);
+      // requestSTT(audio);
+    }
+  }, [triggerTranslate, audio]);
+
+  async function requestSTT(audio) {
+    console.log("66 triggered");
+    const { audioBlob, audioUrl, play } = await audio.stop();
+    const audioBase64 = await audioBlob.arrayBuffer();
+    const audioBase64String = btoa(String.fromCharCode(...new Uint8Array(audioBase64)));
+    const response = await fetch("/api/google/stt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ audio: audioBase64String }),
+    });
+    console.log(response);
+  }
+
   //reset transcript when listenActivated is turned on
   useEffect(() => {
     if (listenActivated) {
+      // startAudio();
       resetTranscript();
     }
   }, [listenActivated]);
+
+  async function startAudio() {
+    const audio = await recordAudio();
+    console.log(audio, audio.start);
+    await audio.start();
+    setAudio(audio);
+  }
 
   //sync displayed transcript with transcript
   useEffect(() => {
