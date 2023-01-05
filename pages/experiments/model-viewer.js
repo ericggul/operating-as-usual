@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Script from "next/script";
 
-const Component = dynamic(() => import("components/experiments/ModelViewer"), {
+const Component = dynamic(() => import("components/experiments/modelviewer"), {
   ssr: false,
 });
 
