@@ -34,13 +34,16 @@ export default function NeverTheSame() {
               </mesh>
               <CuboidCollider args={[1000, 2, 1000]} position={[0, -2, 0]} />
             </RigidBody>
+            <RigidBody>
+              <mesh position={[0, 100, 0]}>
+                <sphereGeometry args={[1, 32, 32]} />
+                <meshStandardMaterial color="red" />
+              </mesh>
+            </RigidBody>
 
-            {/* <mesh position={[0, 100, 0]}>
-              <sphereGeometry args={[1, 32, 32]} />
-              <meshStandardMaterial color="red" />
-            </mesh> */}
             <Player />
           </Physics>
+
           <PointerLockControls />
         </Canvas>
       </KeyboardControls>

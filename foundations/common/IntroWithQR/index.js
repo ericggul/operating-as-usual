@@ -1,5 +1,6 @@
 import * as S from "./styles";
 import { useState } from "react";
+
 export default function Intro({ description, qrURL, handleIntroClick }) {
   const [clicked, setClicked] = useState(false);
   function handleClick() {

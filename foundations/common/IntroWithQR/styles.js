@@ -10,32 +10,33 @@ export const Container = styled.div`
 
   opacity: ${({ clicked }) => (clicked ? 0 : 1)};
   transition: opacity 1s ease-in-out;
+  font-size: 2vw;
 
   h1,
   p {
     text-align: center;
-    max-width: 40%;
+    max-width: 80%;
   }
 
   p {
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.6vw;
   }
 `;
 
 export const Button = styled.div`
   background: black;
   color: white;
-  padding: 0.7rem 1.5rem;
-  border-radius: 0.7rem;
-  font-size: 1.5rem;
+  padding: 1.4vw 3vw;
+  border-radius: 1.4vw;
+  font-size: 3vw;
   cursor: pointer;
-  margin-top: 2rem;
+  margin-top: 4vw;
 `;
 
 export const ImgContainer = styled.div`
-  width: 10rem;
-  height: 10rem;
-  margin: 1rem 0;
+  width: 20vw;
+  height: 20vw;
+  margin: 2vw 0;
 
   img {
     width: 100%;
