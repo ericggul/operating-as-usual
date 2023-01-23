@@ -144,5 +144,6 @@ export default function Component() {
   }
 
   useTTSFilter(displayedTranscript, triggerTranslate, handleSpeechGenerated);
+
   return <S.Container>{displayedTranscript}</S.Container>;
 }

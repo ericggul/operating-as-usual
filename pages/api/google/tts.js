@@ -35,5 +35,8 @@ export default async function handler(req, res) {
   };
 
   const result = await client.text.synthesize({ resource: request });
-  res.send(result.data.audioContent);
+  res.send({
+    data: result.data.audioContent,
+    voice,
+  });
 }
