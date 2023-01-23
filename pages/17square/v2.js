@@ -21,7 +21,7 @@ export default function Intermission() {
   return (
     <>
       <Head>
-        <title>17 Square Minus 4 Sqaure Equals 4'33''</title>
+        <title>{`17 Square Minus 4 Sqaure Equals 4'33''`}</title>
       </Head>
       {intro && <IntroComp handleIntroClick={handleIntroClick} />}
       {!intro && <Component />}
