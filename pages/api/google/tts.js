@@ -1,5 +1,7 @@
 const { google } = require("googleapis");
 
+const getRandomFromArray = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
 export default async function handler(req, res) {
   const SCOPES = ["https://www.googleapis.com/auth/cloud-platform"];
 
@@ -16,17 +18,21 @@ export default async function handler(req, res) {
   });
   const authToken = await auth.getClient();
 
-  //make request
-  const request = {
-    input: { text: req.body.text },
-    voice: { languageCode: "en-UK", ssmlGender: "NEUTRAL" },
-    audioConfig: { audioEncoding: "LINEAR16" },
-  };
-
   const client = await google.texttospeech({
     version: "v1",
     auth: authToken,
   });
+
+  //list voices
+  const voices = await client.voices.list({ languageCode: "en-GB" });
+  const voice = getRandomFromArray(voices.data.voices);
+
+  //make request
+  const request = {
+    input: { text: req.body.text },
+    voice: { languageCode: voice.languageCodes[0], ssmlGender: voice.ssmlGender, name: voice.name },
+    audioConfig: { audioEncoding: "LINEAR16" },
+  };
 
   const result = await client.text.synthesize({ resource: request });
   res.send(result.data.audioContent);
