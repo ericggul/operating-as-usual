@@ -9,7 +9,7 @@ import * as Tone from "tone";
 import { Canvas } from "@react-three/fiber";
 import { MeshReflectorMaterial } from "@react-three/drei";
 
-const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this 16 seconds intermission, and we will be resuming in two seconds.`;
+const TEXT = `That was 4 33 by John Cage, give an applause! Help yourself during this 16 seconds intermission, and we will be resuming shortly.`;
 
 export default function Container() {
   const [wholeSecond, setWholeSecond] = useState(0);
@@ -50,7 +50,7 @@ export default function Container() {
     }
     timeoutRef.current = setTimeout(() => {
       setSpeak(true);
-    }, 5500);
+    }, 4000);
   }
 
   return (
