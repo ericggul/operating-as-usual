@@ -132,4 +132,10 @@ body {
     font-style: 300;
     src: url('/assets/fonts/Futura/Futura Light font.ttf');
   }
+
+
+  @font-face{
+    font-family: "Tate";
+    src: url("/assets/fonts/Tate-Regular.otf") format("opentype");
+  }
 `;

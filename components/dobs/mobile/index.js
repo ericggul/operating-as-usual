@@ -1,0 +1,182 @@
+import React, { useState, useEffect, useRef } from "react";
+import * as S from "./styles";
+
+import useResize from "utils/hooks/useResize";
+import "regenerator-runtime/runtime";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+
+//toast
+import { toast, Toast } from "loplat-ui";
+
+const QUESTIONS = [
+  "What is your first reaction to the work?",
+  "What does it make you feel or think like that?",
+  "What is it made of?",
+  "Why has the artist chosen those materials?",
+  "Does the size of the work affect your experience?",
+  "Where is the artist from and where did they live?",
+  "How has this influenced them?",
+  "What do you think the work is about?",
+  "Why don't you take a photograph of this list, so you can refer to it when you look at the art?",
+];
+
+export default function Mobile() {
+  const [prepared, setPrepared] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [getAudioResponse, setGetAudioResponse] = useState(false);
+
+  useEffect(() => {
+    if (prepared && idx < QUESTIONS.length) {
+      speak(QUESTIONS[idx]);
+      resetTranscript();
+    }
+    if (idx === QUESTIONS.length) {
+      const timeout = setTimeout(() => {
+        setPrepared(false);
+        setIdx(0);
+        setGetAudioResponse(false);
+      }, 10000);
+      return () => clearTimeout(timeout);
+    }
+  }, [idx, prepared]);
+
+  async function speak(sentence) {
+    const synth = window.speechSynthesis;
+    var msg = new SpeechSynthesisUtterance(sentence);
+    msg.pitch = 1;
+    msg.rate = 1;
+    synth.speak(msg);
+    msg.addEventListener("end", () => {
+      setGetAudioResponse(true);
+    });
+  }
+
+  //prepare video
+  const videoRef = useRef(null);
+  const [videoReady, setVideoReady] = useState(false);
+  const [windowWidth, windowHeight] = useResize();
+
+  useEffect(() => {
+    if (videoRef && videoRef.current && !videoReady && windowWidth && windowHeight) {
+      prepareVideo();
+    }
+  }, [videoReady, videoRef, windowWidth, windowHeight]);
+
+  async function prepareVideo() {
+    if (videoRef.current === null) return;
+
+    const video = videoRef.current;
+    video.width = windowWidth;
+    video.height = windowHeight;
+
+    const videoConfig = {
+      audio: false,
+      video: {
+        facingMode: "environment",
+      },
+    };
+
+    const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
+
+    video.srcObject = stream;
+
+    await new Promise((resolve) => {
+      video.onloadedmetadata = () => {
+        resolve(video);
+      };
+    });
+
+    video.play();
+    video.addEventListener(
+      "canplay",
+      () => {
+        video.play();
+      },
+      false
+    );
+    setVideoReady(true);
+  }
+
+  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+  useEffect(() => {
+    SpeechRecognition.startListening({
+      continuous: true,
+    });
+    const timeout = setTimeout(() => {
+      SpeechRecognition.stopListening();
+    }, 100);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (getAudioResponse) {
+      SpeechRecognition.startListening({ continuous: true });
+    }
+  }, [getAudioResponse]);
+
+  useEffect(() => {
+    if (getAudioResponse && transcript && transcript.length > 3) {
+      const timeout = setTimeout(moveNext, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [listening, transcript]);
+
+  const [timer, setTimer] = useState(10);
+
+  useEffect(() => {
+    if (transcript.length === 0 && getAudioResponse && idx < QUESTIONS.length) {
+      const interval = setInterval(() => {
+        setTimer((timer) => timer - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [transcript, getAudioResponse, idx]);
+
+  useEffect(() => {
+    if (timer <= 0) {
+      moveNext();
+    }
+  }, [timer]);
+
+  function moveNext() {
+    setTimer(10);
+    setGetAudioResponse(false);
+    setIdx((idx) => idx + 1);
+    SpeechRecognition.stopListening();
+  }
+
+  //take photo of video
+  useEffect(() => {
+    if (idx === 8 && getAudioResponse) {
+      videoScreenShot();
+    }
+  }, [idx, getAudioResponse]);
+
+  function videoScreenShot() {
+    const canvas = document.createElement("canvas");
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    canvas.getContext("2d").drawImage(videoRef.current, 0, 0);
+    const dataURL = canvas.toDataURL("image/png");
+
+    //download with a tag
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = "screenshot.png";
+    a.click();
+  }
+
+  return (
+    <S.StyledFriendlyGuideToEnjoyThisArtwork onClick={() => setPrepared(true)}>
+      <S.Video ref={videoRef} />
+      {prepared && idx < QUESTIONS.length && <S.Text>{`${idx + 1}/${QUESTIONS.length} \n`}</S.Text>}
+      <S.Text> {prepared ? (idx < QUESTIONS.length ? QUESTIONS[idx] : "The End") : "CLICK TO START"}</S.Text>
+      {getAudioResponse && !transcript && <S.Answer opacity={0.5}>Speak out</S.Answer>}
+      <S.Answer opacity={transcript ? 1 : 0.5}>{getAudioResponse ? (transcript ? transcript : `${timer}s left to response`) : ""}</S.Answer>
+
+      {prepared && idx < QUESTIONS.length && <S.Next onClick={moveNext}>Skip to Next Question</S.Next>}
+      <Toast duration={5000} />
+    </S.StyledFriendlyGuideToEnjoyThisArtwork>
+  );
+}
