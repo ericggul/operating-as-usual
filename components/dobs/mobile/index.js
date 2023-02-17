@@ -28,7 +28,6 @@ export default function Mobile() {
   useEffect(() => {
     if (prepared && idx < QUESTIONS.length) {
       speak(QUESTIONS[idx]);
-      resetTranscript();
     }
     if (idx === QUESTIONS.length) {
       const timeout = setTimeout(() => {
@@ -144,6 +143,7 @@ export default function Mobile() {
     setGetAudioResponse(false);
     setIdx((idx) => idx + 1);
     SpeechRecognition.stopListening();
+    resetTranscript();
   }
 
   //take photo of video
@@ -169,7 +169,9 @@ export default function Mobile() {
 
   return (
     <S.StyledFriendlyGuideToEnjoyThisArtwork onClick={() => setPrepared(true)}>
-      <S.Video ref={videoRef} />
+      <S.Video ref={videoRef}>
+        <source ref={videoRef} type="video/mp4" autoPlay="autoplay" loop playsInline muted preload="auto" controls={false} />
+      </S.Video>
       {prepared && idx < QUESTIONS.length && <S.Text>{`${idx + 1}/${QUESTIONS.length} \n`}</S.Text>}
       <S.Text> {prepared ? (idx < QUESTIONS.length ? QUESTIONS[idx] : "The End") : "CLICK TO START"}</S.Text>
       {getAudioResponse && !transcript && <S.Answer opacity={0.5}>Speak out</S.Answer>}
