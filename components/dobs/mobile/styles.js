@@ -8,6 +8,8 @@ export const StyledFriendlyGuideToEnjoyThisArtwork = styled.div`
   background: #002fa7;
   font-family: Tate;
 
+  opacity: 1;
+
   transition: all 0.5s;
 `;
 

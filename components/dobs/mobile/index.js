@@ -5,6 +5,8 @@ import useResize from "utils/hooks/useResize";
 import "regenerator-runtime/runtime";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
+import useVideo from "utils/hooks/useVideo";
+
 //toast
 import { toast, Toast } from "loplat-ui";
 
@@ -51,50 +53,9 @@ export default function Mobile() {
   }
 
   //prepare video
+
   const videoRef = useRef(null);
-  const [videoReady, setVideoReady] = useState(false);
-  const [windowWidth, windowHeight] = useResize();
-
-  useEffect(() => {
-    if (videoRef && videoRef.current && !videoReady && windowWidth && windowHeight) {
-      prepareVideo();
-    }
-  }, [videoReady, videoRef, windowWidth, windowHeight]);
-
-  async function prepareVideo() {
-    if (videoRef.current === null) return;
-
-    const video = videoRef.current;
-    video.width = windowWidth;
-    video.height = windowHeight;
-
-    const videoConfig = {
-      audio: false,
-      video: {
-        facingMode: "environment",
-      },
-    };
-
-    const stream = await navigator.mediaDevices.getUserMedia(videoConfig);
-
-    video.srcObject = stream;
-
-    await new Promise((resolve) => {
-      video.onloadedmetadata = () => {
-        resolve(video);
-      };
-    });
-
-    video.play();
-    video.addEventListener(
-      "canplay",
-      () => {
-        video.play();
-      },
-      false
-    );
-    setVideoReady(true);
-  }
+  const videoReady = useVideo(videoRef ? videoRef.current : null);
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
