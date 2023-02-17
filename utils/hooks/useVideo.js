@@ -2,7 +2,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import useResize from "utils/hooks/useResize";
 
-export default function useVideo(video, aspectRatio = 16 / 9, customSize = false) {
+export default function useVideo(video, aspectRatio = 16 / 9, side = "user", customSize = false) {
   const [videoReady, setVideoReady] = useState(false);
   const [windowWidth, windowHeight] = useResize();
 
@@ -35,7 +35,7 @@ export default function useVideo(video, aspectRatio = 16 / 9, customSize = false
       const videoConfig = {
         audio: false,
         video: {
-          facingMode: "user",
+          facingMode: side || "user",
           aspectRatio: { ideal: aspectRatio },
         },
       };

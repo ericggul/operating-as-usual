@@ -55,7 +55,7 @@ export default function Mobile() {
   //prepare video
 
   const videoRef = useRef(null);
-  const videoReady = useVideo(videoRef ? videoRef.current : null);
+  const videoReady = useVideo(videoRef ? videoRef.current : null, 16 / 9, "environment");
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
@@ -102,9 +102,9 @@ export default function Mobile() {
   function moveNext() {
     setTimer(10);
     setGetAudioResponse(false);
+    resetTranscript();
     setIdx((idx) => idx + 1);
     SpeechRecognition.stopListening();
-    resetTranscript();
   }
 
   //take photo of video
@@ -124,7 +124,7 @@ export default function Mobile() {
     //download with a tag
     const a = document.createElement("a");
     a.href = dataURL;
-    a.download = "screenshot.png";
+    a.download = "death_of_blue_screen.png";
     a.click();
   }
 
