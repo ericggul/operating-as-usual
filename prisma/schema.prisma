@@ -16,3 +16,20 @@ model OneOFive {
   completed Boolean
   createdAt DateTime @default(now())
 }
+
+
+model dobsReply{
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  dobsSingleAnswer dobsSingleAnswer[]
+}
+
+model dobsSingleAnswer{
+  id String @id @default(cuid())
+  questionIdx Int
+  answer String
+  createdAt DateTime @default(now())
+
+  dobsReplyId String
+  dobsReply dobsReply @relation(fields: [dobsReplyId], references: [id])
+}

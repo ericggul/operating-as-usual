@@ -19,20 +19,22 @@ export const Text = styled.div`
   opacity: 1;
 
   color: white;
-  font-size: 10vw;
-  margin-bottom: 20vw;
+  font-size: 9vw;
+  margin-bottom: 15vw;
   text-transform: uppercase;
   transition: all 0.5s;
+  z-index: 1;
 `;
 
 export const Answer = styled.div`
   width: 80%;
   font-size: 7vw;
-  height: 10vw;
+  height: 15vw;
   text-align: center;
   opacity: 1;
   text-transform: lowercase;
   color: white;
+  z-index: 1;
 
   ${({ opacity }) => opacity && `opacity: ${opacity};`}
   transition: all .5s;
@@ -47,6 +49,7 @@ export const Next = styled.div`
   border: 1px solid white;
   padding: 2vw 4vw;
   border-radius: 5vw;
+  z-index: 1;
 `;
 
 export const Video = styled.video`
@@ -55,5 +58,6 @@ export const Video = styled.video`
   height: 100%;
   opacity: 0.3;
   color: transparent;
-  filter: blur(20px) brightness(3);
+  filter: blur(10px) brightness(1);
+  z-index: 0;
 `;

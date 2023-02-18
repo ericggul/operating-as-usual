@@ -7,6 +7,8 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 
 import useVideo from "utils/hooks/useVideo";
 
+import axios from "axios";
+
 //toast
 import { toast, Toast } from "loplat-ui";
 
@@ -59,6 +61,8 @@ export default function Mobile() {
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
+  console.log(listening);
+
   useEffect(() => {
     SpeechRecognition.startListening({
       continuous: true,
@@ -71,6 +75,8 @@ export default function Mobile() {
 
   useEffect(() => {
     if (getAudioResponse) {
+      console.log("here");
+      resetTranscript();
       SpeechRecognition.startListening({ continuous: true });
     }
   }, [getAudioResponse]);
@@ -84,7 +90,11 @@ export default function Mobile() {
 
   const [timer, setTimer] = useState(10);
 
+  const idxRef = useRef(idx);
+  const transcriptRef = useRef(transcript);
   useEffect(() => {
+    idxRef.current = idx;
+    transcriptRef.current = transcript;
     if (transcript.length === 0 && getAudioResponse && idx < QUESTIONS.length) {
       const interval = setInterval(() => {
         setTimer((timer) => timer - 1);
@@ -100,6 +110,10 @@ export default function Mobile() {
   }, [timer]);
 
   function moveNext() {
+    if (transcriptRef.current != null) {
+      uploadResponse(idxRef.current, transcriptRef.current);
+    }
+
     setTimer(10);
     setGetAudioResponse(false);
     resetTranscript();
@@ -128,14 +142,62 @@ export default function Mobile() {
     a.click();
   }
 
+  //db update
+  useEffect(() => {
+    if (prepared) {
+      newReply();
+    }
+  }, [prepared]);
+
+  const replyIdRef = useRef(null);
+
+  async function newReply() {
+    try {
+      const response = await axios.get("/api/dobs/createNewReply");
+      replyIdRef.current = response.data.id;
+    } catch (e) {
+      console.log(e.response.data);
+    }
+  }
+
+  async function uploadResponse(idx, response) {
+    try {
+      if (replyIdRef && replyIdRef.current && response) {
+        const res = await axios.post("/api/dobs/uploadAnswer", {
+          replyId: replyIdRef.current,
+          idx,
+          response,
+        });
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e.response.data);
+    }
+  }
+
   return (
     <S.StyledFriendlyGuideToEnjoyThisArtwork onClick={() => setPrepared(true)}>
       <S.Video ref={videoRef}>
         <source ref={videoRef} type="video/mp4" autoPlay="autoplay" loop playsInline muted preload="auto" controls={false} />
       </S.Video>
-      {prepared && idx < QUESTIONS.length && <S.Text>{`${idx + 1}/${QUESTIONS.length} \n`}</S.Text>}
+      {prepared && idx < QUESTIONS.length && (
+        <S.Text
+          style={{
+            marginBottom: "8vw",
+          }}
+        >{`${idx + 1}/${QUESTIONS.length} \n`}</S.Text>
+      )}
       <S.Text> {prepared ? (idx < QUESTIONS.length ? QUESTIONS[idx] : "The End") : "CLICK TO START"}</S.Text>
-      {getAudioResponse && !transcript && <S.Answer opacity={0.5}>Speak out</S.Answer>}
+      {getAudioResponse && !transcript && (
+        <S.Answer
+          style={{
+            height: "8vw",
+          }}
+          opacity={0.5}
+        >
+          Speak out
+        </S.Answer>
+      )}
       <S.Answer opacity={transcript ? 1 : 0.5}>{getAudioResponse ? (transcript ? transcript : `${timer}s left to response`) : ""}</S.Answer>
 
       {prepared && idx < QUESTIONS.length && <S.Next onClick={moveNext}>Skip to Next Question</S.Next>}
