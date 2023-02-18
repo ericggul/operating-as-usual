@@ -61,8 +61,6 @@ export default function Mobile() {
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-  console.log(listening);
-
   useEffect(() => {
     SpeechRecognition.startListening({
       continuous: true,
@@ -75,7 +73,6 @@ export default function Mobile() {
 
   useEffect(() => {
     if (getAudioResponse) {
-      console.log("here");
       resetTranscript();
       SpeechRecognition.startListening({ continuous: true });
     }
@@ -168,7 +165,6 @@ export default function Mobile() {
           idx,
           response,
         });
-        console.log(res);
       }
     } catch (e) {
       console.log(e.response.data);
