@@ -21,7 +21,7 @@ const QUESTIONS = [
   "Where is the artist from and where did they live?",
   "How has this influenced them?",
   "What do you think the work is about?",
-  "Why don't you take a photograph of this list, so you can refer to it when you look at the art?",
+  "Why don't you take a photograph of this artwork, so you can refer to it when you look at the art?",
 ];
 
 export default function Mobile() {
@@ -80,7 +80,7 @@ export default function Mobile() {
 
   useEffect(() => {
     if (getAudioResponse && transcript && transcript.length > 3) {
-      const timeout = setTimeout(moveNext, 2000);
+      const timeout = setTimeout(moveNext, 3000);
       return () => clearTimeout(timeout);
     }
   }, [listening, transcript]);
@@ -126,17 +126,21 @@ export default function Mobile() {
   }, [idx, getAudioResponse]);
 
   function videoScreenShot() {
-    const canvas = document.createElement("canvas");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    canvas.getContext("2d").drawImage(videoRef.current, 0, 0);
-    const dataURL = canvas.toDataURL("image/png");
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      canvas.getContext("2d").drawImage(videoRef.current, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
 
-    //download with a tag
-    const a = document.createElement("a");
-    a.href = dataURL;
-    a.download = "death_of_blue_screen.png";
-    a.click();
+      //download with a tag
+      const a = document.createElement("a");
+      a.href = dataURL;
+      a.download = "death_of_blue_screen.png";
+      a.click();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   //db update
@@ -190,11 +194,14 @@ export default function Mobile() {
             height: "8vw",
           }}
           opacity={0.5}
+          length={7}
         >
           Speak out
         </S.Answer>
       )}
-      <S.Answer opacity={transcript ? 1 : 0.5}>{getAudioResponse ? (transcript ? transcript : `${timer}s left to response`) : ""}</S.Answer>
+      <S.Answer opacity={transcript ? 1 : 0.5} length={transcript.length || 0}>
+        {getAudioResponse ? (transcript ? transcript : `${timer}s left to response`) : ""}
+      </S.Answer>
 
       {prepared && idx < QUESTIONS.length && <S.Next onClick={moveNext}>Skip to Next Question</S.Next>}
       <Toast duration={5000} />
