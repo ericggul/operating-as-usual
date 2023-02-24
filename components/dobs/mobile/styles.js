@@ -36,7 +36,7 @@ export const Answer = styled.div`
   color: white;
   z-index: 1;
 
-  ${({ length }) => length > 30 && `font-size: ${135 / length}vw;`}
+  ${({ length }) => length > 30 && `font-size: ${210 / length}vw;`}
 
   ${({ opacity }) => opacity && `opacity: ${opacity};`}
   transition: all .5s;
