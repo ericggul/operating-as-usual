@@ -21,7 +21,7 @@ function save(blob, filename) {
   link.remove();
 }
 
-export default function Exporter({ saveGlb = false }) {
+export default function Exporter({ triggerExport = true, saveGlb = false }) {
   const scene = useThree((state) => state.scene);
 
   const exporter = new GLTFExporter();
@@ -38,15 +38,15 @@ export default function Exporter({ saveGlb = false }) {
         } else {
           saveString(JSON.stringify(result, null, 2), "scene.gltf");
         }
-        // const output = JSON.stringify(result);
-        // console.log(output);
       },
       { binary: saveGlb, trs: true, onlyVisible: true }
     );
   };
 
   useEffect(() => {
-    handleExport();
-  }, []);
+    if (triggerExport) {
+      handleExport();
+    }
+  }, [triggerExport]);
   return null;
 }

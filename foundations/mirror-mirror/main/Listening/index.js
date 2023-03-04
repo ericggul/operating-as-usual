@@ -62,21 +62,6 @@ export default function Component() {
     }
   }, [triggerTranslate, audio]);
 
-  async function requestSTT(audio) {
-    console.log("66 triggered");
-    const { audioBlob, audioUrl, play } = await audio.stop();
-    const audioBase64 = await audioBlob.arrayBuffer();
-    const audioBase64String = btoa(String.fromCharCode(...new Uint8Array(audioBase64)));
-    const response = await fetch("/api/google/stt", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ audio: audioBase64String }),
-    });
-    console.log(response);
-  }
-
   //reset transcript when listenActivated is turned on
   useEffect(() => {
     if (listenActivated) {
@@ -132,7 +117,6 @@ export default function Component() {
 
         if (i === 9) {
           sound.onended = () => {
-            console.log("71");
             setTimeout(() => {
               setListenActivated(true);
               setDisplayedTranscript("");
