@@ -2,6 +2,9 @@ import * as S from "./styles";
 import { useState, useEffect, useRef } from "react";
 import { jsPDF } from "jspdf";
 
+import { FlexCenterStyle, WholeContainer } from "styles/common";
+import styled from "styled-components";
+
 const TEXT = `The exploration of consciousness and its relationship to existence in the fourth-order derivative can be further extrapolated to the concept of interconnectedness and the role it plays in shaping our understanding of reality in the fifth-order derivative.
 
 As we delve deeper into our own consciousness and subjective experience, we begin to recognize the interconnectedness of all things. Our actions and decisions have a ripple effect on the world around us, shaping our understanding of reality and our place within it.
@@ -36,8 +39,8 @@ export default function Text() {
   }
 
   return (
-    <S.Container ref={containerRef}>
-      <S.Text>
+    <Container ref={containerRef}>
+      <Text>
         {TEXT.split(/(\?|\.|!)/)
           .slice(0, sentences)
           .map((contents, i) => (
@@ -51,7 +54,19 @@ export default function Text() {
               <span key={i}>{contents}</span>
             </>
           ))}
-      </S.Text>
-    </S.Container>
+      </Text>
+    </Container>
   );
 }
+
+export const Container = styled.div`
+  ${WholeContainer}
+  ${FlexCenterStyle}
+`;
+
+export const Text = styled.div`
+  width: 80%;
+  height: 80%;
+  text-align: left;
+  font-size: 1.2rem;
+`;
