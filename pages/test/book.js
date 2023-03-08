@@ -1,4 +1,3 @@
-import * as S from "./styles";
 import { useState, useEffect, useRef } from "react";
 import { jsPDF } from "jspdf";
 
