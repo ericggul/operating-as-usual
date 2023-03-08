@@ -15,6 +15,18 @@ Through this exploration, we can develop a greater sense of empathy and compassi
 
 Ultimately, the exploration of consciousness and interconnectedness is a continuous process of growth and discovery. By embracing the unknown and unpredictable, we can unlock new insights and possibilities that can help us create a more meaningful and fulfilling existence for ourselves and others.`;
 
+export const Container = styled.div`
+  ${WholeContainer}
+  ${FlexCenterStyle}
+`;
+
+export const TextEl = styled.div`
+  width: 80%;
+  height: 80%;
+  text-align: left;
+  font-size: 1.2rem;
+`;
+
 export default function Text() {
   const [sentences, setSentences] = useState(0);
 
@@ -40,7 +52,7 @@ export default function Text() {
 
   return (
     <Container ref={containerRef}>
-      <Text>
+      <TextEl>
         {TEXT.split(/(\?|\.|!)/)
           .slice(0, sentences)
           .map((contents, i) => (
@@ -54,19 +66,7 @@ export default function Text() {
               <span key={i}>{contents}</span>
             </>
           ))}
-      </Text>
+      </TextEl>
     </Container>
   );
 }
-
-export const Container = styled.div`
-  ${WholeContainer}
-  ${FlexCenterStyle}
-`;
-
-export const Text = styled.div`
-  width: 80%;
-  height: 80%;
-  text-align: left;
-  font-size: 1.2rem;
-`;
