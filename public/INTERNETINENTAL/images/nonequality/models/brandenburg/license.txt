@@ -1,0 +1,11 @@
+Model Information:
+* title:	Brandenburg Gate, Germany
+* source:	https://sketchfab.com/3d-models/brandenburg-gate-germany-1df210f3fec941768ceb50c375856c10
+* author:	Fovea (https://sketchfab.com/3dfovea)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Brandenburg Gate, Germany" (https://sketchfab.com/3d-models/brandenburg-gate-germany-1df210f3fec941768ceb50c375856c10) by Fovea (https://sketchfab.com/3dfovea) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
