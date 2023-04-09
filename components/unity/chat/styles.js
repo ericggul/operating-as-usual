@@ -17,13 +17,26 @@ export const Wrapper = styled.div`
 export const MobileContainer = styled.div`
   position: relative;
   width: calc(min(100vw, 600px));
-  min-height: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  overflow-y: scroll;
+  overflow-x: hidden;
   flex-direction: column;
   background-color: white;
   font-family: Helvetica;
+`;
+
+export const ChatSector = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  scroll-behavior: smooth;
+
+  flex-direction: column;
+
+  margin-bottom: 60px;
 `;
 
 export const SingleChat = styled.div`
@@ -37,6 +50,21 @@ export const SingleChat = styled.div`
   ${({ isLeft }) => (isLeft ? "margin-left: auto;" : "margin-right: auto;")}
   ${({ isFirstChat }) => isFirstChat && "margin-top: 7px;"}
   ${({ isLastChat }) => isLastChat && "margin-bottom: 7px;"}
+
+
+  animation: chat-appear 0.3s ease-in-out;
+
+  @keyframes chat-appear {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scaleY(0.3);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0px) scaleY(1);
+    }
+  }
 `;
 
 export const ProfilePic = styled.div`
@@ -55,7 +83,6 @@ export const ProfilePic = styled.div`
 export const ChatRight = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
 
   padding: 7px 10px;
   background: ${({ isLeft }) => (isLeft ? "hsl(191, 22%, 96%)" : "hsl(101, 22%, 96%)")};
@@ -80,6 +107,8 @@ export const ChatMessage = styled.div`
   font-size: 14px;
   font-weight: 400;
   color: #666;
+
+  word-break: break-all;
 `;
 
 export const ChatTime = styled.div`
@@ -87,4 +116,54 @@ export const ChatTime = styled.div`
   font-weight: 400;
   color: #666;
   margin-top: 5px;
+`;
+
+export const InputWrapper = styled.div`
+  height: 50px;
+  background: #f5f5f5;
+  ${FlexCenterStyle}
+
+  width: calc(min(100vw, 600px));
+
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  position: fixed;
+
+  bottom: 0;
+`;
+
+export const ChatInput = styled.input`
+  background: white;
+  outline: 0;
+  border: none;
+
+  width: calc(100% - 110px);
+  height: 26.5px;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 15px;
+
+  ::placeholder {
+    color: black;
+    background: white;
+  }
+
+  :focus {
+    ::placeholder {
+      color: transparent;
+    }
+  }
+`;
+
+export const SendButton = styled.div`
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  ${FlexCenterStyle}
+  margin-left: 5px;
+  cursor: pointer;
 `;
