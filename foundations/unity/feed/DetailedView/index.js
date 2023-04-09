@@ -29,6 +29,8 @@ export default function Component({ data, focusIdx }) {
 }
 
 function SinglePost({ imgSrc, date, location, contents, refEl }) {
+  const [show, setShow] = useState(false);
+
   return (
     <S.SinglePost ref={refEl}>
       <S.Profile>
@@ -40,8 +42,8 @@ function SinglePost({ imgSrc, date, location, contents, refEl }) {
           <S.ProfileLocation>{location}</S.ProfileLocation>
         </S.ProfileRight>
       </S.Profile>
-      <S.Images>
-        <img src={imgSrc} />
+      <S.Images show={show}>
+        <img src={imgSrc} onLoad={() => setShow(true)} />
       </S.Images>
       <S.Likes>
         <S.Icon>

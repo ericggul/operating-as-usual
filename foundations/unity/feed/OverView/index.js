@@ -36,11 +36,19 @@ export default function Component({ data, handleClick }) {
 
       <S.Posts>
         {data.map((item, index) => (
-          <S.SingleItem key={index} onClick={() => handleClick(index)}>
-            <img src={item.imgSrc} />
-          </S.SingleItem>
+          <SingleItem index={index} key={index} item={item} handleClick={handleClick} />
         ))}
       </S.Posts>
     </S.MobileContainer>
+  );
+}
+
+function SingleItem({ item, index, handleClick }) {
+  const [show, setShow] = useState(false);
+
+  return (
+    <S.SingleItem show={show} onClick={() => handleClick(index)}>
+      <img src={item.imgSrc} onLoad={() => setShow(true)} />
+    </S.SingleItem>
   );
 }

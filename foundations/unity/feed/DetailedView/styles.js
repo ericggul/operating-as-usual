@@ -72,6 +72,9 @@ export const Images = styled.div`
     height: 100%;
     object-fit: cover;
   }
+
+  ${({ show }) => `opacity: ${show ? 1 : 0}`};
+  transition: opacity 0.5s;
 `;
 
 export const Likes = styled.div`

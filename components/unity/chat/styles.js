@@ -52,7 +52,7 @@ export const SingleChat = styled.div`
   ${({ isLastChat }) => isLastChat && "margin-bottom: 7px;"}
 
 
-  animation: chat-appear 0.3s ease-in-out;
+  animation: chat-appear 0.5s ease-in-out;
 
   @keyframes chat-appear {
     0% {
