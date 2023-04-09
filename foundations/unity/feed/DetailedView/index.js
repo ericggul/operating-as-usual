@@ -29,6 +29,7 @@ export default function Component({ data, focusIdx }) {
 }
 
 function SinglePost({ imgSrc, date, location, contents, refEl }) {
+  ///
   const [show, setShow] = useState(false);
 
   return (
