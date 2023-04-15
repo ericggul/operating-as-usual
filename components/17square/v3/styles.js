@@ -35,11 +35,13 @@ export const Triangle = styled.div`
 `;
 
 export const Calculation = styled.div`
+  position: absolute;
+  bottom: 3vh;
+  right: 3vw;
   ${FlexCenterStyle};
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  ${WholeContainer};
   text-align: right;
   color: white;
   font-size: 2vh;

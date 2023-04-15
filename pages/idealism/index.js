@@ -15,5 +15,5 @@ const Bricks = dynamic(() => import("components/idealism/irregularBricks2"), { s
 const Text = dynamic(() => import("components/idealism/text"), { ssr: false });
 
 export default function Idealism() {
-  return <Bricks />;
+  return <GaussianC />;
 }
