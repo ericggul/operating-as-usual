@@ -11,10 +11,7 @@ export default function useTTS(text, speak, setSpeak) {
   async function getTTS(text) {
     try {
       const res = await axios.post("/api/google/tts", { text });
-
-      console.log(res);
       const snd = new Audio("data:audio/wav;base64," + res.data);
-      console.log(snd);
       snd.play();
       setSpeak(false);
     } catch (e) {
