@@ -51,7 +51,7 @@ export default function Container() {
     }
     timeoutRef.current = setTimeout(() => {
       setSpeak(true);
-    }, 4000);
+    }, 7400);
   }
 
   useEffect(() => {
