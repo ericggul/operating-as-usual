@@ -20,7 +20,7 @@ export default function Container() {
 
   const audioRef = useRef();
 
-  const [speak, setSpeak] = useState(true);
+  const [speak, setSpeak] = useState(false);
   useTTS(TEXT, speak, setSpeak);
 
   useEffect(() => {
