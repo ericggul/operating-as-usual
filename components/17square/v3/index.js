@@ -19,9 +19,10 @@ export default function Container() {
   useRandomInterval(() => setWholeSecond((s) => (s + 1) % 289), 998, 1002);
 
   const audioRef = useRef();
+  const audioRef2 = useRef();
 
   const [speak, setSpeak] = useState(false);
-  useTTS(TEXT, speak, setSpeak);
+  // useTTS(TEXT, speak, setSpeak);
 
   useEffect(() => {
     if (wholeSecond >= 273) {
@@ -52,6 +53,14 @@ export default function Container() {
       setSpeak(true);
     }, 4000);
   }
+
+  useEffect(() => {
+    if (speak) {
+      if (audioRef2 && audioRef2.current) {
+        audioRef2.current.play();
+      }
+    }
+  }, [speak]);
 
   return (
     <S.Container>
@@ -97,6 +106,7 @@ export default function Container() {
         </p>
       </S.Calculation>
       <audio id="audio" src={"/assets/sound/Applause.wav"} ref={audioRef} />
+      <audio id="audio2" src={"/assets/sound/Narration.mp3"} ref={audioRef2} />
     </S.Container>
   );
 }
