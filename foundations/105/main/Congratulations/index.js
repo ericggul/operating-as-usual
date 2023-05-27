@@ -8,7 +8,7 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 
 import * as S from "./styles";
 
-export default function Congratulations({ activateCongratulations, activateDashboard, order }) {
+export default function Congratulations({ activateCongratulations, order }) {
   //conffetti
   const canvasStyles = {
     width: "100%",
@@ -58,7 +58,6 @@ export default function Congratulations({ activateCongratulations, activateDashb
 
   return (
     <S.Container>
-      {activateDashboard && <DashboardLinkModal order={order} />}
       <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       <Toast duration={3000} />
     </S.Container>

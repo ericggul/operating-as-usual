@@ -77,7 +77,7 @@ export default function MainComponent({ order, id, handleFinish }) {
     <S.Container>
       <S.Background />
       <S.CanvasContainer>
-        <Canvas onClick={handleClick} shadows dpr={[1, 2]} gl={{ alpha: false, antialias: false }} camera={{ fov: 80, position: [10, 8, 10], near: 1, far: 5000 }}>
+        <Canvas onClick={handleClick} onScroll={handleClick} shadows dpr={[1, 2]} gl={{ alpha: false, antialias: false }} camera={{ fov: 80, position: [10, 8, 10], near: 1, far: 5000 }}>
           <ModelAndLights order={order} transitionState={transitionState} />
           <Effect />
         </Canvas>
@@ -141,7 +141,7 @@ export default function MainComponent({ order, id, handleFinish }) {
         />
       )}
 
-      <Congratulations activateCongratulations={transitionState >= 5} activateDashboard={activateDashboard} order={order} />
+      <Congratulations activateCongratulations={transitionState >= 5} order={order} />
       {faceModalLoading && (
         <S.Loading>
           <LineLoading color="#fc3ff2" />

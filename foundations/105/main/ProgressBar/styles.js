@@ -24,7 +24,7 @@ export const Bar = styled.div`
   width: 80%;
   height: 1.8rem;
   background: #222;
-  border-radius: 0.9rem;
+  border-radius: 0.6rem;
 `;
 
 export const InnerBar = styled.div`
@@ -35,12 +35,12 @@ export const InnerBar = styled.div`
   width: 0%;
   background: #ddd;
   transition: all 0.5s ease-in-out;
-  border-radius: 0.9rem;
+  border-radius: 0.6rem;
 `;
 
 export const NumberLeft = styled.div`
   position: absolute;
-  left: 0.7rem;
+  left: 0.6rem;
   top: 0;
   height: 100%;
   font-size: 1rem;

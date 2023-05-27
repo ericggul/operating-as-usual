@@ -45,11 +45,10 @@ export const Verify = styled.div`
 `;
 
 export const Eye = styled.div`
-  width: 10.5rem;
+  width: 9.5rem;
   height: 1.2rem;
   border-radius: 0.2rem;
   font-size: 2rem;
-  // letter-spacing: -0.2rem;
   font-weight: bold;
   margin: 0 2rem;
   ${FlexCenterStyle};

@@ -19,7 +19,14 @@ import * as THREE from "three";
 import { extend, Canvas, useThree, useFrame, useLoader } from "@react-three/fiber";
 import { Effects as EffectsComposer, OrbitControls, Environment, Stars, PerformanceMonitor } from "@react-three/drei";
 
-export default function Archive({ completedIdxs, order, isAdmin }) {
+//useswr
+import useSWR from "swr";
+
+export default function Archive({ order, isAdmin }) {
+  //useSWR: Retrive Data Logic
+  const fetcher = (...args) => fetch(...args).then((r) => r.json());
+  const { data: completedIdxs, error } = useSWR("/api/105/retriveCompletedIdxs", fetcher);
+
   const [windowWidth, windowHeight] = useResize();
   const [dpr, setDpr] = useState(1.5);
 
@@ -35,7 +42,7 @@ export default function Archive({ completedIdxs, order, isAdmin }) {
               <directionalLight position={[10, 20, -20]} intensity={1.5} color="#00ffff" />
               <directionalLight position={[-20, 30, 40]} intensity={1.7} color="#ff006a" />
             </group>
-            <BallsAndLineGroup completedIdxs={completedIdxs} order={order} />
+            {completedIdxs && <BallsAndLineGroup completedIdxs={completedIdxs} order={order} />}
             <OrbitControls />
             <group>
               {windowWidth < 2000 && <Mirrors MIRROR_SIZE={110} MIRROR_DISTANCE={160} />}
