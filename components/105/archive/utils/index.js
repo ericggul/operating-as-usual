@@ -9,9 +9,9 @@ export default function Utils({ order, isAdmin }) {
 
   return (
     <S.Container>
-      <S.InfoIconContainer>
+      {/* <S.InfoIconContainer>
         <S.InfoIcon isAdmin={isAdmin} onClick={() => setOpenInfo((info) => !info)} src="/assets/images/105/info.svg" />
-      </S.InfoIconContainer>
+      </S.InfoIconContainer> */}
       {openArchiveIntro && <ArchiveIntro order={order} closeArchiveIntro={() => setOpenArchiveIntro(false)} />}
       {openInfo && <Information order={order} isAdmin={isAdmin} closeModal={() => setOpenInfo(false)} />}
       {isAdmin && (

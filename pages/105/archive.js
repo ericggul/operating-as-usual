@@ -19,7 +19,7 @@ export default function Archive() {
       </Head>
       <SWRConfig
         value={{
-          refreshInterval: 5000,
+          refreshInterval: 3000,
         }}
       >
         <ArchiveComponent order={order ? parseInt(order) : null} isAdmin={order == null} />

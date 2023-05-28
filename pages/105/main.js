@@ -60,7 +60,6 @@ export async function getServerSideProps(context) {
     .sort((a, b) => a - b)
     .filter((value, index, self) => self.indexOf(value) === index);
 
-  console.log(sortedIdxs);
   let nextIdx = 0;
 
   if (sortedIdxs.length === 0) {
@@ -74,6 +73,7 @@ export async function getServerSideProps(context) {
       }
       nextIdx++;
     }
+    nextIdx = nextIdx + 1;
   }
 
   return {

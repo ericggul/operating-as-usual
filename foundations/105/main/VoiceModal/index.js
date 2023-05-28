@@ -87,8 +87,9 @@ export default function VoiceModal({ transitionState, closeModal }) {
     <S.Container onClick={(e) => e.stopPropagation()}>
       <S.Inner>
         <S.Verify>
-          <S.Eye>Verify Your</S.Eye>
-          <S.Eye>Humanity</S.Eye>
+          Verify Your Humanity
+          {/* <S.Eye>Verify Your</S.Eye>
+          <S.Eye>Humanity</S.Eye> */}
         </S.Verify>
         <S.Command>{COMMANDS[uiState]}</S.Command>
         <S.RecordingButton onClick={handleRecordingButtonClick} progress={uiState === 1}>

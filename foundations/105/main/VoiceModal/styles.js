@@ -41,16 +41,20 @@ export const Verify = styled.div`
   right: 0;
   margin: auto;
   top: 33%;
-  font-family: BebasNeue;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
+  // font-family: Bebas Neue;
 `;
 
 export const Eye = styled.div`
-  width: 9.5rem;
+  width: 11rem;
   height: 1.2rem;
   border-radius: 0.2rem;
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin: 0 2rem;
+
   ${FlexCenterStyle};
 
   color: black;

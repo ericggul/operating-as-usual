@@ -8,6 +8,8 @@ import Effect from "foundations/105/archive/effect";
 import Line from "foundations/105/archive/line";
 import Utils from "components/105/archive/utils";
 
+import NewOrder from "foundations/105/archive/utils/newOrder";
+
 //toast
 import { toast, Toast } from "loplat-ui";
 
@@ -22,13 +24,29 @@ import { Effects as EffectsComposer, OrbitControls, Environment, Stars, Performa
 //useswr
 import useSWR from "swr";
 
-export default function Archive({ order, isAdmin }) {
+export default function Archive({ isAdmin }) {
   //useSWR: Retrive Data Logic
   const fetcher = (...args) => fetch(...args).then((r) => r.json());
+
   const { data: completedIdxs, error } = useSWR("/api/105/retriveCompletedIdxs", fetcher);
 
   const [windowWidth, windowHeight] = useResize();
   const [dpr, setDpr] = useState(1.5);
+
+  const savedCompleteIdxsLength = useRef(0);
+  const [order, setOrder] = useState(null);
+  const [openNewOrderModal, setOpenNewOrderModal] = useState(false);
+
+  console.log(completedIdxs);
+
+  useEffect(() => {
+    console.log("42", completedIdxs);
+    if (!completedIdxs) return;
+    if (savedCompleteIdxsLength.current === completedIdxs.length) return;
+    savedCompleteIdxsLength.current = completedIdxs.length;
+    setOrder(completedIdxs[completedIdxs.length - 1]);
+    setOpenNewOrderModal(true);
+  }, [completedIdxs]);
 
   return (
     <S.Container>
@@ -57,7 +75,9 @@ export default function Archive({ order, isAdmin }) {
           </PerformanceMonitor>
         </Canvas>
       </S.CanvasContainer>
-      <Utils order={order} isAdmin={isAdmin} />
+      <Utils order={null} isAdmin={isAdmin} />
+
+      {openNewOrderModal && <NewOrder order={order} closeModal={() => setOpenNewOrderModal(false)} />}
       <Toast duration={5000} />
     </S.Container>
   );
