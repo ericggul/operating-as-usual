@@ -37,8 +37,6 @@ export default function Archive({ isAdmin }) {
   const [order, setOrder] = useState(null);
   const [openNewOrderModal, setOpenNewOrderModal] = useState(false);
 
-  console.log(completedIdxs);
-
   useEffect(() => {
     console.log("42", completedIdxs);
     if (!completedIdxs) return;
@@ -75,7 +73,25 @@ export default function Archive({ isAdmin }) {
           </PerformanceMonitor>
         </Canvas>
       </S.CanvasContainer>
-      <Utils order={null} isAdmin={isAdmin} />
+      {/* <Utils order={null} isAdmin={isAdmin} /> */}
+
+      <S.RightWrapper animate={true}>
+        <S.RightInner>
+          <S.TextWrapper>
+            <span>Upgrade</span>
+            <p>Your Social Status</p>
+          </S.TextWrapper>
+          <S.ImageWrapper>
+            <img src={"/assets/images/105/qr.png"} />
+          </S.ImageWrapper>
+          <S.Expl>Scan your phone</S.Expl>
+
+          <S.Footer>
+            <p>Jeanyoon Choi</p>
+            <h2>105</h2>
+          </S.Footer>
+        </S.RightInner>
+      </S.RightWrapper>
 
       {openNewOrderModal && <NewOrder order={order} closeModal={() => setOpenNewOrderModal(false)} />}
       <Toast duration={5000} />

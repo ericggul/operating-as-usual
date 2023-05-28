@@ -1,12 +1,18 @@
 import * as S from "./styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Model from "./model";
 
 export default function ArchiveIntro({ order, closeModal }) {
   const [archiveState, setArchiveState] = useState(0);
   const [textState, setTextState] = useState(1);
 
+  const audioRef = useRef();
+
   useEffect(() => {
+    if (audioRef && audioRef.current) {
+      audioRef.current.playbackRate = 3;
+      audioRef.current.play();
+    }
     const timeoutA = setTimeout(() => {
       setArchiveState(1);
     }, 2000);
@@ -36,7 +42,7 @@ export default function ArchiveIntro({ order, closeModal }) {
 
   return (
     <S.Container textState={textState}>
-      <audio autoPlay src="/assets/INTERNETINENTAL/sounds/otd/clap.mp3" />
+      <audio src="/assets/sound/Applause.wav" ref={audioRef} />
       {archiveState === 0 && <h1>Congratulations</h1>}
       <S.Inner opacity={archiveState === 0 ? 0 : 1}>
         <p>{`Your social status just rose from ${order}th to ${order + 1}th`}</p>
