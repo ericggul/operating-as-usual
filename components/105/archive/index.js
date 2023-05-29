@@ -79,7 +79,7 @@ export default function Archive({ isAdmin }) {
         <S.RightInner>
           <S.TextWrapper>
             <span>Upgrade</span>
-            <p>Your Social Status</p>
+            <p>Your Status</p>
           </S.TextWrapper>
           <S.ImageWrapper>
             <img src={"/assets/images/105/qr.png"} />

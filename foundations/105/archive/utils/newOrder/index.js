@@ -45,7 +45,7 @@ export default function ArchiveIntro({ order, closeModal }) {
       <audio src="/assets/sound/Applause.wav" ref={audioRef} />
       {archiveState === 0 && <h1>Congratulations</h1>}
       <S.Inner opacity={archiveState === 0 ? 0 : 1}>
-        <p>{`Your social status just rose from ${order}th to ${order + 1}th`}</p>
+        <p>{`Your status just rose from ${order}th to ${order + 1}th`}</p>
 
         <S.StateContainer>
           <S.State color={textState === 0 ? "transparent" : "#8888ff"}>
