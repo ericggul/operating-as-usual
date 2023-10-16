@@ -75,7 +75,7 @@ export default function Archive({ isAdmin }) {
       </S.CanvasContainer>
       {/* <Utils order={null} isAdmin={isAdmin} /> */}
 
-      <S.RightWrapper animate={true}>
+      {/* <S.RightWrapper animate={true}>
         <S.RightInner>
           <S.TextWrapper>
             <span>Upgrade</span>
@@ -91,9 +91,9 @@ export default function Archive({ isAdmin }) {
             <h2>105</h2>
           </S.Footer>
         </S.RightInner>
-      </S.RightWrapper>
+      </S.RightWrapper> */}
 
-      {openNewOrderModal && <NewOrder order={order} closeModal={() => setOpenNewOrderModal(false)} />}
+      {/* {openNewOrderModal && <NewOrder order={order} closeModal={() => setOpenNewOrderModal(false)} />} */}
       <Toast duration={5000} />
     </S.Container>
   );
