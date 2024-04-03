@@ -153,26 +153,26 @@ export default function Mobile() {
   const replyIdRef = useRef(null);
 
   async function newReply() {
-    try {
-      const response = await axios.get("/api/dobs/createNewReply");
-      replyIdRef.current = response.data.id;
-    } catch (e) {
-      console.log(e.response.data);
-    }
+    // try {
+    //   const response = await axios.get("/api/dobs/createNewReply");
+    //   replyIdRef.current = response.data.id;
+    // } catch (e) {
+    //   console.log(e.response.data);
+    // }
   }
 
   async function uploadResponse(idx, response) {
-    try {
-      if (replyIdRef && replyIdRef.current && response) {
-        const res = await axios.post("/api/dobs/uploadAnswer", {
-          replyId: replyIdRef.current,
-          idx,
-          response,
-        });
-      }
-    } catch (e) {
-      console.log(e.response.data);
-    }
+    // try {
+    //   if (replyIdRef && replyIdRef.current && response) {
+    //     const res = await axios.post("/api/dobs/uploadAnswer", {
+    //       replyId: replyIdRef.current,
+    //       idx,
+    //       response,
+    //     });
+    //   }
+    // } catch (e) {
+    //   console.log(e.response.data);
+    // }
   }
 
   return (
