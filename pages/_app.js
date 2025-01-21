@@ -1,7 +1,6 @@
 import { ThemeProvider } from "styled-components";
 import useResize from "utils/hooks/useResize";
 import React, { useState, useEffect } from "react";
-import Loading from "foundations/loading";
 import Head from "next/head";
 
 //pre-import css
@@ -23,13 +22,7 @@ function MyApp({ Component, pageProps }) {
       <GlobalStyle />
 
       <ThemeProvider theme={{ windowWidth, windowHeight }}>
-        {loading ? (
-          <React.Fragment>
-            <Loading />
-          </React.Fragment>
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );
